@@ -1,0 +1,1 @@
+City	Sigma_0	Sigma_0_r	Sigma_1	Sigma_1_r	Alpha	NegLogLike	Deviation
