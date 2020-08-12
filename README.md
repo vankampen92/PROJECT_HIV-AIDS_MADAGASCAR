@@ -1,7 +1,6 @@
 # README #
 
-This project runs on linux machines out of the box. To run in other platforms makefiles should be modified accordingly. 
-The follwing dependencies are required:
+This project establishes a number of ODEs models to study the expansion of HIV-AIDS in Madagascar. It uses demographic and disease data from the island. This project runs on linux machines out of the box. To run in other platforms makefiles should be modified accordingly. The follwing dependencies are required:
 
 ## GNU Scientific Library (GSL)
 This is a numerical library for C and C++ programmers. It is free software under the GNU General Public License.
