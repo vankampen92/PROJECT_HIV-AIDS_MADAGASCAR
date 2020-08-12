@@ -1,4 +1,4 @@
-:# README #
+# README #
 
 This project runs on linux machines out of the box. To run in other platforms makefiles should be modified accordingly. 
 The follwing dependencies are required:
