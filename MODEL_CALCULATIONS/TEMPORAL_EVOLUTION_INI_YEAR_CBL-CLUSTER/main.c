@@ -25,12 +25,23 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    This code calculates ODE model temporal evolution of the whole disease
    model. Here, the goal is to estimate diseasea parameters from data, once
-   Sigma (and Alpha) parameters have been estimated for each city. In addition,
-   Parameters F_X, F_Y, \delta_X and \delta_Y have been already estimated from
-   demographic data and play the role of extern parameters driving the system.
-   See directory:
+   Sigma (and Alpha) parameters have been estimated for each city. This is 
+   done in directory:
 
-   ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
+        ./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
+
+   Parameter configurations were then saved and will be now read from 
+   files of the type:
+
+   Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
+
+   Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
+
+   In addition, Parameters F_X, F_Y, \delta_X and \delta_Y have been already 
+   estimated from demographic data and play the role of extern parameters 
+   driving the system. See directory:
+
+   	./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
    F_X and F_Y are recruitment rates into adutl sexually active life, and
    \delta_X and \delta_Y are adult mortality rates. They change every year.
@@ -572,7 +583,6 @@ int main(int argc, char **argv)
 
       assert( SUB_OUTPUT_VARIABLES == 3);
 
-
       /* B E G I N : Reserving memmory for Observed Data and Fitting Structure */
       Observed_Data * Data = (Observed_Data *)calloc(1, sizeof(Observed_Data));
       Observed_Data_Alloc( Data, SUB_OUTPUT_VARIABLES, I_Time);
@@ -601,11 +611,11 @@ int main(int argc, char **argv)
 								Demographic_Parameters_Index,
 								No_of_DEMOGRAPHIC_PARAMETERS );
 
-    int No_of_EMPIRICAL_TIMES = 17;
-    // Number of columns in the data files of time-dependent parameters
+	  int No_of_EMPIRICAL_TIMES = I_Time;
+	  // Number of columns in the data files of time-dependent parameters
 	  Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 					 I_Time, No_of_EMPIRICAL_TIMES,
-           TIME_DEPENDENT_PARAMETERS,
+					 TIME_DEPENDENT_PARAMETERS,
 					 TYPE_of_TIME_DEPENDENCE,
 					 TYPE_0_PARAMETERS,
 					 TYPE_1_PARAMETERS,

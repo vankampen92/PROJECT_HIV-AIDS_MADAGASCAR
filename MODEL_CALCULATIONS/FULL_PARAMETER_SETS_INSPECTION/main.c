@@ -28,7 +28,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    . ~$ make X_MODEL=X2W2SILD Y_MODEL=YSILD
 
-   The code is prepared to inspect parameter combinaitons from different 
+   The code is prepared to inspect parameter combinations from different 
    assumptions: 
 
    A. Parameters are searched under the hypothesis of constant ratio of female
@@ -255,7 +255,13 @@ gsl_rng * r; /* Global generator defined in main.c */
         
       -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0  
    
-   are not necessary.  
+   are not necessary.
+
+   Run also:
+
+   . ~$ Run_Parameter_Sets_Inspection.sh
+
+   for exhautive inspection.  
 */
 
 int main(int argc, char **argv)
@@ -385,7 +391,7 @@ int main(int argc, char **argv)
 				    "Sigmoidal_C1", "Sigmoidal_C2", "Sigmoidal_C3",
 				    "Sigmoidal_C4", "Sigmoidal_C5", "Sigmoidal_C6", 
 				    "Stasis", "Stasis_Non" };
-  int No_of_HYPOTHESIS = 9;
+  int No_of_HYPOTHESIS = 7;
   char ** FILE_LABEL = (char **)calloc( No_of_HYPOTHESIS, sizeof(char *) ); 
   for (i=0; i<No_of_HYPOTHESIS; i++) FILE_LABEL[i] = (char *)calloc( 50, sizeof(char) );
   int * Type_of_Hypothesis = (int *)calloc( No_of_HYPOTHESIS, sizeof(int) );
@@ -395,12 +401,23 @@ int main(int argc, char **argv)
   if ( No_of_HYPOTHESIS == 9 )
     for (i=0; i<No_of_HYPOTHESIS; i++) Type_of_Hypothesis[i] = i;
   else {
-    No_of_HYPOTHESIS = 5;
+    // No_of_HYPOTHESIS = 5;
+    // Type_of_Hypothesis[0] = 0; 
+    // Type_of_Hypothesis[1] = 2;
+    // Type_of_Hypothesis[2] = 5;
+    // Type_of_Hypothesis[3] = 7;
+    // Type_of_Hypothesis[4] = 8; 
+    // No_of_HYPOTHESIS = 2;
+    // Type_of_Hypothesis[0] = 2; 
+    // Type_of_Hypothesis[1] = 5;
+    No_of_HYPOTHESIS = 7;
     Type_of_Hypothesis[0] = 0; 
-    Type_of_Hypothesis[1] = 2;
-    Type_of_Hypothesis[2] = 5;
-    Type_of_Hypothesis[3] = 7;
-    Type_of_Hypothesis[4] = 8; 
+    Type_of_Hypothesis[1] = 1;
+    Type_of_Hypothesis[2] = 2;
+    Type_of_Hypothesis[3] = 3;
+    Type_of_Hypothesis[4] = 4; 
+    Type_of_Hypothesis[3] = 5;
+    Type_of_Hypothesis[4] = 6; 
   }
 
   for (i=0; i<No_of_HYPOTHESIS; i++) {

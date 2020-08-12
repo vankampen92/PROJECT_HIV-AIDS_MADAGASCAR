@@ -9,7 +9,7 @@ count=0
 
 for File in Antananarivo Antsiranana Mahajanga Toamasina Fianarantsoa Toliary Taolagnaro Moramanga Morondava Nosy_Be
 do
-        for Year in 2000 2001 2002 2003 2004 2005 ### 2006 2007 2008 2009 2010                                               ### Inner for loop ###
+        for Year in 2000 2001 2002 2003 2004 ### 2005 2006 2007 2008 2009 2010                                               ### Inner for loop ###
         do
 
             count=`expr $count + 1`                                                                                          ### Increment arithmetically the counter

@@ -47,6 +47,31 @@ void Fecundity_Estimation( double ** M_a, int N,
 			   double * F0,
 			   int N_0 );
 
+void Build_File_of_Time_Parameters_2000_2016 (double ** Data_Matrix,
+                                              double ** Age_Death_Rates_Female,
+                                              double ** Age_Death_Rates_Male,
+                                              int * No_of_Age_Groups,
+                                              double ** Urban_Population_Vector,
+                                              double *  Fecundity_Vector,
+                                              double *  Year_1983_2016,
+                                              char   **  Names,
+                                              int * No_of_Cities,
+                                              int * No_1983_2016,
+                                              Parameter_Table * Table);
+
+void Build_File_of_Time_Parameters_2000_2033 (double ** Data_Matrix,
+                                              double ** Age_Death_Rates_Female,
+                                              double ** Age_Death_Rates_Male,
+                                              int * No_of_Age_Groups,
+                                              double ** Urban_Population_Vector,
+                                              double *  Fecundity_Vector,
+                                              double *  Year_1983_2033,
+                                              char   **  Names,
+                                              int * No_of_Cities,
+                                              //int TYPE_1_PARAMETERS,
+                                              //int No_of_TIMES,
+                                              int * No_1983_2033,
+                                              Parameter_Table * Table);
 int main(int argc, char **argv)
 {
   int i, j, k, n;
@@ -72,6 +97,7 @@ int main(int argc, char **argv)
   Parameter_Space_Initialization( Space, No_of_PARAMETERS, TOLERANCE, MAX_No_of_ITERATIONS,
 				  d, Index, Ranges, Acc);
   Parameter_Table_Index_Update(Index, No_of_PARAMETERS, &Table);
+  Table.S = Space;
   printf(" Parameter_Space structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
 

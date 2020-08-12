@@ -9,10 +9,11 @@ gsl_rng * r; /* Global generator defined in main.c */
 
 /* This code calculates ODE model temporal evolution of the whole disease
    model. Here, the goal is only to graphically show the temporal evolution
-   of the different parameter sets, which are read from corresponding files).
-   Parameters F_X, F_Y, \delta_X and \delta_Y have been already estimated from
-   demographic data and play the role of time-dependent extern parameters driving
-   the system. See directory:
+   of the different parameter sets, which are read from corresponding files.
+
+   Parameters have been estimated in three rounds. First, parameters F_X, F_Y, 
+   \delta_X and \delta_Y have been estimated from demographic data and play the 
+   role of time-dependent extern parameters driving the system. See directory:
 
    ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
@@ -21,9 +22,39 @@ gsl_rng * r; /* Global generator defined in main.c */
    They are given in 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat'
    files.
 
+   Second, parametres controling the distribution of females in the different 
+   groups are estimated in the directory:
+
+   ./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
+
+   These parameter configurations were then saved and now read from files of 
+   the type:
+
+   Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
+
+   Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
+   
+   Finally, the disease-related parameters have been estimated with code 
+   in: 
+   
+   ./TEMPORAL_EVOLUTION_INI_YEAR_CALCULATION
+  
+   or
+
+   ./TEMPORAL_EVOLUTION_INI_YEAR_CBL-CLUSTER
+
+   As a result of these estimating procedures, fitting parametric configurations 
+   are generated and saved in files of type: 
+
+   Full_Parameter_Set_[Name-of-the-City]_[Year]_[Hypothesis].dat
+
+   This main code here read files of these kind, which have been ordered acording to 
+   their goodness-of-fit, and visually inspect the generated solutions against 
+   observations.
+
    Compilation:
 
-   . ~$ make X_MODEL=X2W2SILD Y_MODEL=Y_SILD
+   . ~$ make X_MODEL=X2W2SILD Y_MODEL=YSILD
 
    We can inspect results from three different assumptions: 
 
@@ -61,7 +92,9 @@ gsl_rng * r; /* Global generator defined in main.c */
    Exectution: (Time-dependent parameters: -t4 1)
 
    . ~$ ./X2W2SILD-YSILD -y0 1                // TYPE of MODEL
-   / -sP 17 -sN 100   -sT 1.0E-06             // Parameter Space of Model Parameters:  [-sP : Dimension, Number of Model Parameters to be optimized]
+   / -sP 17 -sN 100   -sT 1.0E-06             // Parameter Space of Model Parameters:  
+   / -sP [Dimension] -sN [No of SEARCHES]     // [Dimension], No of Model Parameters to be optimized
+                                              // [No of SEARCHES], No of Parallel Searches
    / -I0 21  -H21 1.0   -m0 0.0   -M0 2.0     -A0 0.01      // Parameter: r_R
    / -I1 0   -H0 100.0  -m1 0.0   -M1 200.0   -A1 0.1       // Parameter: Beta_Y
    / -I2 8   -H8  50.0  -m2 0.0   -M2 100.0   -A2 0.1       // Parameter: Beta_X
@@ -336,16 +369,23 @@ int main(int argc, char **argv)
   }
 
   int No_of_SETS_MAX  = 35000;
-  int No_of_INITIAL_YEARS = 11; // 11;
-  int No_of_CITIES = 11;       // 11;
+  int No_of_INITIAL_YEARS = 1;  // 11; // 11;
+  int No_of_CITIES = 11;        // 11;
   
-  const char * City_Names[] = { "Antananarivo",  "Antsiranana",
-				"Mahajanga",     "Toamasina",
-				"Fianarantsoa",  "Toliary",
-				"Taolagnaro",    "Moramanga",
-				"Antsirabe",     "Morondava",
-				"Nosy_Be" };
-
+  /* const char * City_Names[] = { "Antananarivo",  "Antsiranana", */
+  /* 				"Mahajanga",     "Toamasina", */
+  /* 				"Fianarantsoa",  "Toliary", */
+  /* 				"Taolagnaro",    "Moramanga", */
+  /* 				"Antsirabe",     "Morondava", */
+  /* 				"Nosy_Be" }; */
+  
+  char * City_Names[] = { "Antananarivo",  "Antsiranana",
+			  "Mahajanga",     "Toamasina",
+			  "Fianarantsoa",  "Toliary",
+			  "Taolagnaro",    "Moramanga",
+			  "Antsirabe",     "Morondava",
+			  "Nosy_Be" };
+  
   /* B E G I N : Time Dependent Parameters, Observed Data, and Demo Parameters File Names */
   char * pF;
   char ** TIME_PARAMETERS_FILE = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
@@ -599,7 +639,8 @@ int main(int argc, char **argv)
 
         Parameter_Model_Copy_into_Parameter_Table(&Table, Initial_Guess);
         Uploading_Model_Parameters_into_Parameter_Table(&Table, Demo_Data, j);
-	Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table, I_Time,
+	Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
+				       I_Time, I_Time,
 				       TIME_DEPENDENT_PARAMETERS,
 				       TYPE_of_TIME_DEPENDENCE,
 				       TYPE_0_PARAMETERS,

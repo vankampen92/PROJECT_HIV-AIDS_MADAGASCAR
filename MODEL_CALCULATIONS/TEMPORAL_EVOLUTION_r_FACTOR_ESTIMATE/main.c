@@ -23,6 +23,18 @@ gsl_rng * r; /* Global generator defined in main.c */
    r_F is an empirical factor to be determined to fit the temporal evolution of
    total popualtion in every city. Here, the goal is to estimate it from data.
 
+   In addition to fit an optimal factor r_F, the code corrects time dependent 
+   parameter files to account for this factor. In essence, it converts
+   
+   Time_Dependent_Parameters_[City_Name].dat
+
+   into 
+
+   Time_Dependent_Parameters_Corrected_[City_Name].dat
+
+   which then will be used in the rest of procedures requiring the time dependent
+   parameter files. 
+
    Compilation:
 
    . ~$ make X_MODEL=X_ Y_MODEL=Y_
@@ -561,5 +573,6 @@ void Converting_Total_Population_into_Adult_Population_Extrapolated (const char 
   free(Data[0]);
   free(Data);
 
+  printf( "The program ended successfully. Press any key\n"); 
   getchar();
 }

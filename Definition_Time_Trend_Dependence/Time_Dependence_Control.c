@@ -131,21 +131,25 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
 
     if( TDC->No_of_EMPIRICAL_TIMES < TDC->No_of_TIMES ) {
       // Interpolation is required for each time-dependent parameter
-      for(i = TYPE_0_PARAMETERS; i < TYPE_0_PARAMETERS + TYPE_1_PARAMETERS; i++) { 
-	gsl_interp_accel * acc = gsl_interp_accel_alloc ();
-	gsl_spline * spline    = gsl_spline_alloc (gsl_interp_cspline, No_of_EMPIRICAL_TIMES);
-	gsl_spline_init (spline,
-			 Time_Empirical_Vector, Type_1_Parameter_Values[i-TYPE_0_PARAMETERS],
-			 No_of_EMPIRICAL_TIMES );
-
-	for( j=0; j < No_of_TIMES; j++) 
-	  TDC->Dependent_Parameter[i][j] = gsl_spline_eval( spline, Time->Time_Vector[j], acc); 
+      // We make sure we are interpolating and NOT extrapolating
+      if (Time_Empirical_Vector[No_of_EMPIRICAL_TIMES-1] >= Time->Time_Vector[No_of_TIMES-1]) {
+	for(i = TYPE_0_PARAMETERS; i < TYPE_0_PARAMETERS + TYPE_1_PARAMETERS; i++) { 
+	  gsl_interp_accel * acc = gsl_interp_accel_alloc ();
+	  gsl_spline * spline    = gsl_spline_alloc (gsl_interp_cspline, No_of_EMPIRICAL_TIMES);
+	  gsl_spline_init (spline,
+			   Time_Empirical_Vector, Type_1_Parameter_Values[i-TYPE_0_PARAMETERS],
+			   No_of_EMPIRICAL_TIMES );
 	  
-	gsl_spline_free (spline);
-	gsl_interp_accel_free (acc);
+	  for( j=0; j < No_of_TIMES; j++) 
+	      TDC->Dependent_Parameter[i][j] = gsl_spline_eval( spline,
+								Time->Time_Vector[j], acc); 
+	  
+	  gsl_spline_free (spline);
+	  gsl_interp_accel_free (acc);
+	}
+	
+	for( j=0; j < No_of_TIMES; j++)  TDC->Time_Vector[j] = Time->Time_Vector[j];
       }
-
-      for( j=0; j < No_of_TIMES; j++)  TDC->Time_Vector[j] = Time->Time_Vector[j];
     }
     else {
       // Empirical No of Times should coincide with number of times

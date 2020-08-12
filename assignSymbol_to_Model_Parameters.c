@@ -122,7 +122,7 @@ void AssignSymbol_to_Model_Parameters(int j, char * Label, Parameter_Table *P)
       break;
     case 20: p=strcat(Label,"Alpha");     /* Transition rate into the old stage (aging)  *//* 20 */
       break;
-    case 21: p=strcat(Label ,"r_F");     /* r_Factor: Population fraction of reprductive females */ /* 21 */
+    case 21: p=strcat(Label ,"r_F");      /* r_Factor: Population fraction of reprductive females */ /* 21 */
       break;
     case 22:  p = strcat(Label , "D_Sigma");      /* 22 */
       break;

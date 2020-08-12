@@ -69,11 +69,7 @@ double Time_Dependence_Resolve(Parameter_Table * Table, int parameter, int patte
 double Time_Dependence_Sigmoidal_Function ( Parameter_Table * Table,
 					    int parameter, double t)
 {
-  /* Time dependence is some parameters through "Sinusoidal Periodic Forcing":
-
-        value = Mean_Value * ( 1.0 + Seasonal_Intensity * sin(2.0 * M_PI*t / Period) )
-
-     Obsolescent Function !!!
+  /* 
   */
   double value;
   double A0, T0, Lambda;

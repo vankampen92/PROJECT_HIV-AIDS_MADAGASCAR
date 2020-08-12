@@ -8,11 +8,13 @@
 gsl_rng * r; /* Global generator defined in main.c */
 
 /* This code calculates ODE model temporal evolution of the whole disease
-   model. Here, the goal is only to graphically show the temporal evolution
-   of the different parameter sets, which are read from corresponding files).
-   Parameters F_X, F_Y, \delta_X and \delta_Y have been already estimated from
-   demographic data and play the role of time-dependent extern parameters driving
-   the system. See directory:
+   model and extrapolates/predicts the evolution of disease incidence up to 
+   2033.  Here, the goal is only to graphically show the temporal evolution
+   of the different parameter sets, which are read from corresponding files.
+
+   Parameters have been estimated in three rounds. First, parameters F_X, F_Y, 
+   \delta_X and \delta_Y have been estimated from demographic data and play the 
+   role of time-dependent extern parameters driving the system. See directory:
 
    ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
@@ -21,9 +23,40 @@ gsl_rng * r; /* Global generator defined in main.c */
    They are given in 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat'
    files.
 
+   Second, parametres controling the distribution of females in the different 
+   groups are estimated in the directory:
+
+   ./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
+
+   Parameter configurations were then saved and now read from files of 
+   the type:
+
+   Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
+
+   Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
+   
+   Finally, the disease-related parameters have been estimated with code 
+   in: 
+   
+   ./TEMPORAL_EVOLUTION_INI_YEAR_CALCULATION
+  
+   or
+
+   ./TEMPORAL_EVOLUTION_INI_YEAR_CBL-CLUSTER
+
+   As a result of these estimating procedures, fitting parametric configurations 
+   are generated and saved in files of type: 
+
+   Full_Parameter_Set_[Name-of-the-City]_[Year]_[Hypothesis].dat
+
+   This main code here read files of these kind, which have been ordered acording to 
+   their goodness-of-fit, and visually inspect the generated and predicted solutions 
+   against observations.
+
+
    Compilation:
 
-   . ~$ make X_MODEL=X2W2SILD Y_MODEL=Y_SILD
+   . ~$ make X_MODEL=X2W2SILD Y_MODEL=YSILD
 
    We can inspect results from three different assumptions: 
 
@@ -235,7 +268,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    -v3 9 -v4 10 -v5 11 are prevanlences in male, sw female and nsw female populations, respectively.
    
    If some of the observed variables are not to be represented, then redefine the list of output 
-   variables. Recall that the observed output variables should occupied always the first positions
+   variables. IMPORTANT: Recall that the observed output variables should occupied always the first positions
    in the output vaiable list.  Example:
    
    . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 10 -v1 8 -v2 9 -v3 11 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
@@ -564,7 +597,8 @@ int main(int argc, char **argv)
 
         Parameter_Model_Copy_into_Parameter_Table(&Table, Initial_Guess);
         Uploading_Model_Parameters_into_Parameter_Table(&Table, Demo_Data, j);
-	Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table, I_Time,
+	Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
+				       I_Time, I_Time,
 				       TIME_DEPENDENT_PARAMETERS,
 				       TYPE_of_TIME_DEPENDENCE,
 				       TYPE_0_PARAMETERS,

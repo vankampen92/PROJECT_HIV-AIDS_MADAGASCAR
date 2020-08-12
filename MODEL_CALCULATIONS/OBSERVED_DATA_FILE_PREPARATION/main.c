@@ -25,9 +25,9 @@
 
       . Observed_Data_File_[City_Name].dat (same prevalence levels as those in 2016)
       . Observed_Data_File_[City_Name]_1.dat (1% of prevalence levels in 2016)
-      . Observed_Data_File_[City_Name]_5.dat (1% of prevalence levels in 2016)
-      . Observed_Data_File_[City_Name]_25.dat (1% of prevalence levels in 2016)
-      . Observed_Data_File_[City_Name]_50.dat (1% of prevalence levels in 2016)
+      . Observed_Data_File_[City_Name]_5.dat (5% prevalence levels in 2016)
+      . Observed_Data_File_[City_Name]_25.dat (25% of prevalence levels in 2016)
+      . Observed_Data_File_[City_Name]_50.dat (50% of prevalence levels in 2016)
 
    2. Observed_Data_File_2Rows_[City_Name].dat is a two row file containing:
 
@@ -215,7 +215,7 @@ int main(int argc, char **argv)
     Population_Data[k]= (double *)calloc(6, sizeof(double) );
   }
 
-  Reading_Standard_Data_Matrix_from_File( "Population-2013-Sexual-Workers_and_Prevalence-2016.dat",
+  Reading_Standard_Data_Matrix_from_File("Population-2013-Sexual-Workers_and_Prevalence-2016.dat",
 					  Population_Data,
 					  &No_of_CITIES, 6,
 					  1, City_Names,

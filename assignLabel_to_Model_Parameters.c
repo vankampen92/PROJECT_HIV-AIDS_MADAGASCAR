@@ -51,13 +51,13 @@ void AssignLabel_to_Model_Parameters(int j, char * Label, Parameter_Table *P)
       break;
     case 21:  p = strcat(Label , "r_Factor: Population fraction of reprductive females");          /* 21 */
       break;
-    case 22:  p = strcat(Label , "Parameter Incrementing Sigma_0 and Sigma_1 values ");          /* 21 */
+    case 22:  p = strcat(Label , "Parameter Incrementing Sigma_0 and Sigma_1 values ");          /* 22 */
         break;
-    case 23:  p = strcat(Label , "A_0, Sigmoidal Parameter (Amplitud)");          /* 21 */
+    case 23:  p = strcat(Label , "A_0, Sigmoidal Parameter (Amplitud)");          /* 23 */
         break;
-    case 24:  p = strcat(Label , "L_0, Sigmoidal Parameter (Smoothness)");          /* 21 */
+    case 24:  p = strcat(Label , "L_0, Sigmoidal Parameter (Smoothness)");          /* 24 */
         break;
-    case 25:  p = strcat(Label , "T_0, Sigmoidal Parameter (Threshold)");          /* 21 */
+    case 25:  p = strcat(Label , "T_0, Sigmoidal Parameter (Threshold)");          /* 25 */
         break;
     default:
       printf(".... INVALID PARAMETER KEY [key = %d]\n", j);

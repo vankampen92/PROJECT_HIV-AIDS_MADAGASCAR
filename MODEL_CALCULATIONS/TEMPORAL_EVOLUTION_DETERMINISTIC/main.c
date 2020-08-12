@@ -39,11 +39,13 @@ gsl_rng * r; /* Global generator defined in main.c */
    Exectution:
 
    a. No time dependence (-t4 0):
-
+ 
+   . ~$ ./X2W2SILD-YSILD -y0 1 -n 1 -v0 7 -G0 1 -G1 1 -tn 5000 -t0 0.0 -t1 75.0 -t4 0 -xn 0 -xN 1000000 -H2 25000 -H13 2500
+                         
    . ~$ ./X2W2SILD-YSILD -y0 1 -n 9 -v0 0 -v1 1 -v2 2 -v3 6 -v4 7 -v5 8 -v6 9 -v7 10 -v8 12 -G0 3 -G1 3 -tn 5000 -t0 0.0 -t1 50.0 -t4 0 -xn 0 -xN 1000000 -H2 25000 -H13 25000
 
    . ~$ ./X2W2SILD-YSILD -y0 1 -n 6 -v0 0 -v1 1 -v2 8 -v3 9 -v4 10 -v5 12 -G0 3 -G1 2 -tn 5000 -t0 0.0 -t1 50.0 -t4 0 -xn 0 -xN 1000000 -H2 25000 -H13 25000 -G5 1 -G6 0.0 -G7 1.0
-
+                          
    . ~$ ./X2W2SILD-YSILD -y0 1 -n 6 -v0 7 -v1 8 -v2 9 -v3 10 -v4 11 -v5 12 -G0 3 -G1 2 -tn 5000 -t0 0.0 -t1 50.0 -t4 0 -xn 0 -xN 1000000 -H2 25000 -H13 25000 -G5 1 -G6 0.0 -G7 1.0
 
    . ~$ ./X2W2SILD-YSILD -y0 1 -sP 20 -I0 21 -H21 1.0 -m0 0.8 -M0 1.2 -A0 0.01  -I1 0 -H0 100.0 -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0 -m2 96.0 -M2 120.0 -A2 0.1  -I3 12 -H12 9  -m3 1.0 -M3 20.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 100.0 -A4 0.01  -I5 16 -H16 0.2  -m5 0.0 -M5 0.99  -A5 0.01  -I6 17 -H17 0.5  -m6 0.0 -M6 0.99  -A6 0.01  -I7 1 -H1 0.002  -m7 0.0 -M7 0.005 -A7 0.001  -I8 9 -H9 0.001 -m8 0.0 -M8 0.005 -A8 0.001   -I9 5 -H5 1.5  -m9 0.5 -M9 12.0  -A9 0.1  -I10 6  -H6 0.2  -m10 0.1 -M10 1.0 -A10 0.01  -I11 15 -H15 10.0  -m11 1.0 -M11 100.0  -A11 0.1  -I12 10 -H10  0.01 -m12 0.0 -M12 0.05 -A12 0.01  -I13 11 -H11 0.02 -m13 0.0 -M13 0.05  -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05  -A14 0.01  -I15 19 -H19  0.02 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20  0.1 -m16 0.08 -M16 0.12 -A16 0.01  -I17 23 -H23 0.5  -m17 0.01 -M17 5.0 -A17 0.01  -I18 24 -H24  0.1  -m18 0.01 -M18 5.0 -A18 0.01  -I19 25 -H25  2013 -m19 2008.9 -M19 2013.0 -A19 0.1  -y0 1 -n 6 -v0 7 -v1 8 -v2 9 -v3 10 -v4 11 -v5 12 -G0 3 -G1 2 -tn 17 -t0 2000.0 -t1 2016 -t4 0 -xn 0 -xN 1.0E+05 -G5 1 -G6 0.0 -G7 1.0
@@ -107,6 +109,11 @@ gsl_rng * r; /* Global generator defined in main.c */
     -v8 12   Female Sexual Worker Fraction
 */
 
+void Determine_Threshold_Points(double * x_Time, double * y_Time, int N,
+				double * x_Turning_Point,
+				double * x_Low,
+				double * x_High); 
+
 int main(int argc, char **argv)
 {
   int i;
@@ -165,24 +172,6 @@ int main(int argc, char **argv)
     printf(" correctly allocated and set up\n");
   }
 
-  /* B E G I N : Re-allocating Time Control for interpolating more points in numerical
-                 integration. Time_0 and Time_1 are not allowed to chage. Only I_Time         */
-  /* T_I_M_E___C_O_N_T_R_O_L___F_R_E_E( &Time, &Table );                                      */
-  /* I_Time = 100;                                                                            */
-  /* for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {                                                 */
-  /*   free(Table.Matrix_Output_Variables[i]);                                                */
-  /*   Table.Matrix_Output_Variables[i] = (double *)malloc( I_Time * sizeof(double) );        */
-  /* }                                                                                        */
-  /* printf("\n");                                                                            */
-  /* printf(" Time_Control structure will be re-allocated for longer numerical integration: \n"); */
-  /* printf(" (between %g and %g)\n", Time_0, Time_1);                                        */
-  /* printf(" %d output variables of length %d points will be allocated\n",                   */
-  /* 	   SUB_OUTPUT_VARIABLES, I_Time);                                                     */
-  /* T_I_M_E___C_O_N_T_R_O_L___A_L_L_O_C( &Time, &Table, I_Time);                             */
-  /* T_I_M_E___C_O_N_T_R_O_L___U_P_L_O_A_D( &Time, &Table, I_Time);                           */
-  /* printf(" Time_Control structure has been correctly re-allocated and set up\n");          */
-  /*     E N D : ---------------------------------------------------------------------------- */
-
 #if defined CPGPLOT_REPRESENTATION
   Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
   printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
@@ -219,6 +208,7 @@ int main(int argc, char **argv)
 
   M_O_D_E_L( &Table );
 
+#if defined X_  // or Y_ (this is, when MODEL is X_-Y_)
   /* BEGIN : -------------------------------------------------------------------------
      Reading and plotting empirical population evolution
   */
@@ -233,7 +223,7 @@ int main(int argc, char **argv)
 					  0, Name_of_Rows,
 					  1, Time_Vector );
   Table.CPG->type_of_Symbol = 24;
-  Table.CPG->color_Index    = 3; //* 3: green */
+  Table.CPG->color_Index    = 3;  /* 3: green */
   int SAME = 1;
   CPGPLOT___X_Y___S_C_A_T_T_E_R_E_D___S_A_M_E___P_L_O_T ( Table.CPG, SAME,
 							  16, Time_Vector, City_Data[0],
@@ -245,6 +235,61 @@ int main(int argc, char **argv)
   free(Time_Vector); free(City_Data[0]); free(City_Data);
   /* END: ----------------------------------------------------------------------------
    */
+#endif
+
+  if( SUB_OUTPUT_VARIABLES == 1 && variable_0 == 7) {// Only when Total Prevalence
+                                                     // is the plotted output variable
+  /* BEGIN : -------------------------------------------------------------------------
+     Annotating sigmoidal function (only if -n 1, this is, SUB_OUTPUT_VARIABLES == 1)
+  */
+    double x_Turning_Point;
+    double x_Low, x_High, y_Range_0, y_Range_1;
+    int color_Index, type_of_Line, type_of_Width, type_of_Symbol;
+    
+    Determine_Threshold_Points(Table.CPG->x_Time, Table.CPG->y_Time[0], I_Time,
+			       &x_Turning_Point, &x_Low, &x_High);
+
+    y_Range_0  = Table.CPG->CPG_RANGE_Y_0; 
+    y_Range_1 = Table.CPG->CPG_RANGE_Y_1;
+
+    color_Index    = 1; /* 3: green */
+    type_of_Line   = 2;
+    type_of_Width  = 8;
+    type_of_Symbol = 0;
+    C_P_G___P_L_O_T_T_I_N_G___E_X_T_R_A___L_I_N_E (x_Low, y_Range_0, 
+                                                   x_Low, y_Range_1,
+                                                   color_Index,
+                                                   type_of_Line,
+                                                   type_of_Width,
+                                                   type_of_Symbol); 
+    color_Index    = 2; /* 2: red */
+    type_of_Line   = 2;
+    type_of_Width  = 4;
+    type_of_Symbol = 0;
+    C_P_G___P_L_O_T_T_I_N_G___E_X_T_R_A___L_I_N_E (x_Turning_Point, y_Range_0, 
+                                                   x_Turning_Point, y_Range_1,
+                                                   color_Index,
+                                                   type_of_Line,
+                                                   type_of_Width,
+                                                   type_of_Symbol);
+    color_Index    = 1; /* 3: green */
+    type_of_Line   = 2;
+    type_of_Width  = 8;
+    type_of_Symbol = 0;
+    C_P_G___P_L_O_T_T_I_N_G___E_X_T_R_A___L_I_N_E (x_High, y_Range_0, 
+                                                   x_High, y_Range_1,
+                                                   color_Index,
+                                                   type_of_Line,
+                                                   type_of_Width,
+                                                   type_of_Symbol);
+
+    cpgtext(0.0, 0.7, "Initial Phase");
+    cpgtext(x_Low, 0.7, "Transition");
+    cpgtext(x_High, 0.7, "Establishment");
+    /* END: ----------------------------------------------------------------------------
+     */
+  }
+  
   /* BEGIN : -------------------------------------------------------------------------
      Redimensioning Index vector to include and save the full list of model parameters
      Redefinition of Parameter Space structure to allocate the whole parameter space
@@ -291,4 +336,34 @@ int main(int argc, char **argv)
 
   printf("\nEnd of progam\n");
   return (0);
+}
+
+
+void Determine_Threshold_Points(double * x_Time, double * y_Time, int N,
+				double * x_Turning_Point,
+				double * x_Low,
+				double * x_High)
+{
+  int i, i_Index; 
+  double Max_y_Value = y_Time[N-1];
+  double T_0 = 0.1;
+  double T_1 = 0.9;
+
+  i=0;
+  while (y_Time[i] < T_0 * Max_y_Value) i_Index = i++;
+  (* x_Low) = x_Time[i_Index];
+  
+  i=0;
+  while (y_Time[i] < T_1 * Max_y_Value) i_Index = i++;
+  (* x_High) = x_Time[i_Index];
+  
+  double * Delta_Value = (double *)calloc( N, sizeof(double) );
+
+  for(i=0; i<N-1; i++)
+    Delta_Value[i] = (y_Time[i+1] - y_Time[i])/(x_Time[i+1] - x_Time[i]);
+
+  double Max_Delta = vector_MAX_Index_double(Delta_Value, 0, N-1, &i_Index); 
+  (* x_Turning_Point) = x_Time[i_Index];
+
+  free(Delta_Value); 
 }

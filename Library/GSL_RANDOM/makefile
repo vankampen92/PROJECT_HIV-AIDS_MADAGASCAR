@@ -7,7 +7,7 @@
 # The generated library is libDa_GSL_UTL.a 
 # ==========================================
 
-GSL_Stat_UTL=${HOME}/PROJECT_STD_AIDS_MODELS/Library/GSL_RANDOM/
+GSL_Stat_UTL=${HOME}/PROJECT_HIV-AIDS_MADAGASCAR/Library/GSL_RANDOM/
 EXTRA_INCLUDE_PATH= -I${GSL_Stat_UTL}
 CFLAGS=-g -fPIC -DHAVE_INLINE ${EXTRA_INCLUDE_PATH}
 ###CFLAGS= -Wall -O21 

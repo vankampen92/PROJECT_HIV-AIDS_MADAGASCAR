@@ -8,12 +8,23 @@
 gsl_rng * r; /* Global generator defined in main.c */
 
 /* This code calculates ODE model temporal evolution of the whole disease
-   model. Here, the goal is to estimate diseasea parameters from data, once
-   Sigma (and Alpha) parameters have been estimated for each city. Parameters
-   F_X, F_Y, \delta_X and \delta_Y have been already estimated from demographic
+   model. Here, the goal is to estimate disease parameters from data, once
+   Sigma (and Alpha) parameters have been estimated for each city. This is 
+   done in directory:
+
+	./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
+
+   These parameter configurations were then saved and will be now read from 
+   files of the type:
+
+   Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
+
+   Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
+	
+   Parameters F_X, F_Y, \delta_X and \delta_Y have been already estimated from demographic
    data and play the role of extern parameters driving the system. See directory:
 
-   ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
+   	./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
    F_X and F_Y are recruitment rates into adutl sexually active life, and
    \delta_X and \delta_Y are adult mortality rates. They change every year.
@@ -24,7 +35,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    . ~$ make X_MODEL=X2W2SILD Y_MODEL=YSILD
 
-   We can make two different assumptions:
+   We can make different assumptions:
 
    A. Parameters are searched under the hypothesis of constant ratio of female
    sexual workers to total female population:
@@ -37,10 +48,10 @@ gsl_rng * r; /* Global generator defined in main.c */
    parameter ranges are chosen to be maximally constrained in agreement with
    the information we have about the behavior of the disease.
 
-   Hypothesis A needs and generates files ending in *.dat, while hypothesis
-   B requires files ending in *Sigmoidal.dat. This should be changed by hand
-   in code. So, in order to generate results under the two hyphotheses,
-   the program should be run twice by changing (and recompiling) the code
+   Hypothesis A needs and generates files ending in *.dat, while hypotheses
+   B and C require files ending in *Sigmoidal.dat. This should be changed by hand
+   in code. So, in order to generate results under the two constrasting hyphotheses
+   (A vs B/C) the program should be run twice by changing (and recompiling) the code
    accordingly. This is achieved just changing:
 
    L171: SIGMOIDAL == 1
@@ -263,7 +274,6 @@ gsl_rng * r; /* Global generator defined in main.c */
 
 int main(int argc, char **argv)
 {
-  int No_of_PARAMETER_SETS;
   int i, j, k, n, s, z, key;
   double value, Min_Value, Data_Value, Theory_Value;
   double Likelihood_Value, Average_Likelihood_Value, Standard_Error_Value, Ave, Var;
@@ -272,8 +282,10 @@ int main(int argc, char **argv)
   Time_Dependence_Control Time_Dependence;
   P_ARG = &Table;
   int SIGMOIDAL;
+  int No_of_PARAMETER_SETS;
   int * Demographic_Parameters_Index;
   int  No_of_DEMOGRAPHIC_PARAMETERS;
+  
   SIGMOIDAL = 1;
 
   if( SIGMOIDAL == 1 ) {
@@ -444,7 +456,8 @@ int main(int argc, char **argv)
     if ( k != 8 ) {
 
     Reading_Demographic_Parameters_from_File(DEMO_PARAMETER_SET[k], Demo_Data,
-					     &No_of_PARAMETER_SETS, No_of_DEMOGRAPHIC_PARAMETERS);
+					     &No_of_PARAMETER_SETS,
+					     No_of_DEMOGRAPHIC_PARAMETERS);
 
     assert( No_of_PARAMETER_SETS < No_of_SETS_MAX );
 
@@ -577,11 +590,10 @@ int main(int argc, char **argv)
 								Demographic_Parameters_Index,
 								No_of_DEMOGRAPHIC_PARAMETERS );
 
-   int No_of_EMPIRICAL_TIMES = 17;
-   // Number of columns in the data files of time-dependent parameters
-    Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
+	  int No_of_EMPIRICAL_TIMES = I_Time; // No of Cols in time-dependent parameter files
+	  Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 					 I_Time, No_of_EMPIRICAL_TIMES,
-           TIME_DEPENDENT_PARAMETERS,
+					 TIME_DEPENDENT_PARAMETERS,
 					 TYPE_of_TIME_DEPENDENCE,
 					 TYPE_0_PARAMETERS,
 					 TYPE_1_PARAMETERS,

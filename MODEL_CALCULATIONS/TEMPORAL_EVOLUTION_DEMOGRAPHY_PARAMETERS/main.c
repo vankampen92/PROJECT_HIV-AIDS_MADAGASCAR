@@ -20,6 +20,9 @@ gsl_rng * r; /* Global generator defined in main.c */
    They are given in 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat'
    files.
 
+   If you want to evaluate and plot previously calculate and saved solutions,
+   please include -tR 0 in your command line (see below).
+
    Two imput sets of files are required:
 
    1. Time_Dependent_Parameters_Corrected_[CITY_NAME].dat'
@@ -102,7 +105,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    Exectution: (Time-dependent parameters: -t4 1; Initial conditions as searcheable parameters:  -iP 2 -i0 0 -i1 1)
 
    . ~$ ./X2W2-Y_ -y0 3             // TYPE of MODEL
-   / -sP 8 -sN 200                  // Parameter Space of Model Parameters:  [-sP : Dimension, Number of Model Parameters to be optimized]: 8
+   / -sP 8 -sN 200                  // Parameter Space of Model Parameters:  [-sP : Dimension, Number of Model Parameters to be optimized] [-sN No of optimazing iterations]
    / -I0 10 -H10  0.01 -m0 0.0  -M0 0.05 -A0 0.01       Parameter: Sigma_0
    / -I1 11 -H11  0.01 -m1 0.0  -M1 0.05 -A1 0.01       Parameter: Sigam_0_r
    / -I2 18 -H18  0.01 -m2 0.0  -M2 0.05 -A2 0.01       Parameter: Sigma_1
@@ -148,6 +151,8 @@ gsl_rng * r; /* Global generator defined in main.c */
    -xR RESCALING INITIAL POPULATION (initial total population remains always the same)
    -xN INITIAL TOTAL POPULATION SIZE
    -t4 TYPE of TIME DEPENDENCE (0, no parameter time dependence). If the TYPE of TIME DEPENDENCE input argument is greater than 0, time dependence parameters are at play and time dependence files are required. See also ./Definition_Numerical_Integration/XWSILD-YSILD/deterministic_time_dynamics.c
+
+   Notice that all these calls take -H21 1.0, which corresponds to the r_F factor. This parameter has to take the default value of 1.0 across any of these optimizations.  
 
    See file denition_OutPut_Variables.c for full -v?? input argument code definitions. Examples are:
 
@@ -222,7 +227,7 @@ int main(int argc, char **argv)
   
   // If you want to evaluate and plot previously calculate and  saved solutions,
   // please include -tR 0 in your command line. Otherwise, you will try a number
-  // "Realizations" as initial guesses for different solutions.
+  // "Realizations" as randomly chosen initial guesses for different solutions.
   if (Realizations == 0) EVALUATION = 1; 
   else                   EVALUATION = 0;
 

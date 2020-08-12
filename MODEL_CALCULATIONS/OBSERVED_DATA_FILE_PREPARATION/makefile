@@ -3,7 +3,7 @@
 #/*                           David Alonso, 2011 (c)                          */
 #/*                                                                           */
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-PROJECT_DIR=${HOME}/PROJECT_STD_AIDS_MODELS/#########
+PROJECT_DIR=${HOME}/PROJECT_HIV-AIDS_MADAGASCAR/#########
 
 IO_DIR=${PROJECT_DIR}Library/IO_Library/
 

@@ -8,21 +8,58 @@
 gsl_rng * r; /* Global generator defined in main.c */
 
 /* This code calculates ODE model temporal evolution of the whole disease
-   model. Here, the goal is to estimate diseasea parameters from data, once
-   Sigma (and Alpha) parameters have been estimated for each city. Parameters
-   F_X, F_Y, \delta_X and \delta_Y have been already estimated from demographic
-   data. See directory:
+   model. Here, the goal is to estimate disease parameters from data, once
+   Sigma (and Alpha) parameters have been estimated for each city. This is 
+   done in directory:
 
-   ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
+	./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
 
-   F_X and F_Y are recruitment rates into adult sexually active life, and
+   These parameter configurations were then saved and will be now read from 
+   files of the type:
+
+   Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
+
+   Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
+	
+   Parameters F_X, F_Y, \delta_X and \delta_Y have been already estimated from demographic
+   data and play the role of extern parameters driving the system. See directory:
+
+   	./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
+
+   F_X and F_Y are recruitment rates into adutl sexually active life, and
    \delta_X and \delta_Y are adult mortality rates. They change every year.
    They are given in 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat'
    files.
 
+   Two different assumptions have been made (A vs B/C)
+
+   A. Parameters are searched under the hypothesis of constant ratio of female
+   sexual workers to total female population:
+
+   B. Parameters are searched under the hypothesis of ratio of female
+   sexual workers to total female population following a sigmoidal curve
+   with a break point in 2011.0 and smoothness parameters 0.1.
+
+   C. Parameters are searched under the same hypothesis as B, but all
+   parameter ranges are chosen to be maximally constrained in agreement with
+   the information we have about the behavior of the disease.
+
+   Hypothesis A needs and generates files ending in *.dat, while hypotheses
+   B and C require files ending in *Sigmoidal.dat. This should be changed by hand
+   in code. So, in order to generate results under the two constrasting hyphotheses
+   (A vs B/C) the program should be run twice by changing (and recompiling) the code
+   accordingly. This is achieved just changing:
+
+   L171: SIGMOIDAL == 1
+
+   into
+
+   L171: SIGMOIDAL = 0     (line L171 of code is only approx.)
+
+
    Compilation:
 
-   . ~$ make X_MODEL=X2W2SILD Y_MODEL=Y_SILD
+   . ~$ make X_MODEL=X2W2SILD Y_MODEL=YSILD
 
    Exectution: (Time-dependent parameters: -t4 1)
 
@@ -57,12 +94,14 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 // Arguments controling type of time dependence of model parameters.
    / -Fn 1 -F0 ../../DATA_FILES/2019.05.31_Demographic_Parameters_per_City_NLL.dat
 
-   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-08 -sN 550 -sP 12 -I0 21 -H21 1.0 -m0 0.0 -M0 2.0 -A0 0.01  -I1 0 -H0 300.0 -m1 0.0  -M1 500.0 -A1 0.1  -I2 8  -H8 100.0 -m2 0.0 -M2 5000.0 -A2 0.1 -I3 12 -H12 9.0 -m3 1.0 -M3 20.0 -A3 0.01  -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01 -I5 16 -H16 0.2 -m5 0.01 -M5 0.9 -A5 0.01 -I6 17 -H17 0.6 -m6 0.01 -M6 0.9 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 1.0 -A7 0.01 -I8 9 -H9 0.01 -m8 0.0 -M8 1.0 -A8 0.01 -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1 -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01 -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A15 0.1  -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 10.0 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -G0 1  -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -tE 1.0 -Fn 1 -F0 ../../DATA_FILES/2019.05.31_Demographic_Parameters_per_City_NLL.dat
+   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-08 -sN 550 -sP 12 -I0 21 -H21 1.0 -m0 0.0 -M0 2.0 -A0 0.01  -I1 0 -H0 300.0 -m1 0.0  -M1 500.0 -A1 0.1  -I2 8  -H8 100.0 -m2 0.0 -M2 5000.0 -A2 0.1 -I3 12 -H12 9.0 -m3 1.0 -M3 20.0 -A3 0.01  -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01 -I5 16 -H16 0.2 -m5 0.01 -M5 0.9 -A5 0.01 -I6 17 -H17 0.6 -m6 0.01 -M6 0.9 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 1.0 -A7 0.01 -I8 9 -H9 0.01 -m8 0.0 -M8 1.0 -A8 0.01 -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1 -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01 -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A15 0.1  -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 10.0 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -G0 1  -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -tE 1.0 -Fn 1 -X0 0 -F0 Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
 
-   Data Files:
-   . ~$ ../../DATA_FILES/2019.05.31_Demographic_Parameters_per_City_Alpha_0.1_BIS.dat
-   . ~$ ../../DATA_FILES/2019.05.31_Demographic_Parameters_per_City_NLL.dat
+   -X0 [No], where No is label of the corresponding city. 
 
+   Input Data Files of the Type: 
+ 
+   	Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
+   
    To read the whole parameter list from a file, execute:
 
    . ~$ ./X2W2SILD-YSILD $(cat Arguments_Command_Line_Antananarivo.dat)
@@ -93,8 +132,36 @@ int main(int argc, char **argv)
   Time_Control Time;
   Time_Dependence_Control Time_Dependence;
   P_ARG = &Table;
-  int Demographic_Parameters_Index[5] = {10,11,18,19,20};
+  // int Demographic_Parameters_Index[5] = {10,11,18,19,20};
+  int No_of_PARAMETER_SETS;
+  int * Demographic_Parameters_Index;
+  int  No_of_DEMOGRAPHIC_PARAMETERS;
+  int SIGMOIDAL;
 
+  SIGMOIDAL = 0;
+
+  if( SIGMOIDAL == 1 ) {
+    No_of_DEMOGRAPHIC_PARAMETERS = 8;
+    Demographic_Parameters_Index = (int *)calloc(No_of_DEMOGRAPHIC_PARAMETERS, sizeof(int) );
+    Demographic_Parameters_Index[0] = 10;
+    Demographic_Parameters_Index[1] = 11;
+    Demographic_Parameters_Index[2] = 18;
+    Demographic_Parameters_Index[3] = 19;
+    Demographic_Parameters_Index[4] = 20;
+    Demographic_Parameters_Index[5] = 23;
+    Demographic_Parameters_Index[6] = 24;
+    Demographic_Parameters_Index[7] = 25;
+  }
+  else {
+    No_of_DEMOGRAPHIC_PARAMETERS = 5;
+    Demographic_Parameters_Index = (int *)calloc(No_of_DEMOGRAPHIC_PARAMETERS, sizeof(int) );
+    Demographic_Parameters_Index[0] = 10;
+    Demographic_Parameters_Index[1] = 11;
+    Demographic_Parameters_Index[2] = 18;
+    Demographic_Parameters_Index[3] = 19;
+    Demographic_Parameters_Index[4] = 20;
+  }
+  
 #include "default.c"
 
   /* Command line arguments */
@@ -203,13 +270,19 @@ int main(int argc, char **argv)
   }
 
   int No_of_CITIES = 11;
-  const char * City_Names[] = { "Antananarivo",  "Antsiranana",
+  /* const char * City_Names[] = { "Antananarivo",  "Antsiranana", */
+  /* 				   "Mahajanga",     "Toamasina",   */
+  /* 				   "Fianarantsoa",  "Toliary",     */
+  /* 				   "Taolagnaro",    "Moramanga",   */
+  /* 				   "Antsirabe",     "Morondava",   */
+  /* 				   "Nosy_Be" };                    */
+  char * City_Names[] = { "Antananarivo",  "Antsiranana",
   				"Mahajanga",     "Toamasina",
   				"Fianarantsoa",  "Toliary",
   				"Taolagnaro",    "Moramanga",
   				"Antsirabe",     "Morondava",
   				"Nosy_Be" };
-  `
+  
   /* B E G I N : Time Dependent Parameters and Observed Data File Names */
   char * pF;
   char ** TIME_PARAMETERS_FILE = (char **)calloc(No_of_CITIES, sizeof(char *) );
@@ -241,26 +314,31 @@ int main(int argc, char **argv)
     p_ARGUMENTS[k] = fopen(ARGUMENTS_RESULT_FILE[k], "w");
   }
   /*     E N D : ------------------------------------------------------ */
-  double ** Demo_Data = (double **)calloc(No_of_CITIES, sizeof(double *));
-  for(i=0; i<No_of_CITIES; i++)
-    Demo_Data[i] = (double *)calloc(No_of_CITIES, sizeof(double));
+  int No_of_SETS_MAX  = 5000;
+  double ** Demo_Data = (double **)calloc(No_of_SETS_MAX, sizeof(double *));
+  for(i=0; i<No_of_SETS_MAX; i++)
+    Demo_Data[i] = (double *)calloc(No_of_DEMOGRAPHIC_PARAMETERS, sizeof(double));
+  
+  // for(k = 0; k<No_of_CITIES; k++) {
 
-  Reading_Demographic_Parameters_from_File(Name_of_FILE[0], Demo_Data,
-					   &No_of_CITIES, No_of_PARAMETERS);
-  printf("\n Demographic parameters:\n");
-  Writing_Standard_Data_Matrix(Demo_Data,
-			       No_of_CITIES, 5,
-			       1, City_Names,
-			       0, Time.Time_Vector);
-  printf("\n");
-
-  for(k = 0; k<No_of_CITIES; k++) {
-
+    k = F_x_GRID[0];
+    
+    Reading_Demographic_Parameters_from_File(Name_of_FILE[0], Demo_Data,
+					   &No_of_PARAMETER_SETS,
+					   No_of_DEMOGRAPHIC_PARAMETERS);
+					
+    printf("Set of Demographic Parameters (City: %s):\n", City_Names[k]);
+    Writing_Demographic_Parameters_Matrix(&Table, City_Names[k],
+					  Demo_Data, No_of_PARAMETER_SETS,
+					  Demographic_Parameters_Index,
+					  No_of_DEMOGRAPHIC_PARAMETERS );
+    printf("\n");
+  
     int No_of_EMPIRICAL_TIMES = 17;
     // Number of columns in the data files of time-dependent parameters
     Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 				   I_Time, No_of_EMPIRICAL_TIMES,
-           TIME_DEPENDENT_PARAMETERS, TYPE_of_TIME_DEPENDENCE,
+				   TIME_DEPENDENT_PARAMETERS, TYPE_of_TIME_DEPENDENCE,
 				   TYPE_0_PARAMETERS, TYPE_1_PARAMETERS, TYPE_2_PARAMETERS,
 				   No_of_COVARIATES,
 				   dependent_parameter, forcing_pattern,
@@ -299,7 +377,12 @@ int main(int argc, char **argv)
 
     /* Initial conditions from empirical data at the initial time ( -xn 0 ) */
     Parameter_Model_Copy_into_Parameter_Table(&Table, Initial_Guess);
-    Uploading_Demographic_Parameters_into_Parameter_Table(&Table, Demo_Data, k);
+    int j_Random    = 0;
+    // j_Random = gsl_rng_uniform_int(r, No_of_PARAMETER_SETS);
+    Uploading_Demographic_Parameters_into_Parameter_Table(&Table, Demo_Data,
+							  j_Random,
+							  Demographic_Parameters_Index,
+							  No_of_DEMOGRAPHIC_PARAMETERS );
     Initial_Condition_from_Data_into_Parameter_Table (&Table, Empirical_Data_Matrix);
 
     printf("\n... ... ... calculating city: %s\n", City_Names[k]);
@@ -325,7 +408,7 @@ int main(int argc, char **argv)
       value = AssignStructValue_to_VectorEntry(key, &Table);
       printf("%s = %g  ", Table.Symbol_Parameters[key], value);
     }
-    for(i=0; i<5; i++) {
+    for(i=0; i<No_of_DEMOGRAPHIC_PARAMETERS; i++) {
       key = Demographic_Parameters_Index[i];
       value = AssignStructValue_to_VectorEntry(key, &Table);
       printf("%s = %g  ", Table.Symbol_Parameters[key], value);
@@ -344,6 +427,8 @@ int main(int argc, char **argv)
 	printf("Error_Parameter_%d = %g  ", i, value);
     }
 
+    free(Demographic_Parameters_Index);
+    
     printf("\n\n");
     if(argc > 1) ArgumentControl_fprintf(p_ARGUMENTS[k], &Table, argc, argv);
     fclose(p_ARGUMENTS[k]);
@@ -353,7 +438,7 @@ int main(int argc, char **argv)
     Observed_Data_Free(Data);
     free(Data);
     free(F);
-  }
+  //}
 
   /* BEGIN : -------------------------------------------------------------------------
      Redimensioning Index vector to include and save the full list of model parameters
@@ -412,7 +497,7 @@ int main(int argc, char **argv)
   for (i=0; i<SUB_OUTPUT_VARIABLES; i++)  free(Empirical_Data_Matrix[i]);
   free(Empirical_Data_Matrix);
 
-  for(i=0; i<No_of_CITIES; i++) free(Demo_Data[i]);
+  for(i=0; i<No_of_SETS_MAX; i++) free(Demo_Data[i]);
   free(Demo_Data);
 
   for(k = 0; k<No_of_CITIES; k++) {
