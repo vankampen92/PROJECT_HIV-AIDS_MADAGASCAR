@@ -40,8 +40,8 @@ If graphic libraries have been correctly installed, this symbolic link should be
 	+ #### 1. Install GSL library
 	+ #### 2. Install plplot library
 	+ #### 3. Install pgplot library
-	+ #### 4. 
-	+ #### 5. git clone https://p252205@bitbucket.org/p252205/project_std_aids_models.git
+	+ #### 4. git clone https://github.com/vankampen92/CPGPLOT.git
+	+ #### 5. git clone https://github.com/vankampen92/PROJECT_HIV-AIDS_MADAGASCAR.git
 	+ #### 6. Tests: 
 	In order to test if pgplot, plplot and CPGPLOT are correctly installed in your machine, you can expand the tar file PROJECT_CPGPLOT_EXAMPLES.tar, which is in the project root directory on your home directory. Then you will get the directory ~/PROJECT_CPGPLOT_EXAMPLES. In that directory, there is a simple example of how to use the CPGPLOT library. You build it by typing:
 	
