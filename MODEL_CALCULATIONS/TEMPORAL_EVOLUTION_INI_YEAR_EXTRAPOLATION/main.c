@@ -611,7 +611,9 @@ int main(int argc, char **argv)
 	assert( Time_Dependence.No_of_TIMES == I_Time );
 	/* Initial conditions from empirical data at the initial time ( -xn 0 ) */	
 	Initial_Condition_from_Initial_Values_into_Parameter_Table (&Table,
-								    Initial_Observed_Adult_Population, Initial_Observed_Female_Sexual_Workers, Initial_Observed_Female_Sexual_Workers_Infected ); 
+								    Initial_Observed_Adult_Population, 
+								    Initial_Observed_Female_Sexual_Workers, 
+								    Initial_Observed_Female_Sexual_Workers_Infected ); 
 
         Parameter_Fitting * F = (Parameter_Fitting*)calloc(1,sizeof(Parameter_Fitting));
         F->Data                  = Data;

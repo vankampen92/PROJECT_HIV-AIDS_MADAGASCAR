@@ -22,7 +22,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    rates into adutl sexually active life, and \delta_X and \delta_Y are adult 
    mortality rates. They change every year.  
    
-   They are given in 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat' files.
+   They are given as 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat' files.
 
    Compilation:
 
@@ -31,10 +31,10 @@ gsl_rng * r; /* Global generator defined in main.c */
    The code is prepared to inspect parameter combinations from different 
    assumptions: 
 
-   A. Parameters are searched under the hypothesis of constant ratio of female
+   A. Parameters were searched under the hypothesis of constant ratio of female
    sexual workers to total female population: 
    
-   B. Parameters are searched under the hypothesis of ratio of female
+   B. Parameters were searched under the hypothesis of ratio of female
    sexual workers to total female population following a sigmoidal curve 
    with a break point in 2011.0 and smoothness parameters 0.1.
 
@@ -58,7 +58,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    If this information is not given, the program goes over all cities and all years. 
 
-   A. Parameters are searched under the hypothesis of constant ratio of female
+   A. Parameters were searched under the hypothesis of constant ratio of female
    sexual workers to total female population: 
 
    Exectution: (Time-dependent parameters: -t4 1)
@@ -416,8 +416,8 @@ int main(int argc, char **argv)
     Type_of_Hypothesis[2] = 2;
     Type_of_Hypothesis[3] = 3;
     Type_of_Hypothesis[4] = 4; 
-    Type_of_Hypothesis[3] = 5;
-    Type_of_Hypothesis[4] = 6; 
+    Type_of_Hypothesis[5] = 5;
+    Type_of_Hypothesis[6] = 6; 
   }
 
   for (i=0; i<No_of_HYPOTHESIS; i++) {
@@ -524,7 +524,7 @@ int main(int argc, char **argv)
       I8 = 9;   min_P8 = 0.0;   MAX_P8 = 0.001;      Acc_P8 = 0.0001;
       I9 = 5;   min_P9 = 0.5;   MAX_P9 = 4.0;        Acc_P9 = 0.01;
       I10 = 6;  min_P10 = 0.05; MAX_P10 = 0.20;      Acc_P10 = 0.01;
-      I11 = 15; min_P11 = 1.0;  MAX_P11 = 100.0;      Acc_P11 = 0.1;
+      I11 = 15; min_P11 = 1.0;  MAX_P11 = 100.0;     Acc_P11 = 0.1;
       I12 = 10; min_P12 = 0.0;  MAX_P12 = 0.05;      Acc_P12 = 0.01;
       I13 = 11; min_P13 = 0.0;  MAX_P13 = 0.05;      Acc_P13 = 0.01;
       I14 = 18; min_P14 = 0.0;  MAX_P14 = 0.05;      Acc_P14 = 0.01;

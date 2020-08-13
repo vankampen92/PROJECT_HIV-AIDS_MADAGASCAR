@@ -33,7 +33,10 @@ gsl_rng * r; /* Global generator defined in main.c */
    Time_Dependent_Parameters_Corrected_[City_Name].dat
 
    which then will be used in the rest of procedures requiring the time dependent
-   parameter files. 
+   parameter files. It also generates time dependent parameter files to run 
+   the ODEs system up to 2033. They are labeled as:
+
+   Time_Dependent_Parameters_Extrapolated_Corrected_[City_Name].dat
 
    Compilation:
 
