@@ -1,7 +1,6 @@
-:# README #
+# README #
 
-This project runs on linux machines out of the box. To run in other platforms makefiles should be modified accordingly. 
-The follwing dependencies are required:
+This project establishes a number of ODEs models to study the expansion of HIV-AIDS in Madagascar. It uses demographic and disease data from the island. This project runs on linux machines out of the box. To run in other platforms makefiles should be modified accordingly. The follwing dependencies are required:
 
 ## GNU Scientific Library (GSL)
 This is a numerical library for C and C++ programmers. It is free software under the GNU General Public License.
@@ -40,10 +39,9 @@ If graphic libraries have been correctly installed, this symbolic link should be
 	+ #### 1. Install GSL library
 	+ #### 2. Install plplot library
 	+ #### 3. Install pgplot library
-	+ #### 4. Install CPGPLOT Graphix library
-	+ #### 5. git clone https://p252205@bitbucket.org/p252205/project_std_aids_models.git
-	+ #### 6. ln -s project_std_aids_models PROJECT_STD_AIDS_MODELS
-	+ #### 7. Tests: 
+	+ #### 4. git clone https://github.com/vankampen92/CPGPLOT.git
+	+ #### 5. git clone https://github.com/vankampen92/PROJECT_HIV-AIDS_MADAGASCAR.git
+	+ #### 6. Tests: 
 	In order to test if pgplot, plplot and CPGPLOT are correctly installed in your machine, you can expand the tar file PROJECT_CPGPLOT_EXAMPLES.tar, which is in the project root directory on your home directory. Then you will get the directory ~/PROJECT_CPGPLOT_EXAMPLES. In that directory, there is a simple example of how to use the CPGPLOT library. You build it by typing:
 	
 		+ ~/PROJECT_CPGPLOT_EXAMPLES/make
@@ -58,7 +56,7 @@ If graphic libraries have been correctly installed, this symbolic link should be
 		
 	and see the different avaiable graphic formats in which plots can be saved. Notice that sometimes the value for these input arguments is overriden by the internal program code. When this happens, it is for a good reason. Please check the code to understand why and make moodgodfications at your own risk. Be creative.   
 	
-	+ #### 8. Examples:
+	+ #### 7. Examples:
 	See, for instance, ./MODEL_CALCULATIONS/TEMPORAL_EVOLUTION_DETERMINISTIC/main.c, and follow the directions to compile and run the code: 
 		
 		+ ~$ make 
