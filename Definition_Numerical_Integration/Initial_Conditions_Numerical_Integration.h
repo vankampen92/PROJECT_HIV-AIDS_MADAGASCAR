@@ -12,4 +12,6 @@ void Initial_Condition_from_Data_into_Parameter_Table (Parameter_Table * Table, 
 void Initial_Condition_from_Value_into_Parameter_Table (Parameter_Table * Table, double Value); 
 
 void Initial_Condition_from_Initial_Values_into_Parameter_Table (Parameter_Table * Table,
-								 double Initial_Adult_Population, double Initial_Female_Sexual_Workers, double Initial_Female_Sexual_Workers_Infected ); 
+								 double Initial_Adult_Population,
+								 double Initial_Female_Sexual_Workers,
+								 double Initial_Female_Sexual_Workers_Infected ); 

@@ -59,6 +59,7 @@ ODE_DIR_GENERAL=${PROJECT_DIR}Definition_Numerical_Integration/#########
 ODE_DIR=${ODE_DIR_GENERAL}${ODE_MODEL}/#########
 ODE_DEF=${ODE_DIR_GENERAL}ODE_Definitions/###########################
 ODE_FIXED_POINTS=${PROJECT_DIR}Fixed_Points_Functions/###########
+ODE_R_0=${PROJECT_DIR}R_0_Definition/${ODE_MODEL}/###########
 TYPE_NUMERICAL_INTEGRATION=GSL_RKF45#############################
 ######################################## Possibilities:
 ######################################## 'GSL_BSIMP' uses the Jacobian matrix which has to be provided in JAC_sys${SYS}.c.
@@ -93,7 +94,7 @@ OBJECTS = main.o report.o argumentControl.o argumentControl_fprintf.o MODEL.o Mo
 	Parameter_Model.o Time_Control.o Parameter_Table.o definition_OutPut_Variables.o assignCodes_to_Model_Parameters.o assignLabel_to_Model_Parameters.o assignLabel_to_Model_Variables.o assignLabel_to_Output_Variables.o assignStructValue_to_VectorEntry.o assignSymbol_to_Model_Parameters.o assignSymbol_to_Model_Variables.o assignSymbol_to_Output_Variables.o assignVectorEntry_to_Structure.o fprintf_Model_Parameters.o Model_Variable_Initial_Condition_into_Vector_Entry.o Vector_Entry_into_Model_Variable_Initial_Condition.o fprintf_Output_Variables.o                                                        \
 	Latex_assignLabel_to_Model_Parameters.o  Latex_Write_Parameter_Table.o               \
 	Parameter_Space.o Parameter_Space_Boundary_for_Trends${TYPE_of_BOUNDARY}.o  Initial_Condition_Boundary_Values.o  \
-	deterministic_time_dynamics.o numerical_Integration_Driver.o Initial_Conditions_Numerical_Integration.o Initial_Condition_from_Parameter_Table.o  Random_Initial_Condition.o Random_Initial_Guess_within_Boundaries.o ODE_sys_${ODE_MODEL}.o JAC_sys_MODEL.o JACOBIAN_Matrix_${ODE_MODEL}.o                                                \
+	deterministic_time_dynamics.o numerical_Integration_Driver.o Initial_Conditions_Numerical_Integration.o Initial_Condition_from_Parameter_Table.o  Random_Initial_Condition.o Random_Initial_Guess_within_Boundaries.o ODE_sys_${ODE_MODEL}.o JAC_sys_MODEL.o JACOBIAN_Matrix_${ODE_MODEL}.o  R_0_Function.o               \
 	Model_Variables_Code.o Total_Effective_Fractions.o Total_Population_Numbers.o Total_Disease_Prevalence.o Total_Disease_Infection.o Total_Population_Fractions.o \
 	stat.o                                                                               \
 	CPGPLOT___X_Y___Parameter_Table.o                                                    \
@@ -232,6 +233,10 @@ Initial_Condition_Boundary_Values.o:  ${PROJECT_DIR}Definition_Parameter_Space/I
 # Functions to control graphical plots
 CPGPLOT___X_Y___Parameter_Table.o: ${CPGPLOT}CPGPLOT_Parameter_Table/CPGPLOT___X_Y___Parameter_Table.c ${CPGPLOT}CPGPLOT_Parameter_Table/CPGPLOT___X_Y___Parameter_Table.h
 	${CC} -c ${CPGPLOT}CPGPLOT_Parameter_Table/CPGPLOT___X_Y___Parameter_Table.c $(CXXFLAGS)
+
+# R_0 (model-dependent definition)
+R_0_Function.o: ${ODE_R_0}R_0_Function.c ${HEAD.H}
+	$(CC) -c ${ODE_R_0}R_0_Function.c $(CXXFLAGS)
 
 # Functions controling numerical integration of the ODE system
 deterministic_time_dynamics.o: ${ODE_DIR_GENERAL}deterministic_time_dynamics.c ${HEAD.H}

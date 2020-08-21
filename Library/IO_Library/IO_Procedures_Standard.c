@@ -11,7 +11,8 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
   int j;
   double y;
   char * Name_Dummy = (char *)calloc( 50, sizeof(char) );
-
+  char * p;
+  
   FILE * fp;
   printf("\n [Entering function Reading_Matrix_from_File(...)]\n");
   printf(" Reading File %s...\n", File_Name);
@@ -63,7 +64,7 @@ void Reading_Standard_Data_Matrix_from_File( char * File_Name,
     n=0;
     while ( fscanf(fp, "%s\t", Name_Dummy) != EOF ){
       Name_of_Rows[n][0] = '\0'; 
-      char * p = strcat( Name_of_Rows[n], Name_Dummy ); 
+      p = strcat( Name_of_Rows[n], Name_Dummy ); 
 
       // strcpy(Name_of_Rows[n], Name_Dummy);
       

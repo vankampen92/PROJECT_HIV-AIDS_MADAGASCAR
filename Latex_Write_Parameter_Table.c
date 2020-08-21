@@ -194,3 +194,171 @@ void write_Param_Table_AVE_CI___LATEX( char * File_Model_Parameters,
   fclose(fp);
 }
 
+void write_Param_Table_AVE_STD_per_CITY___LATEX_LANDSCAPE( char * File_Model_Parameters,
+							   char ** CITY_NAMES, int No_of_CITIES,
+							   double * City_R_0_AVE, double * City_R_0_STD, 
+							   double ** City_Par_AVE, double ** City_Par_STD,
+							   int no_Par,
+							   Parameter_Table * P )
+{
+  /* Input: 
+     . P, Parameter Table, 
+     . City_R_0_AVE
+     . City_R_0_STD
+     . City_Par_AVE
+     . City_Par_STD
+     . No_of_CITIES 
+     . no_Par, No of PARAMETERS that are requested to save in the LaTeX table. 
+     
+     Output: 
+     . File_Model_Parameters, a file containing a LaTeX friendly table 
+  */
+  int i, k;
+  FILE *fp = fopen( File_Model_Parameters, "w" );
+  char Parameter_Name[100];
+  char Parameter_Symbol[50];
+  char cccc[MODEL_PARAMETERS_MAXIMUM];
+  char * pF;
+  
+  cccc[0] = '\0';
+  for(i=0; i < no_Par+1; i++)
+    pF = strcat(cccc, "c");
+
+  fprintf(fp, "\\begin{table}\n");
+  // fprintf(fp, "\\noindent\n");
+  fprintf(fp, "\\rowcolors{1}{green}{pink}\n"); 
+  fprintf(fp, "\\centering\n"); 
+  fprintf(fp, "\\begin{tabular}{l%s}\n", cccc);  
+  fprintf(fp, "{\\bf City} & ");
+  for (i=0; i < no_Par; i++) {
+    k = P->Index[i];
+    AssignLabel_to_Model_Parameters__LATEX__SYMBOL(k , Parameter_Symbol, P);
+    fprintf(fp, "{\\bf %s} & ", Parameter_Symbol);
+  }
+  fprintf(fp, "{\\bf $R_0$} ""\\""""\\""\n"); 
+  fprintf(fp, "\\hline");
+  fprintf(fp, "\\hline\n");
+
+  for (k=0; k < No_of_CITIES; k++) {
+    
+    fprintf(fp, "%s &", CITY_NAMES[k]); 
+	    
+    for (i=0; i < no_Par; i++){   
+      fprintf(fp, "%5.3f $\\pm$ %5.3f & ", City_Par_AVE[k][i], City_Par_STD[k][i]);
+    }
+
+    fprintf(fp, "%5.3f $\\pm$ %5.3f", City_R_0_AVE[k], City_R_0_STD[k]);
+    
+    fprintf(fp, """\\""""\\""\n"); 
+  }
+
+  fprintf(fp, "\\hline");
+  fprintf(fp, "\\hline\n");
+  
+
+  fprintf(fp, "\\end{tabular}\n");
+  //fprintf(fp, "\\vspace{1cm}\n");
+  //fprintf(fp, "\\noindent");
+
+  fprintf(fp, "\\caption{Model Parameter average values, and $R_0$, and their standard deviations for the AIDS-HIV transmission model.}\n");
+
+  fprintf(fp, "\\end{table}\n");
+  fclose(fp);
+}
+
+
+void write_Param_Table_AVE_STD_per_CITY___LATEX_PORTRAIT( char * File_Model_Parameters,
+							  char ** CITY_NAMES, int No_of_CITIES,
+							  double * City_R_0_AVE, double * City_R_0_STD, 
+							  double ** City_Par_AVE, double ** City_Par_STD,
+							  int no_Par,
+							  Parameter_Table * P )
+{
+  /* Input: 
+     . P, Parameter Table, 
+     . City_R_0_AVE[k],    R_0 value for k-th city 
+     . City_R_0_STD[k],    R_0 STD value for k-th city 
+     . City_Par_AVE[k][p], p-th Parameter value for k-th city 
+     . City_Par_STD[k][p], p-th Parameter value STD for k-th city 
+     . No_of_CITIES 
+     . no_Par, No of PARAMETERS that are requested to save in the LaTeX table. 
+     
+     Output: 
+     . File_Model_Parameters, a file containing a LaTeX friendly table 
+  */
+  int i, k, b;
+  FILE *fp = fopen( File_Model_Parameters, "w" );
+ 
+  char Parameter_Symbol[50];
+  char * pF;
+
+  char cccc[50];
+
+  assert( (No_of_CITIES-1) < 50 );
+  
+  b = 0; 
+  for (k=0; k < No_of_CITIES; k++)
+    if(  strcmp(CITY_NAMES[k], "Aabe" ) == 0 ) b = 1;
+  
+  cccc[0] = '\0';
+  if (b == 0) for(i=0; i < No_of_CITIES; i++) pF = strcat(cccc, "c");
+  else        for(i=0; i < No_of_CITIES-1; i++) pF = strcat(cccc, "c"); 
+  
+  fprintf(fp, "\\begin{sidewaystable}\n");
+  // fprintf(fp, "\\caption{Model Parameter average values, and $R_0$, and their standard deviations for the AIDS-HIV transmission model.}\n");
+  // fprintf(fp, "\\smallskip\n");
+
+  // fprintf(fp, "\\hline\n");
+  // fprintf(fp, "\\hline\n");
+
+  // fprintf(fp, "\\noindent\n");
+  // fprintf(fp, "\\rowcolors{1}{green}{pink}\n");
+  fprintf(fp, "\\rowcolors{1}{blue!15}{white}\n");
+  fprintf(fp, "\\centering\n"); 
+  fprintf(fp, "\\begin{tabular}{c%s}\n", cccc);  
+  // fprintf(fp, "{\\bf Symbol} ");
+  fprintf(fp, " ");
+  for(k=0; k<No_of_CITIES; k++)   
+    if(  strcmp(CITY_NAMES[k], "Aabe") != 0 ) fprintf(fp, "& {\\bf %s} ", CITY_NAMES[k]);
+    // if( k != 8 ) fprintf(fp, "& {\\bf %s} ", CITY_NAMES[k]);
+  
+  fprintf(fp, """\\""""\\""\n"); 
+  fprintf(fp, "\\hline");
+  fprintf(fp, "\\hline\n");
+
+  for (i=0; i < no_Par; i++) {
+    
+    AssignLabel_to_Model_Parameters__LATEX__SYMBOL(P->Index[i] , Parameter_Symbol, P);
+    fprintf(fp, "{\\bf %s} ", Parameter_Symbol);
+  
+    for (k=0; k < No_of_CITIES; k++) 
+      //if( k != 8 )
+      if(  strcmp(CITY_NAMES[k], "Aabe") != 0 )
+	fprintf(fp, "& %4.3f $\\pm$ %4.3f ", City_Par_AVE[k][i], City_Par_STD[k][i]);
+    
+    fprintf(fp, """\\""""\\""\n"); 
+  }
+
+  fprintf(fp, "{\\bf $R_0$} ");
+  
+  for (k=0; k < No_of_CITIES; k++)
+    // if( k != 8 )
+    if(  strcmp(CITY_NAMES[k], "Aabe") != 0 )
+      fprintf(fp, "& %5.3f $\\pm$ %5.3f", City_R_0_AVE[k], City_R_0_STD[k]);
+
+  fprintf(fp, """\\""""\\""\n"); 
+      
+  fprintf(fp, "\\hline");
+  fprintf(fp, "\\hline\n");
+  
+  fprintf(fp, "\\end{tabular}\n");
+  //fprintf(fp, "\\vspace{1cm}\n");
+  //fprintf(fp, "\\noindent");
+  fprintf(fp, "\\caption{Average model parameter values, and their corresponding values for $R_0$,  and their standard deviations.}\n");
+  
+  fprintf(fp, "\\label{Table:Parameter_Values}\n"); 
+
+  fprintf(fp, "\\end{sidewaystable}\n");
+  fclose(fp);
+}
+

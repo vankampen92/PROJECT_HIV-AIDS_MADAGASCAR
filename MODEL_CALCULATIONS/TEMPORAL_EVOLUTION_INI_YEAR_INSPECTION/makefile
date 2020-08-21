@@ -277,10 +277,6 @@ Total_Disease_Prevalence.o: ${PROJECT_DIR}Total_Disease_Prevalence.c ${HEAD.H}
 Total_Disease_Infection.o: ${PROJECT_DIR}Total_Disease_Infection.c ${HEAD.H}
 	$(CC) -c ${PROJECT_DIR}Total_Disease_Infection.c $(CXXFLAGS)
 
-# R_0 related functions:
-R_0.o: ${PROJECT_DIR}R_0.c ${HEAD.H}
-	${CC} -c ${PROJECT_DIR}R_0.c $(CXXFLAGS)
-
 # Funcions to calculate the fixed points of the ODE system
 Fixed_Points_All.o: ${ODE_FIXED_POINTS}Fixed_Points_All.c ${HEAD.H}
 	$(CC) -c ${ODE_FIXED_POINTS}Fixed_Points_All.c $(CXXFLAGS)

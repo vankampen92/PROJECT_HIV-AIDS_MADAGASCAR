@@ -473,7 +473,7 @@ int main(int argc, char **argv)
       Likelihood[l][i] = (double ***)calloc(No_of_INITIAL_YEARS, sizeof(double **) );
       for(j=0; j<No_of_INITIAL_YEARS; j++) {
 	Likelihood[l][i][j] = (double **)calloc(MODEL_PARAMETERS_MAXIMUM+2, sizeof(double *) );
-	for(k=0; k<MODEL_PARAMETERS_MAXIMUM+2; k++)
+	for(k=0; k<MODEL_PARAMETERS_MAXIMUM+3; k++)
 	  Likelihood[l][i][j][k] = (double *)calloc(No_of_SETS_MAX, sizeof(double) );
       }
     }
@@ -609,12 +609,17 @@ int main(int argc, char **argv)
 	    for(z=0; z<No_of_PARAMETERS; z++) Likelihood[l][k][n][z][j] = Demo_Data[j][z];
 	      
 	    Likelihood[l][k][n][No_of_PARAMETERS][j]   = Min_Value;
+	    
 	    Likelihood[l][k][n][No_of_PARAMETERS+1][j] = Likelihood_Value;
+
+	    Likelihood[l][k][n][No_of_PARAMETERS+2][j] = R_0_Function( &Table );
+	    
+	    printf("R_0 = %g\n", Likelihood[l][k][n][No_of_PARAMETERS+2][j]); Press_Key(); 
 	  }
 
 	  if( sn[l][k][n] > 0 )
-	      Average_and_Variance_double_Vector(Likelihood[l][k][n][No_of_PARAMETERS],
-						 sn[l][k][n], &Ave, &Var);
+	    Average_and_Variance_double_Vector(Likelihood[l][k][n][No_of_PARAMETERS],
+					       sn[l][k][n], &Ave, &Var);
 	    
 	  Average_Likelihood_Value = Ave;
 	  Standard_Error_Value     = sqrt(Var);
@@ -697,7 +702,8 @@ int main(int argc, char **argv)
 		  
 		  Variable_Per    = (double **)calloc(No_of_PERCENTILES, sizeof(double *) );
 		  for(j = 0; j < No_of_PERCENTILES; j++ )
-		    Variable_Per[j] = (double *)calloc(sn[l][k][n], sizeof(double) );
+		    // Variable_Per[j] = (double *)calloc(sn[l][k][n], sizeof(double) );
+		    Variable_Per[j] = (double *)calloc(1, sizeof(double) );
 		  
 		  Variable = (double **)calloc(sn[l][k][n], sizeof(double *) );
 		  for(j = 0; j < sn[l][k][n]; j++ )
@@ -969,7 +975,6 @@ int main(int argc, char **argv)
 #endif
 
   /* BEGIN : Freeing All Memmory * * * * * * * * * * * * * * */
-
   #if defined CPGPLOT_REPRESENTATION
   P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( Table.CPG, SUB_OUTPUT_VARIABLES );
   cpgclos();
@@ -993,7 +998,7 @@ int main(int argc, char **argv)
   for (l=0; l<No_of_HYPOTHESIS; l++) {   
     for (i=0; i<No_of_CITIES; i++) {
       for(j=0; j<No_of_INITIAL_YEARS; j++) {
-	for(k=0; k<MODEL_PARAMETERS_MAXIMUM+2 ; k++) free(Likelihood[l][i][j][k]);
+	for(k=0; k<MODEL_PARAMETERS_MAXIMUM+3 ; k++) free(Likelihood[l][i][j][k]);
 	free( Likelihood[l][i][j]);
       }
       free(Likelihood[l][i]);

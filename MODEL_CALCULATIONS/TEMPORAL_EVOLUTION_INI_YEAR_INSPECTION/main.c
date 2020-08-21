@@ -39,18 +39,18 @@ gsl_rng * r; /* Global generator defined in main.c */
    
    ./TEMPORAL_EVOLUTION_INI_YEAR_CALCULATION
   
-   or
+   or (better in our cluster, at CEAB)
 
    ./TEMPORAL_EVOLUTION_INI_YEAR_CBL-CLUSTER
 
-   As a result of these estimating procedures, fitting parametric configurations 
-   are generated and saved in files of type: 
+   As a result of these estimating procedures, optimal fitting parametric 
+   configurations are generated and saved in files of type: 
 
    Full_Parameter_Set_[Name-of-the-City]_[Year]_[Hypothesis].dat
 
-   This main code here read files of these kind, which have been ordered acording to 
-   their goodness-of-fit, and visually inspect the generated solutions against 
-   observations.
+   The goal of the main function code here is to read files of these kind, 
+   which have been ordered acording to their goodness-of-fit, and then visually 
+   inspect the quality of the generated solutions against observations.
 
    Compilation:
 
@@ -673,7 +673,7 @@ int main(int argc, char **argv)
           Parameter_Space_Write_Min_Max_Values (Space, &Table );
           printf("\n");
         }
-
+	/* Main loop procedure */
         if (j == 0) {
 	           Min_Value_0 = Inspecting_Solution_Driver( F );
 		   Min_Value   = Min_Value_0;

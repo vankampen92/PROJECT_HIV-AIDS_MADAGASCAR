@@ -95,6 +95,7 @@ typedef struct totalRateinfo
 #include <Definition_Numerical_Integration/numerical_Integration_Driver.h>
 #include <Definition_Numerical_Integration/Initial_Conditions_Numerical_Integration.h>
 #include <Definition_Numerical_Integration/ODE_Definitions/ODE_Definitions.h>
+#include <R_0_Definition/R_0_Function.h>
 
 #if defined CPGPLOT_REPRESENTATION
 /* Header file for Parameter Table dependent CPGPLOT plotting auxiliary functions */
