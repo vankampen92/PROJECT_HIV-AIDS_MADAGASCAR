@@ -281,12 +281,15 @@ gsl_rng * r; /* Global generator defined in main.c */
    -v3 11   Total Female Non Sexual Worker Disease Prevalence
 */
 
+double Determine_Turning_Point(double * x_Time, double * y_Time, int N);
+
 void Reading_Sexual_Workers_Numbers_and_Prevalences(double ** , double ** , double ** ,
 						    double ** , double ** , double ** );
 int main(int argc, char **argv)
 {
+  float x_Position, y_Position; 
   int No_of_PARAMETER_SETS;
-  int i, j, k, kk, n, l, z, p, key;
+  int i, j, k, kk, l, m, n, z, p, key;
   double value, Min_Value, Min_Value_0, Data_Value, Theory_Value;
   double Likelihood_Value, Average_Likelihood_Value, Standard_Error_Value, Ave, Var;
   Parameter_Table Table;
@@ -388,11 +391,11 @@ int main(int argc, char **argv)
   int No_of_INITIAL_YEARS = 1; // 11; (3 different initial years: 2000, 2001, and 2002)
   int No_of_CITIES = 11;       // 11;
 
-  char * City_Names[] = { "Antananarivo",  "Antsiranana",
-			  "Mahajanga",     "Toamasina",
-			  "Fianarantsoa",  "Toliary",
-			  "Taolagnaro",    "Moramanga",
-			  "Antsirabe",     "Morondava",
+  char * City_Names[] = { "Antananarivo", "Antsiranana",
+			  "Mahajanga",    "Toamasina",
+			  "Fianarantsoa", "Toliary",
+			  "Taolagnaro",   "Moramanga",
+			  "Antsirabe",    "Morondava",  
 			  "Nosy_Be" };
 
   char * City_Short_Names[] = { "Anta",  "Ants",
@@ -401,7 +404,11 @@ int main(int argc, char **argv)
 				"Taol",  "Mora",
 				"Aabe",  "Moro",
 				"Nosy" };
-  
+
+  char ** City_Short_Names_2nd = (char **)calloc(No_of_CITIES, sizeof(char *) );
+  for(k=0; k<No_of_CITIES; k++)
+    City_Short_Names_2nd[k] = (char *)calloc(10, sizeof(char) );
+ 
   /* B E G I N : Time Dependent Parameters, Observed Data, and Demo Parameters File Names */
   char * pF;
   char ** TIME_PARAMETERS_FILE = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
@@ -777,6 +784,7 @@ int main(int argc, char **argv)
   getchar();
 
   char * Out_Var_Symbol = (char *)calloc(10, sizeof(char) );
+  char * Out_Var_Label = (char *)calloc(100, sizeof(char) );
 
   /* Main CPGPLOT representaiton loop starts here. Again, it is a three level loop over:
      . k: Cities
@@ -818,7 +826,8 @@ int main(int argc, char **argv)
 	/* -v1  8   Total Female Disease Prevalence                   */
 	/* -v2  9   Total Male_Disease Prevalence                     */
 	/* -v3 11   Total Female Non Sexual Worker Disease Prevalence */
-	if( key == 10 || key == 8 || key == 9 || key == 11 ) {
+	/* -v4 7    Total Prevalence                                  */
+	if( key == 7 || key == 8 || key == 9 || key == 10 || key == 11 ) {
 
 	  Table.CPG->CPG_SCALE_Y   =  1;
 	  Table.CPG->CPG_RANGE_Y_0 =  0.0;
@@ -942,12 +951,13 @@ int main(int argc, char **argv)
 	  Table.CPG->CPG_RANGE_X_0 = 1999.5;         Table.CPG->CPG_RANGE_Y_0 =  0.0;
 	  Table.CPG->CPG_RANGE_X_1 = Time_1 + 0.5;   Table.CPG->CPG_RANGE_Y_1 =  1.0E+05;
 	  
-	// Prevalences:
-	/* -v0 10   Total Female Sexual Worker Disease Prevalence     */
-	/* -v1  8   Total Female Disease Prevalence                   */
-	/* -v2  9   Total Male_Disease Prevalence                     */
-	/* -v3 11   Total Female Non Sexual Worker Disease Prevalence */
-	  if( key == 10 || key == 8 || key == 9 || key == 11 ) { 
+	  // Prevalences:
+	  /* -v0 10   Total Female Sexual Worker Disease Prevalence     */
+	  /* -v1  8   Total Female Disease Prevalence                   */
+	  /* -v2  9   Total Male_Disease Prevalence                     */
+	  /* -v3 11   Total Female Non Sexual Worker Disease Prevalence */
+	  /* -v4 7    Total Prevalence                                  */
+	  if( key == 7 || key == 8 || key == 9 || key == 10 || key == 11 ) {
 	    Table.CPG->CPG_SCALE_Y   =  1;
 	    Table.CPG->CPG_RANGE_Y_0 =  0.0;
 	    Table.CPG->CPG_RANGE_Y_1 =  1.0; //0.5
@@ -1042,14 +1052,131 @@ int main(int argc, char **argv)
 	getchar();
       }
   }
+
+  // Plotting box plots of turning points and total prevalences
+  // Activating another window...
+  CPG__PANEL__X =  1;
+  CPG__PANEL__Y =  1;
+  Parameter_CPGPLOT * C = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES,
+							    No_of_CITIES, 0, CPG_DRIVER_NAME);
+  printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
   
+  Variable_Per    = (double **)calloc(No_of_PERCENTILES, sizeof(double *) );
+  for(j = 0; j < No_of_PERCENTILES; j++ )
+    Variable_Per[j] = (double *)calloc(No_of_CITIES, sizeof(double) );
+  
+  Variable = (double **)calloc(No_of_SETS_MAX, sizeof(double *) );
+  for(j = 0; j <  No_of_SETS_MAX; j++ )
+    Variable[j] = (double *)calloc(No_of_CITIES, sizeof(double) );
+
+  for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
+    key = Table.OUTPUT_VARIABLE_INDEX[i];
+    AssignCPGPLOT_Symbol_to_Output_Variables(key, Out_Var_Symbol, &Table);
+    AssignLabel_to_Output_Variables(key, Out_Var_Label, &Table);
+    
+    if( key == 7 || key == 8 || key == 9 || key == 10 || key == 11 ) {
+      
+      for(n = 0; n<No_of_INITIAL_YEARS; n++) {
+
+	I_Time = I_Time_Total - n;
+	Time_0 = 2000.0 + (double)n; // Time_1 will be defined by command line argument!!!
+	Ini_Year = Time_0;
+	    
+	for(kk=0; kk<2; kk++) {
+	  
+	  m = 0; SAME = 0; 
+	  for(k = 0; k<No_of_CITIES; k++) {
+	    if ( k != 8 ) {
+
+	      Realizations = REALIZATIONS[k][n];
+
+	      for(l=0; l < I_Time; l++) x_Data[l] = Ini_Year + l;
+	      
+	      for(j=0; j < Realizations; j++) { 
+		if (kk == 0 ) 
+		  Variable[j][0] = Determine_Turning_Point(x_Data,
+							   Temporal_Evolution[k][n][i][j],
+							   I_Time);
+		else
+		  Variable[j][0] = Temporal_Evolution[k][n][i][j][I_Time-1];
+	      }
+	      
+	      City_Short_Names_2nd[0][0]  = '\0';
+	      pF = strcat(City_Short_Names_2nd[0], City_Short_Names[k]);
+	 
+	      x_Data[0] = m + 1;
+	      Percentile_Calculation_Simple(x_Data, Variable, 1, Realizations,
+					    Per, No_of_PERCENTILES,
+					    Variable_Per);
+	      C->CPG_SCALE_X   = 1;              
+	      C->CPG_RANGE_X_0 = 0.5;            
+	      C->CPG_RANGE_X_1 = (double)No_of_CITIES - 0.5; 
+	      
+	      C->CPG_SCALE_Y   =  1;
+	      if(kk == 0) {    
+		C->CPG_RANGE_Y_0 =  2000.0;
+		C->CPG_RANGE_Y_1 =  2033.0;
+	      }
+	      else {
+		C->CPG_RANGE_Y_0 =  0.0;
+		C->CPG_RANGE_Y_1 =  1.0; //0.5
+	      }
+	      
+	      y_Position = C->CPG_RANGE_Y_0 - 0.19 * (C->CPG_RANGE_Y_1 - C->CPG_RANGE_Y_0);
+	      
+	      C->color_Index = 4; // blue
+	      
+	      if (kk == 0) {  
+		CPGPLOT___B_O_X___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T ( C, SAME, 1,
+									x_Data, Variable_Per,
+									No_of_PERCENTILES,
+									"City",
+									"Turning Point",
+									Out_Var_Label, 
+									C->CPG_SCALE_X,
+									C->CPG_SCALE_Y );
+	      }
+	      else {  
+		CPGPLOT___B_O_X___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T ( C, SAME, 1,
+									x_Data, Variable_Per,
+									No_of_PERCENTILES,
+									"City",
+									Out_Var_Symbol,
+									Out_Var_Label,  
+									C->CPG_SCALE_X,
+									C->CPG_SCALE_Y );
+	      }
+	      /* Annotating Short City Names */
+	      cpgsch(2.0);
+	      x_Position = x_Data[0];
+	      cpgptxt (x_Position, y_Position, 0.0, 0.5, City_Short_Names_2nd[0]);
+	      cpgsch(1.0);
+	      Press_Key(); 
+	      m++;
+	      SAME = 1; 
+	    }
+	  }
+	}	
+      }	
+    }
+  }
+
+  for(j = 0; j < No_of_PERCENTILES; j++ )
+    free(Variable_Per[j]);
+  free(Variable_Per);
+  
+  for(j = 0; j < Realizations; j++ )
+    free(Variable[j]);
+  free(Variable);
+  
+  #if defined CPGPLOT_REPRESENTATION
+  P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( C, SUB_OUTPUT_VARIABLES ); 
+  #endif
+
   /* -------------- Saving LaTeX table of model parameters and R_0 ----------- */
   char ** File_Model_Parameters = (char **)calloc( 2, sizeof(char *) );
   File_Model_Parameters[0] = (char *)calloc( 50, sizeof(char) );
   File_Model_Parameters[1] = (char *)calloc( 50, sizeof(char) );
-  char ** City_Short_Names_2nd = (char **)calloc(No_of_CITIES, sizeof(char *) );
-  for(k=0; k<No_of_CITIES; k++)
-    City_Short_Names_2nd[k] = (char *)calloc(10, sizeof(char) );
     
   for(n=0; n<No_of_INITIAL_YEARS; n++) {
     
@@ -1158,7 +1285,7 @@ int main(int argc, char **argv)
   free(xn_Data[1]); free(yn_Data[1]);
   free(xn_Data);    free(yn_Data);
 
-  free(x_Data); free(y_Data); free(Out_Var_Symbol);
+  free(x_Data); free(y_Data); free(Out_Var_Symbol); free(Out_Var_Label);
 
   I_Time = I_Time_Total;
 #endif
@@ -1324,4 +1451,23 @@ void Reading_Sexual_Workers_Numbers_and_Prevalences(double ** Prevalence,
     free(CITY_NAMES);
     for( k = 0; k<No_of_CITIES; k++) free( Data_Matrix[k] );
     free(Data_Matrix);
+}
+
+double Determine_Turning_Point(double * x_Time, double * y_Time, int N)
+{
+  double x_Turning_Point;
+  
+  int i, i_Index; 
+  
+  double * Delta_Value = (double *)calloc( N, sizeof(double) );
+
+  for(i=0; i<N-1; i++)
+    Delta_Value[i] = (y_Time[i+1] - y_Time[i])/(x_Time[i+1] - x_Time[i]);
+
+  double Max_Delta = vector_MAX_Index_double(Delta_Value, 0, N-1, &i_Index); 
+  x_Turning_Point  = x_Time[i_Index];
+
+  free(Delta_Value);
+
+  return(x_Turning_Point); 
 }
