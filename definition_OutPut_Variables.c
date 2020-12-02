@@ -9,6 +9,8 @@ double definition_Scan_Function( Parameter_Table * P )
 
   x = definition_OutPut_Variables( j, y, 0.0, P );
 
+  // x = R_0_Function( P ); 
+  
   return (x);
 }
 

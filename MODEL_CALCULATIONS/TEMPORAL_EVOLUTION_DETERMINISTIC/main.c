@@ -52,6 +52,12 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    . ~S ./X2W2SILD-YSILD -y0 1 -sP 20 -I0 21 -H21 1.0 -m0 0.8 -M0 1.2 -A0 0.01  -I1 0 -H0 90.0 -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0 -m2 96.0 -M2 120.0 -A2 0.1  -I3 12 -H12 9  -m3 1.0 -M3 20.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 100.0 -A4 0.01  -I5 16 -H16 0.2  -m5 0.0 -M5 0.99  -A5 0.01  -I6 17 -H17 0.5  -m6 0.0 -M6 0.99  -A6 0.01  -I7 1 -H1 0.002  -m7 0.0 -M7 0.005 -A7 0.001  -I8 9 -H9 0.001 -m8 0.0 -M8 0.005 -A8 0.001   -I9 5 -H5 1.5  -m9 0.5 -M9 12.0  -A9 0.1  -I10 6  -H6 0.2  -m10 0.1 -M10 1.0 -A10 0.01  -I11 15 -H15 10.0  -m11 1.0 -M11 100.0  -A11 0.1  -I12 10 -H10  0.01 -m12 0.0 -M12 0.05 -A12 0.01  -I13 11 -H11 0.01 -m13 0.0 -M13 0.05  -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05  -A14 0.01  -I15 19 -H19  0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20  0.1 -m16 0.08 -M16 0.12 -A16 0.01  -I17 23 -H23 0.5  -m17 0.01 -M17 5.0 -A17 0.01  -I18 24 -H24  0.1  -m18 0.01 -M18 5.0 -A18 0.01  -I19 25 -H25  2013 -m19 2008.9 -M19 2013.0 -A19 0.1  -y0 1 -n 6 -v0 7 -v1 8 -v2 9 -v3 10 -v4 11 -v5 12 -G0 3 -G1 2 -tn 100 -t0 2000.0 -t1 2250 -t4 0 -xn 0 -xN 1.0E+05 -G5 1 -G6 0.0 -G7 0.3
 
+   Average parameter values (Noyse Be):
+   . ~$ ./X2W2SILD-YSILD -y0 1 -H21 1.01 -H0 108.14 -H8 108.19 -H12 7.27 -H7 50.53 -H16 0.235 -H17 0.398 -H1 0.002 -H9 0.001 -H5 2.02 -H6 0.103 -H15 36.538 -H10 0.040  -H11 0.021 -H18 0.035 -H19 0.016 -H20 0.101 -H2 717.14 -H13 828.07 -H4 0.01965 -H3 0.01901 -n 1 -v0 7 -G0 1 -G1 1 -tn 100 -t0 2000.0 -t1 2250 -t4 0 -xn 0 -xN 23457 -G5 1 -G6 0.0 -G7 0.3
+
+   Exploring the possbility of saddle point bifurcations: 
+   . ~$ ./X2W2SILD-YSILD -y0 1 -H21 1.01 -H0 108.14 -H8 108.19 -H12 7.27 -H7 50.53 -H16 0.235 -H17 0.398 -H1 0.0006 -H9 0.0003 -H5 2.02 -H6 0.103 -H15 36.538 -H10 0.040  -H11 0.021 -H18 0.035 -H19 0.016 -H20 0.101 -H2 717.14 -H13 828.07 -H4 0.01965 -H3 0.01901 -n 1 -v0 7 -G0 1 -G1 1 -tn 100 -t0 2000.0 -t1 2300 -t4 0 -xn 1 -xN 70461.4 -G5 1 -G6 0.0 -G7 0.1
+
    b. Time-dependent parameters (-t4 1):
 
    . ~$ ./X2W2SILD-YSILD -y0 1 -I0 21 -H21 1.0 -m0 0.8 -M0 1.2 -A0 0.01  -I1 0 -H0 100.0 -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0 -m2 96.0 -M2 120.0 -A2 0.1  -I3 12 -H12 9  -m3 1.0 -M3 20.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 100.0 -A4 0.01  -I5 16 -H16 0.2  -m5 0.0 -M5 0.99  -A5 0.01  -I6 17 -H17 0.5  -m6 0.0 -M6 0.99  -A6 0.01  -I7 1 -H1 0.002  -m7 0.0 -M7 0.005 -A7 0.001  -I8 9 -H9 0.001 -m8 0.0 -M8 0.005 -A8 0.001   -I9 5 -H5 1.5  -m9 0.5 -M9 12.0  -A9 0.1  -I10 6  -H6 0.2  -m10 0.1 -M10 1.0 -A10 0.01  -I11 15 -H15 10.0  -m11 1.0 -M11 100.0  -A11 0.1  -I12 10 -H10  0.01 -m12 0.0 -M12 0.05 -A12 0.01  -I13 11 -H11 0.02 -m13 0.0 -M13 0.05  -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05  -A14 0.01  -I15 19 -H19  0.02 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20  0.1 -m16 0.08 -M16 0.12 -A16 0.01  -I17 23 -H23 0.5  -m17 0.01 -M17 5.0 -A17 0.01  -I18 24 -H24  0.1  -m18 0.01 -M18 5.0 -A18 0.01  -I19 25 -H25  2013 -m19 2008.9 -M19 2013.0 -A19 0.1  -n 6 -v0 7 -v1 8 -v2 9 -v3 10 -v4 11 -v5 12 -G0 3 -G1 2 -tn 17 -t0 2000.0 -t1 2016 -t4 1 -xn 0 -xN 1.0E+05 -DP 5 -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -G5 1 -G6 0.0 -G7 1.0 -Fn 1 -F0 Time_Dependent_Parameters_Corrected_Antananarivo.dat
@@ -79,7 +85,9 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    b. Time-dependent parameters:
 
-   . ~$ ./X_-Y_ -y0 2 -Fn 1 -F0 "Time_Dependent_Parameters_Corrected_Antananarivo.dat" -n 1 -v0 6 -G0 1 -G1 1 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xN 715506 -G0 1 -G1 1 -G2 1 -G3 1990.0 -G4 2019 -G5 1 -G6 0.0 -G7 2000000 -DP 4 -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0
+   . ~$ ./X_-Y_ -y0 2 -Fn 1 -F0 "Time_Dependent_Parameters_Corrected_Antananarivo.dat" -n 1 -v0 6 -G0 1 -G1 1 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xN 418109 -G0 1 -G1 1 -G2 1 -G3 1990.0 -G4 2019 -G5 1 -G6 0.0 -G7 2000000 -DP 4 -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0
+
+   . ~$ ./X_-Y_ -y0 2 -Fn 1 -F0 "Time_Dependent_Parameters_Corrected_Antananarivo.dat" -n 1 -v0 6 -G0 1 -G1 1 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xN 418109 -G2 1 -G3 1990.0 -G4 2034 -G5 1 -G6 0.0 -G7 2000000 -DP 4 -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0
 
    Compilation (example 3):
 
@@ -159,8 +167,15 @@ int main(int argc, char **argv)
     Time_Dependence_Control_Alloc(&Time, &Time_Dependence, &Table,
 				  I_Time, TIME_DEPENDENT_PARAMETERS, No_of_COVARIATES);
 
-    int No_of_EMPIRICAL_TIMES = 17;
-    // Number of columns in the data files of time-dependent parameters
+    /* No_of_EMPIRICAL_TIMES should match the no of columns in Time Dependent Parameter file */
+    /* The time dependent parameter file is given as input agument: 
+       -F0 "Time_Dependent_Parameters_Corrected_Antananarivo.dat"
+       If it extrapolated, then No_of_EMPIRICAL_TIMES = 34;    
+       If it it not, then       No_of_EMPIRICAL_TIMES = 17;
+    */    
+    int No_of_EMPIRICAL_TIMES = 34;    
+    // int No_of_EMPIRICAL_TIMES = 17; 
+    
     Time_Dependence_Control_Upload(&Time, &Time_Dependence, &Table,
 				   I_Time, No_of_EMPIRICAL_TIMES,
                                    TIME_DEPENDENT_PARAMETERS, TYPE_of_TIME_DEPENDENCE,
@@ -200,7 +215,16 @@ int main(int argc, char **argv)
 								Initial_Female_Sexual_Workers,
 								Initial_Female_Sexual_Workers_Infected);
   }
+  else if( TYPE_of_MODEL == 2 ) {
+
+    // Initial Population as given by input argument -xN [Value]
+    
+    Initial_Condition_from_Value_into_Parameter_Table (&Table,
+						       Table.INITIAL_TOTAL_POPULATION);
+  }
   else {
+    assert(TYPE_of_MODEL == 3);
+    
     double Female_Sexual_Worker_Population = 1000.0;
     Initial_Condition_from_Value_into_Parameter_Table (&Table,
 						       Female_Sexual_Worker_Population);
@@ -238,7 +262,7 @@ int main(int argc, char **argv)
 #endif
 
   if( SUB_OUTPUT_VARIABLES == 1 && variable_0 == 7) {// Only when Total Prevalence
-                                                     // is the plotted output variable
+                                                     // is the only plotted output variable
   /* BEGIN : -------------------------------------------------------------------------
      Annotating sigmoidal function (only if -n 1, this is, SUB_OUTPUT_VARIABLES == 1)
   */

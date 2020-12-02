@@ -13,7 +13,9 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    Parameters have been estimated in three rounds. First, parameters F_X, F_Y, 
    \delta_X and \delta_Y have been estimated from demographic data and play the 
-   role of time-dependent extern parameters driving the system. See directory:
+   role of time-dependent extern parameters driving the system. See directories:
+
+   ./TEMPORAL_EVOLUTION_POPULATION
 
    ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
@@ -33,9 +35,16 @@ gsl_rng * r; /* Global generator defined in main.c */
    Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
 
    Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
-   
-   Finally, the disease-related parameters have been estimated with code 
-   in: 
+
+   Parameter configurations are saved with files of the type:
+
+   Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
+
+   Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat
+
+   These files are not used in the main code. They are only use to make 
+   the full model parameters estimation. The disease-related parameters have 
+   been estimated with code in: 
    
    ./TEMPORAL_EVOLUTION_INI_YEAR_CALCULATION
   
@@ -48,9 +57,33 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    Full_Parameter_Set_[Name-of-the-City]_[Year]_[Hypothesis].dat
 
-   The goal of the main function code here is to read files of these kind, 
-   which have been ordered acording to their goodness-of-fit, and then visually 
-   inspect the quality of the generated solutions against observations.
+   Demographic parameters are embeded in these type of files. 
+
+   This main code here read the final files of these kind, which have been ordered 
+   according to their goodness-of-fit, and visually inspect the numerically generated, 
+   predicted solutions against observations. To specify the different hypothesis, 
+   two extra input argument are used: 
+
+   -Fn 2 -F0 [TYPE_of_HYPOTHESIS] -F1 [TYPE_of_SEARCH]  
+
+   where [TYPE_of_HYPOTHESIS] can be:
+   
+   . _Sigmoidal
+   . _Sigmoidal_Cn with n in {5,6}
+   . _Sigmoidal_Cn with n in {5,6}
+   . _Sigmoidal
+   . _Sigmoidal
+   . ...
+
+   and [TYPE_of_SEARCH] can be 
+   
+   . HI
+   . LO
+   . (nothing)
+   
+   The final goal of this main function is to visually inspect the quality of the 
+   generated solutions against observations between 2000 and 2016 (no extrapolation 
+   is conducted).
 
    Compilation:
 
@@ -86,7 +119,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    L171: SIGMOIDAL = 0     (line L171 of code is only approx.) 
 
-   A. Parameters are searched under the hypothesis of constant ratio of female
+   A. Parameters were searched under the hypothesis of constant ratio of female
    sexual workers to total female population: 
 
    Exectution: (Time-dependent parameters: -t4 1)
@@ -124,7 +157,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 100 -sP 17  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -G0 1 -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -tE 2.0
 
-   B. Parameters are searched under the hypothesis of ratio of female
+   B. Parameters were searched under the hypothesis of ratio of female
    sexual workers to total female population following a sigmoidal curve 
    with a break point in 2011.0 and smoothness parameters 0.1. This estimates
    are generated in ./OBSERVED_DATA_FILES_PREPARATION and resulting files 
@@ -170,7 +203,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 // Arguments controling type of time dependence of model parameters.
    / -Fn 1 -F0 ../../DATA_FILES/2019.05.31_Demographic_Parameters_per_City_NLL.dat
 
-   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 100 -sP 20  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 17  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0  -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 100 -sP 20  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 17  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0  -tE 2.0
 
    For both A and B hypothesis, it is possible to plot as output variables also other variables. 
    For instance:
@@ -199,7 +232,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    -v6  9   Total Male_Disease Prevalence
    -v7 10   Total Female Sexual Worker Disease Prevalence
    -v8 12   Female Sexual Worker Fraction
-
+   -v9 14   Total Female Sexual Worker Infection
 
    C. Parameters are searched under the same hypothesis as B, but all parameter ranges are chosen 
    to be maximally constrained in agreement with  the information we have about the behavior of 
@@ -209,7 +242,8 @@ gsl_rng * r; /* Global generator defined in main.c */
    
    ./OBSERVED_DATA_FILES_PREPARATION 
    
-   and resulting files are *_Sigmoidal.dat files.  
+   and resulting files are *_Sigmoidal.dat files. These files contain pseudo data generated 
+   with compatibility with observation under several plausible hypothesis.   
    
    In this case, the set of demographic parameters include three new parameters controling 
    a break point in parameters Sigma_0 and Sigma_1. These three parameters are A_0, L_0 and 
@@ -263,7 +297,16 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -G0 1  -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1  // Arguments Controling Numerical Integration
    / -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 // Arguments controling type of time dependence of model parameters.
 
-   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 10 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 10 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
+
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 1 -G1 3 -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
+
+   Last example: the three output variables are also observed variables:
+
+   -v0  6   Total Population
+   -v1  4   Total Female Sexual Worker Population
+   -v2 14   Total Female Sexual Worker Infection
+
 */
 
 int main(int argc, char **argv)
@@ -276,10 +319,14 @@ int main(int argc, char **argv)
   Time_Control Time;
   Time_Dependence_Control Time_Dependence;
   P_ARG = &Table;
-  int SIGMOIDAL;
 
-  SIGMOIDAL = 1;
-  
+  char * pF;
+  int SIGMOIDAL;
+  char * Configuration_Parameter_File = (char *)calloc(500, sizeof(char) );
+  char * Configuration_Parameter_Filtered = (char *)calloc(500, sizeof(char) );
+  char * Observation_Data_File        = (char *)calloc(500, sizeof(char) );
+  char * Time_Evolution_Data_File     = (char *)calloc(500, sizeof(char) );
+
 #include "default.c"
 
   /* Command line arguments */
@@ -289,6 +336,54 @@ int main(int argc, char **argv)
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
+
+  #if defined CPGPLOT_REPRESENTATION
+  Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
+  printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
+
+  /* Hypothesis definition: Sigmoidal (SIGMOIDAL = 1) vs Constant-Fraction (SIGMOIDAL = 0)
+     
+     This following 5 lines control the labelling of the files containing 
+     optimal parametric configurations of the type: 
+
+     Full_Parameter_Set_[CITY_NANE]_2000_[TYPE_of_HYPOTHESIS]_Ordered.dat
+
+     where here, for instance, [TYPE_of_HYPOTHESIS] is "_Sigmoidal_LO_Ordered.dat"
+  */
+  SIGMOIDAL = 1;
+
+  if(SIGMOIDAL == 1) {
+    Configuration_Parameter_File[0] = '\0';
+    Configuration_Parameter_Filtered[0]    = '\0';
+    Observation_Data_File[0]        = '\0';
+    Time_Evolution_Data_File[0]     = '\0';
+
+    pF = strcpy( Observation_Data_File, Table.CPG->CPG_File->Name_of_FILE[0]);
+    pF = strcat( Observation_Data_File, "_Exponential.dat");
+    
+    pF = strcpy( Configuration_Parameter_File, Table.CPG->CPG_File->Name_of_FILE[0]);
+    if (Table.CPG->CPG_File->Name_of_FILE[1][0] == 'H' || Table.CPG->CPG_File->Name_of_FILE[1][0] == 'L') {
+      pF = strcat( Configuration_Parameter_File, "_");
+      pF = strcat( Configuration_Parameter_File, Table.CPG->CPG_File->Name_of_FILE[1]);
+    }
+    pF = strcat( Configuration_Parameter_File, "_Ordered.dat");
+
+    pF = strcpy( Configuration_Parameter_Filtered, Table.CPG->CPG_File->Name_of_FILE[0]);
+    if (Table.CPG->CPG_File->Name_of_FILE[1][0] == 'H' || Table.CPG->CPG_File->Name_of_FILE[1][0] == 'L') {
+      pF = strcat( Configuration_Parameter_Filtered, "_");
+      pF = strcat( Configuration_Parameter_Filtered, Table.CPG->CPG_File->Name_of_FILE[1]);
+    }
+    pF = strcat( Configuration_Parameter_Filtered, "_Filtered.dat");
+
+    pF = strcpy( Time_Evolution_Data_File, Table.CPG->CPG_File->Name_of_FILE[0]);
+    if (Table.CPG->CPG_File->Name_of_FILE[1][0] == 'H' || Table.CPG->CPG_File->Name_of_FILE[1][0] == 'L') {
+      pF = strcat( Time_Evolution_Data_File, "_");
+      pF = strcat( Time_Evolution_Data_File, Table.CPG->CPG_File->Name_of_FILE[1]);
+    }
+    pF = strcat( Time_Evolution_Data_File, "_Exponential.dat");
+  }
+  printf(" Parameter_Table structure has been correctly allocated and initiated\n");
+#endif
 
   Parameter_Model * Initial_Guess = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
   P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, Initial_Guess);
@@ -344,11 +439,6 @@ int main(int argc, char **argv)
   printf("Parameter_Space structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
 
-#if defined CPGPLOT_REPRESENTATION
-  Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
-  printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
-#endif
-
 #include <gsl_random_number_Setup.c>
 #if defined VERBOSE
   /* BEGIN: Checking Random Number Generator Setup */
@@ -368,7 +458,7 @@ int main(int argc, char **argv)
     Empirical_Data_Matrix[i] = (double *)calloc( I_Time, sizeof(double) );
   }
 
-  int No_of_SETS_MAX  = 35000;
+  int No_of_SETS_MAX  = 50000;
   int No_of_INITIAL_YEARS = 1;  // 11; // 11;
   int No_of_CITIES = 11;        // 11;
   
@@ -387,7 +477,6 @@ int main(int argc, char **argv)
 			  "Nosy_Be" };
   
   /* B E G I N : Time Dependent Parameters, Observed Data, and Demo Parameters File Names */
-  char * pF;
   char ** TIME_PARAMETERS_FILE = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
   char ** OBSERVED_DATA_FILE   = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
   char ** PARAMETER_SET_FILE   = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files */
@@ -491,7 +580,7 @@ int main(int argc, char **argv)
       pF = strcat(LIKELIHOOD_VALUES[k], City_Names[k]);
       pF = strcat(LIKELIHOOD_VALUES[k], "_");
       pF = strcat(LIKELIHOOD_VALUES[k], Year);
-      if( SIGMOIDAL == 1 ) pF = strcat(LIKELIHOOD_VALUES[k], "_Sigmoidal.dat");
+      if( SIGMOIDAL == 1 ) pF = strcat(LIKELIHOOD_VALUES[k], Configuration_Parameter_File);
       else                 pF = strcat(LIKELIHOOD_VALUES[k], ".dat");
       LIKELIHOOD[k] = fopen(LIKELIHOOD_VALUES[k], "w");
 
@@ -500,7 +589,7 @@ int main(int argc, char **argv)
       pF = strcat(PARAMETER_SET_FILE[k], City_Names[k]);
       pF = strcat(PARAMETER_SET_FILE[k], "_");
       pF = strcat(PARAMETER_SET_FILE[k], Year);
-      if (SIGMOIDAL == 1) pF = strcat(PARAMETER_SET_FILE[k], "_Sigmoidal_Ordered.dat");
+      if (SIGMOIDAL == 1) pF = strcat(PARAMETER_SET_FILE[k], Configuration_Parameter_File);
       else                pF = strcat(PARAMETER_SET_FILE[k], "_Ordered.dat");
 
       DEF_PARAMETER_SET[k][0] = '\0';
@@ -508,7 +597,7 @@ int main(int argc, char **argv)
       pF = strcat(DEF_PARAMETER_SET[k], City_Names[k]);
       pF = strcat(DEF_PARAMETER_SET[k], "_");
       pF = strcat(DEF_PARAMETER_SET[k], Year);
-      if (SIGMOIDAL == 1 )    pF = strcat(DEF_PARAMETER_SET[k], "_Sigmoidal_Filtered.dat");
+      if (SIGMOIDAL == 1 )    pF = strcat(DEF_PARAMETER_SET[k], Configuration_Parameter_Filtered);
       else                    pF = strcat(DEF_PARAMETER_SET[k], "_Filtered.dat");
       DEMO[k]       = fopen(DEF_PARAMETER_SET[k], "w");
 
@@ -521,8 +610,8 @@ int main(int argc, char **argv)
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "_");
 	key = Table.OUTPUT_VARIABLE_INDEX[i];
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], Table.Output_Variable_Symbol[key]); 
-	if( SIGMOIDAL == 1 ) pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "_Sigmoidal.dat");
-	else                 pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], ".dat");
+	if( SIGMOIDAL == 1 ) pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i],Time_Evolution_Data_File);
+	else                 pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i],".dat");
       }
       
       Reading_Model_Parameters_from_File(PARAMETER_SET_FILE[k], Demo_Data,
@@ -565,7 +654,7 @@ int main(int argc, char **argv)
       pF = strcat(OBSERVED_DATA_FILE[k], City_Names[k]);
       pF = strcat(OBSERVED_DATA_FILE[k], "_");
       pF = strcat(OBSERVED_DATA_FILE[k], Year);
-      if( SIGMOIDAL == 1)  pF = strcat(OBSERVED_DATA_FILE[k], "_Sigmoidal_Exponential.dat");
+      if( SIGMOIDAL == 1)  pF = strcat(OBSERVED_DATA_FILE[k], Observation_Data_File);
       else                 pF = strcat(OBSERVED_DATA_FILE[k], "_Exponential.dat");
 
       I_Time = I_Time_Total - n;
@@ -818,9 +907,9 @@ int main(int argc, char **argv)
 	Table.CPG->CPG_RANGE_X_0 = 1999.5;   Table.CPG->CPG_RANGE_Y_0 =  0.0;
 	Table.CPG->CPG_RANGE_X_1 = 2016.5;   Table.CPG->CPG_RANGE_Y_1 =  1.0E+05;
 	
-	if( i == (SUB_OUTPUT_VARIABLES-1) )  Table.CPG->CPG_SCALE_Y   =  1;
-	if( i == (SUB_OUTPUT_VARIABLES-1) )  Table.CPG->CPG_RANGE_Y_0 =  0.0;
-	if( i == (SUB_OUTPUT_VARIABLES-1) )  Table.CPG->CPG_RANGE_Y_1 =  0.7;
+	/* if( i == (SUB_OUTPUT_VARIABLES-1) )  Table.CPG->CPG_SCALE_Y   =  1;   */
+	/* if( i == (SUB_OUTPUT_VARIABLES-1) )  Table.CPG->CPG_RANGE_Y_0 =  0.0; */
+	/* if( i == (SUB_OUTPUT_VARIABLES-1) )  Table.CPG->CPG_RANGE_Y_1 =  0.2; */
 
 	for( j = 0; j<Realizations; j++ ) {
 	  
@@ -1053,6 +1142,11 @@ int main(int argc, char **argv)
   free(sn);
 
   free(Year);
+
+  free(Observation_Data_File);
+  free(Time_Evolution_Data_File);
+  free(Configuration_Parameter_File);
+  free(Configuration_Parameter_Filtered); 
 
   for(i=0; i<No_of_SETS_MAX; i++) free(Demo_Data[i]);
   free(Demo_Data);

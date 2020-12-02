@@ -35,7 +35,7 @@ void AssignCPGPLOT_Symbol_to_Model_Parameters(int j, char * Label, Parameter_Tab
       break;
     case 12: p=strcat(Label,"\\gy");      /* Contact rate relative increase for sexual workers   *//* 12 */
       break;
-    case 13: p=strcat(Label,"F\\dY\\u");      /* Total no of females entering sexual age per year    *//* 13 */
+    case 13: p=strcat(Label,"F\\dX\\u");      /* Total no of females entering sexual age per year    *//* 13 */
       break;
     case 14: p=strcat(Label,"n\\d\\gm\\u");     /* No of latent subclasses during quasi-latent phase   *//* 14 */
       break;

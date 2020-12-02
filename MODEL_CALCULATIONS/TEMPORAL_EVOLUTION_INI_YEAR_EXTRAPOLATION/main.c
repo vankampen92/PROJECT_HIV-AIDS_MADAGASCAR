@@ -14,7 +14,9 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    Parameters have been estimated in three rounds. First, parameters F_X, F_Y,
    \delta_X and \delta_Y have been estimated from demographic data and play the
-   role of time-dependent extern parameters driving the system. See directory:
+   role of time-dependent extern parameters driving the system. See directories:
+   
+   ./TEMPORAL_EVOLUTION_POPULATION
 
    ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
@@ -28,15 +30,16 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    ./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
 
-   Parameter configurations were then saved and now read from files of
-   the type:
+   Parameter configurations were then saved and now read from the gnererated 
+   files of the type:
 
    Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
 
    Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat
 
-   Finally, the disease-related parameters have been estimated with code
-   in:
+   These files are not used in this main code. They are only use to make 
+   the full model parameters estimation. The disease-related parameters have 
+   been estimated with code in: 
 
    ./TEMPORAL_EVOLUTION_INI_YEAR_CALCULATION
 
@@ -49,11 +52,30 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    Full_Parameter_Set_[Name-of-the-City]_[Year]_[Hypothesis].dat
 
-   This main code here read files of these kind, which have been ordered acording to
-   their goodness-of-fit, and visually inspect the numerically generated, predicted
-   solutions against observations.
+   Demographic parameters are embeded in these type of files. 
 
+   This main code here read the final files of these kind, which have been ordered 
+   according to their goodness-of-fit, and visually inspect the numerically generated, 
+   predicted solutions against observations (including extrapolated prediction up to 
+   2033). To specify the different hypothesis, two extra input arguments are used: 
 
+   -Fn 2 -F0 [TYPE_of_HYPOTHESIS] -F1 [TYPE_of_SEARCH]  
+
+   where [TYPE_of_HYPOTHESIS] can be:
+   
+   . _Sigmoidal
+   . _Sigmoidal_Cn with n in {5,6}
+   . _Sigmoidal_Cn with n in {5,6}
+   . _Sigmoidal
+   . _Sigmoidal
+   . ...
+
+   and [TYPE_of_SEARCH] can be 
+   
+   . HI
+   . LO
+   . (nothing)
+   
    Compilation:
 
    . ~$ make X_MODEL=X2W2SILD Y_MODEL=YSILD
@@ -86,7 +108,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    into
 
-   L171: SIGMOIDAL = 0     (line L171 of code is only approx.)
+   L171: SIGMOIDAL = 0     (line L171 of code is only approx!)
 
    A. Parameters are searched under the hypothesis of constant ratio of female
    sexual workers to total female population:
@@ -121,7 +143,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -G0 1  -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1  // Arguments Controling Numerical Integration
    / -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 // Arguments controling type of time dependence of model parameters.
 
-   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 100 -sP 17  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -G0 1 -G1 3 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 100 -sP 17  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -G0 1 -G1 3 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -tE 2.0
 
    B. Parameters are searched under the hypothesis of ratio of female
    sexual workers to total female population following a sigmoidal curve
@@ -169,7 +191,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 // Arguments controling type of time dependence of model parameters.
    / -Fn 1 -F0 ../../DATA_FILES/2019.05.31_Demographic_Parameters_per_City_NLL.dat
 
-   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 100 -sP 20  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 17  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0  -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 100 -sP 20  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 17  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0  -tE 2.0
 
    For both A and B hypothesis, it is possible to plot as output variables also other variables.
    For instance:
@@ -261,23 +283,23 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -G0 1  -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1  // Arguments Controling Numerical Integration
    / -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 // Arguments controling type of time dependence of model parameters.
 
-   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 3 -n 6 -v0 6 -v1 4 -v2 14 -v3 9 -v4 10 -v5 11  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 3 -n 6 -v0 6 -v1 4 -v2 14 -v3 9 -v4 10 -v5 11  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
 
    -v4 17 -v5 18  are sigma_0 and sigma_1 time-dependent parameters
 
    -v3 9 -v4 10 -v5 11 are prevanlences in male, sw female and nsw female populations, respectively.
 
    If some of the observed variables are not to be represented, then redefine the list of output
-   variables. IMPORTANT: Recall that the observed output variables should occupied always the first positions
-   in the output vaiable list.  Example:
+   variables. IMPORTANT: Recall that the observed output variables should occupied always the first positions in the output vaiable list.  Example:
 
-   . ~$ ./X2W2SILD-YSILD -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 10 -v1 8 -v2 9 -v3 11 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 10 -v1 8 -v2 9 -v3 7 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
 
    where the following prevalences are shown:
    -n   4   Number of output variables
    -v0 10   Total Female Sexual Worker Disease Prevalence
    -v1  8   Total Female Disease Prevalence
    -v2  9   Total Male_Disease Prevalence
+   -v3  7   Total Disease Prevalence
    -v3 11   Total Female Non Sexual Worker Disease Prevalence
 */
 
@@ -285,6 +307,10 @@ double Determine_Turning_Point(double * x_Time, double * y_Time, int N);
 
 void Reading_Sexual_Workers_Numbers_and_Prevalences(double ** , double ** , double ** ,
 						    double ** , double ** , double ** );
+
+void Saving_2012_2016_2033_Percentiles (FILE * , double * , int , double ** , int ,
+					int , char * , Parameter_Table * ); 
+
 int main(int argc, char **argv)
 {
   float x_Position, y_Position; 
@@ -299,14 +325,21 @@ int main(int argc, char **argv)
   double Initial_Observed_Adult_Population, Initial_Observed_Female_Sexual_Workers, Initial_Observed_Female_Sexual_Workers_Infected;
   double ** Variable;
   double ** Variable_Per;
-  int No_of_PERCENTILES = 5;
-  double Per[] = {0.05, 0.25, 0.5, 0.75, 0.95};
+  // int No_of_PERCENTILES = 5;
+  // double Per[] = {0.05, 0.25, 0.5, 0.75, 0.95};
+  int No_of_PERCENTILES = 3;
+  double Per[] = {0.1, 0.5, 0.9};
+
+  FILE * F = fopen("Percentiles_2012_2016_2033.dat", "w");
   
   P_ARG = &Table;
+
+  char * pF;
   int SIGMOIDAL;
-
-  SIGMOIDAL = 1;
-
+  char * Configuration_Parameter_File = (char *)calloc(500, sizeof(char) );
+  char * Observation_Data_File        = (char *)calloc(500, sizeof(char) );
+  char * Time_Evolution_Data_File     = (char *)calloc(500, sizeof(char) );
+  
 #include "default.c"
 
   /* Command line arguments */
@@ -315,8 +348,47 @@ int main(int argc, char **argv)
   #include "include.Output_Variables.default.aux.c"
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___A_L_L_O_C(   &Table );
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
-  printf(" Parameter_Table structure has been correctly allocated and initiated\n");
+  
+#if defined CPGPLOT_REPRESENTATION
+  Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
+  printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
 
+  /* Hypothesis definition: Sigmoidal (SIGMOIDAL = 1) vs Constant-Fraction (SIGMOIDAL = 0)
+     
+     This following 5 lines control the labelling of the files containing 
+     optimal parametric configurations of the type: 
+
+     Full_Parameter_Set_[CITY_NANE]_2000_[TYPE_of_HYPOTHESIS]_Ordered.dat
+
+     where here, for instance, [TYPE_of_HYPOTHESIS] is "_Sigmoidal_LO_Ordered.dat"
+  */
+  SIGMOIDAL = 1;
+
+  if(SIGMOIDAL == 1) {
+    Configuration_Parameter_File[0] = '\0';
+    Observation_Data_File[0]        = '\0';
+    Time_Evolution_Data_File[0]     = '\0';
+
+    pF = strcpy( Observation_Data_File, Table.CPG->CPG_File->Name_of_FILE[0]);
+    pF = strcat( Observation_Data_File, "_Exponential.dat");
+    
+    pF = strcpy( Configuration_Parameter_File, Table.CPG->CPG_File->Name_of_FILE[0]);
+    if (Table.CPG->CPG_File->Name_of_FILE[1][0] == 'H' || Table.CPG->CPG_File->Name_of_FILE[1][0] == 'L') {
+      pF = strcat( Configuration_Parameter_File, "_");
+      pF = strcat( Configuration_Parameter_File, Table.CPG->CPG_File->Name_of_FILE[1]);
+    }
+    pF = strcat( Configuration_Parameter_File, "_Ordered.dat");
+
+    pF = strcpy( Time_Evolution_Data_File, Table.CPG->CPG_File->Name_of_FILE[0]);
+    if (Table.CPG->CPG_File->Name_of_FILE[1][0] == 'H' || Table.CPG->CPG_File->Name_of_FILE[1][0] == 'L') {
+      pF = strcat( Time_Evolution_Data_File, "_");
+      pF = strcat( Time_Evolution_Data_File, Table.CPG->CPG_File->Name_of_FILE[1]);
+    }
+    pF = strcat( Time_Evolution_Data_File, "_Exponential.dat");
+  }
+  printf(" Parameter_Table structure has been correctly allocated and initiated\n");
+#endif
+  
   Parameter_Model * Initial_Guess = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
   P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, Initial_Guess);
   printf(" Parameter_Model structure 'Initial_Guess' has been correctly allocated and initiated\n");
@@ -370,12 +442,7 @@ int main(int argc, char **argv)
   Table.S = Space;
   printf("Parameter_Space structure has been correctly allocated and initiated\n");
   /*     E N D : ------------------------------------- */
-
-#if defined CPGPLOT_REPRESENTATION
-  Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
-  printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
-#endif
-
+  
 #include <gsl_random_number_Setup.c>
 #if defined VERBOSE
   /* BEGIN: Checking Random Number Generator Setup */
@@ -387,7 +454,7 @@ int main(int argc, char **argv)
   /*   END: Checking Random Number Generator Setup */
 #endif
 
-  int No_of_SETS_MAX  = 35000;
+  int No_of_SETS_MAX  = 50000;
   int No_of_INITIAL_YEARS = 1; // 11; (3 different initial years: 2000, 2001, and 2002)
   int No_of_CITIES = 11;       // 11;
 
@@ -410,7 +477,6 @@ int main(int argc, char **argv)
     City_Short_Names_2nd[k] = (char *)calloc(10, sizeof(char) );
  
   /* B E G I N : Time Dependent Parameters, Observed Data, and Demo Parameters File Names */
-  char * pF;
   char ** TIME_PARAMETERS_FILE = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
   char ** OBSERVED_DATA_FILE   = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
   char ** PARAMETER_SET_FILE   = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files */
@@ -526,9 +592,9 @@ int main(int argc, char **argv)
       pF = strcat(PARAMETER_SET_FILE[k], City_Names[k]);
       pF = strcat(PARAMETER_SET_FILE[k], "_");
       pF = strcat(PARAMETER_SET_FILE[k], Year);
-      if (SIGMOIDAL == 1) pF = strcat(PARAMETER_SET_FILE[k], "_Sigmoidal_Ordered.dat");
+      if (SIGMOIDAL == 1) pF = strcat(PARAMETER_SET_FILE[k], Configuration_Parameter_File);
       else                pF = strcat(PARAMETER_SET_FILE[k], "_Ordered.dat");
-
+	
       for(i=0; i<SUB_OUTPUT_VARIABLES; i++) {
 	TIME_EVOLUTION_FILE_NAME[k][i][0] = '\0';
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "Time_Evolution_Extrapolated_");
@@ -538,7 +604,7 @@ int main(int argc, char **argv)
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "_");
 	key = Table.OUTPUT_VARIABLE_INDEX[i];
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], Table.Output_Variable_Symbol[key]);
-	if( SIGMOIDAL == 1 ) pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "_Sigmoidal.dat");
+	if( SIGMOIDAL == 1 ) pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], Time_Evolution_Data_File);
 	else                 pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], ".dat");
       }
 
@@ -563,7 +629,7 @@ int main(int argc, char **argv)
       pF = strcat(OBSERVED_DATA_FILE[k], City_Names[k]);
       pF = strcat(OBSERVED_DATA_FILE[k], "_");
       pF = strcat(OBSERVED_DATA_FILE[k], Year);
-      if( SIGMOIDAL == 1)  pF = strcat(OBSERVED_DATA_FILE[k], "_Sigmoidal_Exponential.dat");
+      if( SIGMOIDAL == 1)  pF = strcat(OBSERVED_DATA_FILE[k], Observation_Data_File);
       else                 pF = strcat(OBSERVED_DATA_FILE[k], "_Exponential.dat");
 
       Reading_Observed_Data(OBSERVED_DATA_FILE[k], Empirical_Data_Matrix,
@@ -974,6 +1040,17 @@ int main(int argc, char **argv)
 					Per, No_of_PERCENTILES,
 					Variable_Per);
 
+	  Saving_Percentile_Time_Series( x_Data, I_Time, Variable_Per, No_of_PERCENTILES,
+					 key, City_Short_Names[k], 
+					 &Table );
+
+	  if( key == 7 || key == 10 ) { 
+	    Saving_2012_2016_2033_Percentiles (F,
+					       x_Data, I_Time, Variable_Per, No_of_PERCENTILES,
+					       key, City_Names[k],
+					       &Table);
+	  }
+
 	  for( j = 0; j<No_of_PERCENTILES; j++ ) {
 
 	    /*  0.50 Median */
@@ -1053,12 +1130,14 @@ int main(int argc, char **argv)
       }
   }
 
+
+  if (No_of_PERCENTILES == 5) { 
   // Plotting box plots of turning points and total prevalences
   // Activating another window...
   CPG__PANEL__X =  1;
   CPG__PANEL__Y =  1;
   Parameter_CPGPLOT * C = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES,
-							    No_of_CITIES, 0, CPG_DRIVER_NAME);
+							    No_of_CITIES, 0, "boxplot.ps/CPS");
   printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
   
   Variable_Per    = (double **)calloc(No_of_PERCENTILES, sizeof(double *) );
@@ -1085,6 +1164,7 @@ int main(int argc, char **argv)
 	for(kk=0; kk<2; kk++) {
 	  
 	  m = 0; SAME = 0; 
+	  FILE * fp = fopen("Total_Prevalences.dat", "w");
 	  for(k = 0; k<No_of_CITIES; k++) {
 	    if ( k != 8 ) {
 
@@ -1145,9 +1225,17 @@ int main(int argc, char **argv)
 									Out_Var_Label,  
 									C->CPG_SCALE_X,
 									C->CPG_SCALE_Y );
+
+		if (key == 10) { // Saving SW total prevalence (10); Total Prevalence (7)
+		  
+		  fprintf(fp, "%s\t%g\t%g\t%g\n",
+			  City_Short_Names[k],
+			  Variable_Per[0][0], Variable_Per[2][0], Variable_Per[4][0]); 
+	
+		}
 	      }
 	      /* Annotating Short City Names */
-	      cpgsch(2.0);
+	      cpgsch(1.5);
 	      x_Position = x_Data[0];
 	      cpgptxt (x_Position, y_Position, 0.0, 0.5, City_Short_Names_2nd[0]);
 	      cpgsch(1.0);
@@ -1156,11 +1244,12 @@ int main(int argc, char **argv)
 	      SAME = 1; 
 	    }
 	  }
-	}	
+	  fclose(fp);
+	}
       }	
     }
   }
-
+  
   for(j = 0; j < No_of_PERCENTILES; j++ )
     free(Variable_Per[j]);
   free(Variable_Per);
@@ -1172,6 +1261,7 @@ int main(int argc, char **argv)
   #if defined CPGPLOT_REPRESENTATION
   P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( C, SUB_OUTPUT_VARIABLES ); 
   #endif
+  } // Box plot only calculated if No_of_PERCENTILES is 5
 
   /* -------------- Saving LaTeX table of model parameters and R_0 ----------- */
   char ** File_Model_Parameters = (char **)calloc( 2, sizeof(char *) );
@@ -1349,6 +1439,10 @@ int main(int argc, char **argv)
 
   free(Year);
 
+  free(Observation_Data_File);
+  free(Time_Evolution_Data_File);
+  free(Configuration_Parameter_File); 
+
   for(i=0; i<No_of_SETS_MAX; i++) free(Demo_Data[i]);
   free(Demo_Data);
 
@@ -1383,6 +1477,7 @@ int main(int argc, char **argv)
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( &Table );
   /*  END : Freeing  All Memmory * * * * * * * * * * * * * * */
 
+  fclose(F); 
   printf("\nEnd of progam\n");
   return (0);
 }
@@ -1470,4 +1565,38 @@ double Determine_Turning_Point(double * x_Time, double * y_Time, int N)
   free(Delta_Value);
 
   return(x_Turning_Point); 
+}
+
+void Saving_2012_2016_2033_Percentiles (FILE * fp, double * x_Data, int N,
+					double ** Variable_Per, int No_of_PERCENTILES,
+					int key,
+					char * City_Name,
+					Parameter_Table * Table )
+{
+
+  fprintf(fp, "%s (%s):\n", City_Name, Table->Output_Variable_Symbol[key]);
+
+  if (No_of_PERCENTILES == 5) { 
+    
+    fprintf(fp, "%g\t%g\t%g\t%g\n",
+	    x_Data[12], Variable_Per[0][12], Variable_Per[2][12], Variable_Per[4][12] );
+    fprintf(fp, "%g\t%g\t%g\t%g\n",
+	    x_Data[16], Variable_Per[0][16], Variable_Per[2][16], Variable_Per[4][16] );
+    fprintf(fp, "%g\t%g\t%g\t%g\n",
+	    x_Data[33], Variable_Per[0][33], Variable_Per[2][33], Variable_Per[4][33] );
+    
+  }
+  else {
+    assert(No_of_PERCENTILES == 3);
+    
+    fprintf(fp, "%g\t%g\t%g\t%g\n",
+	    x_Data[12], Variable_Per[0][12], Variable_Per[1][12], Variable_Per[2][12] );
+    fprintf(fp, "%g\t%g\t%g\t%g\n",
+	    x_Data[16], Variable_Per[0][16], Variable_Per[1][16], Variable_Per[2][16] );
+    fprintf(fp, "%g\t%g\t%g\t%g\n",
+	    x_Data[33], Variable_Per[0][33], Variable_Per[1][33], Variable_Per[2][33] );
+
+  }
+  
+  fprintf(fp, "\n");
 }

@@ -85,7 +85,7 @@ void R_E_S_C_A_L_I_N_G___I_N_I_T_I_A_L___C_O_N_D_I_T_I_O_N_S ( Parameter_Table *
     Table->W1L__0 = Y[W1L];
     Table->W1D__0 = Y[W1D];
 }
-
+     
 void Initial_Condition_from_Data_into_Parameter_Table (Parameter_Table * Table, double ** Data)
 {
   /* Initial conditions from empirical data at the initial time ( -xn 0 ) */
@@ -134,7 +134,7 @@ void Initial_Condition_from_Data_into_Parameter_Table (Parameter_Table * Table, 
     Table->W1L__0 = 4.0/5.0 * 1.0/3.0 * Female_Sexual_Worker_Population_Infected;
     Table->W1D__0 = 4.0/5.0 * 1.0/3.0 * Female_Sexual_Worker_Population_Infected;
 }
-
+     
 void Initial_Condition_from_Initial_Values_into_Parameter_Table (Parameter_Table * Table,
 								 double Initial_Adult_Population, double Initial_Female_Sexual_Workers, double Initial_Female_Sexual_Workers_Infected )
 {

@@ -31,3 +31,10 @@ int Checking_for_Parameter_Boundaries( Parameter_Fitting * F, const gsl_vector *
 double Inspecting_Likelihood_of_Final_Solution( const gsl_vector * x, void * Par ); 
 
 double Inspecting_Solution_Driver( Parameter_Fitting * F ); 
+
+int generic_Function_Parameter_2Dim_Scan( Parameter_Table * P, 
+					  int No_of_POINTS_1, int Input_Parameter_1,
+					  int No_of_POINTS_2, int Input_Parameter_2,
+					  double (* GENERIC_FUNCTION) (Parameter_Table *),
+					  double * W_GRID, 
+					  char * generic_Function_Parameter_Scan_Output_File ); 

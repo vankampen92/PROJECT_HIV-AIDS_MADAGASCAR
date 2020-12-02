@@ -60,7 +60,7 @@ void STAT_memory_Corrupcion_Check_Utility()
      de-allocation requests make the running program 
      totally crash (segmentation fault) because memmory 
      handling has been corrupted. By calling this 
-     funciton all over your code, you will be able to track 
+     function all over your code, you will be able to track 
      down when the unadverted corruption actually occurred.
      
      You may call this function by writing an only line of code:

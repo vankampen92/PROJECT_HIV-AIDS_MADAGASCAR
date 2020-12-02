@@ -8,4 +8,4 @@ find . -type f -name '*.eps' -delete
 find . -type f -name '*.so' -delete
 # find . -type f -name '*.a' -delete
 find . -type f -name '*~' -delete
-find . -type f -executable -delete
+# find . -type f -executable -delete

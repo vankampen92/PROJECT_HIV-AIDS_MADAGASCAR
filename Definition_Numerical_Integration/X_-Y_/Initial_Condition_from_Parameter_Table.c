@@ -64,7 +64,7 @@ void Initial_Condition_from_Sex_Biased_Data_into_Parameter_Table (Parameter_Tabl
     Table->XS__0 = Data[0][0] * x0_Factor;
     Table->YS__0 = Data[0][0] * y0_Factor;  
 }
-
+ 
 void Initial_Condition_from_Value_into_Parameter_Table (Parameter_Table * Table, double Value)
 {
   /* Initial conditions from empirical data at the initial time ( -xn 0 ) */
@@ -74,3 +74,16 @@ void Initial_Condition_from_Value_into_Parameter_Table (Parameter_Table * Table,
     Table->XS__0 = Value/2.0;
     Table->YS__0 = Value/2.0; 
 }
+
+void Initial_Condition_from_Initial_Values_into_Parameter_Table (Parameter_Table * Table,
+								 double Initial_Adult_Population,
+								 double Dummy_0, double Dummy_1 )
+{
+  /* Initial conditions from empirical data at the initial time ( -xn 0 ) */
+  
+    Table->INITIAL_TOTAL_POPULATION  = Initial_Adult_Population;
+
+    Table->XS__0 = Initial_Adult_Population/2.0;
+    Table->YS__0 = Initial_Adult_Population/2.0; 
+}
+    

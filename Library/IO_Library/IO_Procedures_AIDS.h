@@ -16,3 +16,10 @@ void Uploading_Model_Parameters_into_Parameter_Table(Parameter_Table * , double 
 
 void Reading_Observed_Data(char * , double ** , int , int , int * , int * , int,
 			   double * , double * , double *);
+
+void Saving_Percentile_Time_Series(double * x_Data, int N,
+				   double ** Variable_Per, int No_of_PERCENTILES,
+				   int key,
+				   char * City_Short_Name,
+				   Parameter_Table * Table );
+				   

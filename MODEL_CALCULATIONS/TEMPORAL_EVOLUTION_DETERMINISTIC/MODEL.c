@@ -72,7 +72,8 @@ int M_O_D_E_L( Parameter_Table * Table )
         for( j = 1; j < TIMES; j++ ) { ... }
   */
 
-  //  Parameter Table dependent costumized plotting is defined in ~/CPGPLOT/CPGPLOT_Parameter_Table/ files
+  //  Parameter Table dependent costumized plotting is defined
+  //  in ~/CPGPLOT/CPGPLOT_Parameter_Table/ files
   int TIMES           = Table->T->I_Time;
   int Input_Parameter = 0; /* The value of this model parameter appears in the title */
   // C_P_G___S_U_B___P_L_O_T_T_I_N_G ( Table, TIMES, Table->CPG->x_Time, Table->CPG->y_Time );
@@ -82,7 +83,15 @@ int M_O_D_E_L( Parameter_Table * Table )
    								      Table->CPG->y_Time,
    								      Input_Parameter );
 
+  if (Table->TYPE_of_MODEL == 2) {
+    FILE * fp = fopen("Adult_Population_Antananarivo_Deterministic_Evolution.dat", "w"); 
+    F_I_L_E___X_Y___W_R_I_T_E( fp, "Adult_Population_Antananarivo_Deterministic_Evolution.dat",
+			       0,
+			       Table->CPG->x_Time, Table->CPG->y_Time[0], TIMES);
+    fclose(fp);
+  }
 #endif
+
   free( Table->Vector_Model_Variables_Time_0);
   free( Table->Vector_Model_Variables );
   free( Table->Vector_Model_Variables_MultiStability[0] );

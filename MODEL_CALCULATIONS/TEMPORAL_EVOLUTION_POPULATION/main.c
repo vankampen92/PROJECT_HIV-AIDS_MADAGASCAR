@@ -8,9 +8,29 @@
 gsl_rng * r; /* Global generator defined in main.c */
 
 /* This code reads population data (for every city). Then, plot out a bunch of
-   empirical temporal evolutions.
+   empirical temporal evolutions, but the central focus of the code is to 
+   estimate recruitment rates, F_X, F_Y, and sex-specific mortalities from 
+   life table, fecundity and population data for each city.
 
-   Recruitment rates, F_X, F_Y, and sex-specific mortalities are estimated from data.
+   Estimated parameters and then organized in four-row matrices of time dependent 
+   parameters that span either the fitting period (2000-2016) or the whole period
+   (2000-2033). These are saved in files of two types:
+
+   	. Time_Dependent_Parameters_[City_Name].dat (2000-2016)
+ 
+	. Time_Dependent_Parameters_Extrapolated_[City_Name].dat (2000-2033)
+
+   Time dependent parameter files are used all over for parameter
+   estimation procedure through random searches, but first recruitment ratess are 
+   corrected by a constat fittet parameters, r. This is done in:
+
+   . ~/PROJECT_HIV-AIDS_MADAGASCAR/MODEL_CALCULATIONS/TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE$   
+
+   where the corresponding corrected final files are saved: 
+
+   	. Time_Dependent_Parameters_Corrected_[City_Name].dat (2000-2016)
+ 
+        . Time_Dependent_Parameters_Extrapolated_Corrected_[City_Name].dat (2000-2033)
 
    Compilation (example 1):
 

@@ -342,12 +342,12 @@ int main(int argc, char **argv)
   /*     E N D : ------------------------------------- */ 
  
 #if defined CPGPLOT_REPRESENTATION
-  /* CPG_DRIVER_NAME[0] = '\0';                                                   */
+  /* CPG_DRIVER_NAME[0] = '\0'; */
   /* p_CPG_Name = strcat( CPG_DRIVER_NAME, "Likelihood_per_Degree_of_Freedom_" ); */
-  /* p_CPG_Name = strcat( CPG_DRIVER_NAME, ".ps/CPS" );                           */
+  /* p_CPG_Name = strcat( CPG_DRIVER_NAME, ".ps/CPS" ); */
 
   // Activating 1st Window 
-  Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 0, CPG_DRIVER_NAME);
+  Table.CPG = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES, I_Time, 1, CPG_DRIVER_NAME);
   printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
 #endif
 
@@ -614,7 +614,7 @@ int main(int argc, char **argv)
 
 	    Likelihood[l][k][n][No_of_PARAMETERS+2][j] = R_0_Function( &Table );
 	    
-	    printf("R_0 = %g\n", Likelihood[l][k][n][No_of_PARAMETERS+2][j]); Press_Key(); 
+	    printf("R_0 = %g\n", Likelihood[l][k][n][No_of_PARAMETERS+2][j]); // Press_Key(); 
 	  }
 
 	  if( sn[l][k][n] > 0 )
@@ -850,7 +850,7 @@ int main(int argc, char **argv)
 	  CPG_DRIVER_NAME[0] = '\0';
 	  // p_CPG_Name = strcat( CPG_DRIVER_NAME, "Likelihood_per_Degree_of_Freedom_" );
 	  // p_CPG_Name = strcat( CPG_DRIVER_NAME,  FILE_LABEL[l]);
-	  p_CPG_Name = strcat( CPG_DRIVER_NAME, "/XSERVE" );
+	  p_CPG_Name = strcat( CPG_DRIVER_NAME, "/CPS" );
 	  Parameter_CPGPLOT * C = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( 2, I_Time, 0, CPG_DRIVER_NAME);
 	  printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
 	  

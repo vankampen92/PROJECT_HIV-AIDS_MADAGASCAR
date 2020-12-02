@@ -28,8 +28,8 @@ double Generic_Root_Finder( Parameter_Table * P, Generic_Root_Data * G )
        x_lo  = G->x_0;
        x_hi  = G->x_1;
 
-       T = gsl_root_fsolver_brent;
-       // T = gsl_root_fsolver_bisection; 
+       // T = gsl_root_fsolver_brent;
+       T = gsl_root_fsolver_bisection; 
        s = gsl_root_fsolver_alloc (T);
        gsl_root_fsolver_set (s, &F, x_lo, x_hi);
 
