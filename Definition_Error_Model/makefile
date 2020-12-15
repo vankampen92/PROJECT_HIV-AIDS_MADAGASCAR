@@ -10,7 +10,11 @@ RANDOM_DIR           = ${PROJECT_DIR}Library/GSL_RANDOM/
 IO_DIR               = ${PROJECT_DIR}Library/IO_Library/
 ERROR_DIR            = ${PROJECT_DIR}Definition_Error_Model/
 INCLUDE_R_DIR        =/usr/share/R/include/
+# Mac urers, please do:
+# INCLUDE_DIR        =/opt/local/include/
 EXTRA_INCLUDE_PATH   = -I${LIB_DIR} -I${PROJECT_DIR} -I${PROJECT_DIR}Include/ -I${RANDOM_DIR} -I${IO_DIR} -I${INCLUDE_R_DIR} -I${ERROR_DIR}
+# Mac user, plese do:
+# EXTRA_INCLUDE_PATH   = -I${LIB_DIR} -I${PROJECT_DIR} -I${PROJECT_DIR}Include/ -I${RANDOM_DIR} -I${IO_DIR} -I${INCLUDE_DIR} -I${ERROR_DIR}
 EXTRA_INCLUDE_PATH+=-I${CPGPLOT}###################
 EXTRA_INCLUDE_PATH+=-I${CPGPLOT}library/###########
 EXTRA_INCLUDE_PATH+=-I${CPGPLOT}library_basic_UTL/#

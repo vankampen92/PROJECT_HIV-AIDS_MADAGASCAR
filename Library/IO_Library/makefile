@@ -8,7 +8,11 @@ LIB_DIR              = ${PROJECT_DIR}Library/IO_Library/
 RANDOM_DIR           = ${PROJECT_DIR}Library/GSL_RANDOM/
 LIB_OPT              = ${PROJECT_DIR}Library/Optimization_Library/
 INCLUDE_R_DIR=/usr/share/R/include/
+# Mac users:
+# INCLUDE_DIR=/opt/local/include/
 EXTRA_INCLUDE_PATH   = -I${LIB_DIR} -I${PROJECT_DIR} -I${PROJECT_DIR}Include/ -I${RANDOM_DIR} -I${INCLUDE_R_DIR} -I${LIB_OPT}
+# Mac users:
+# EXTRA_INCLUDE_PATH   = -I${LIB_DIR} -I${PROJECT_DIR} -I${PROJECT_DIR}Include/ -I${RANDOM_DIR} -I${INCLUDE_DIR} -I${LIB_OPT}
 
 CFLAGS=-g -Wall -DHAVE_INLINE ${EXTRA_INCLUDE_PATH} 
 ###CFLAGS= -Wall -O21
