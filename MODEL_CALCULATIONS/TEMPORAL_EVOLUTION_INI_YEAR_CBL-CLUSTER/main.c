@@ -11,7 +11,8 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    ./TEMPORAL_EVOLUTION_INI_YEAR_CALCULATION
 
-   but allows for runs where just a single city and one year is calculated.
+   but allows for runs where just a single city and one (initial) year is 
+   calculated.
 
    The command line has to indicate which city and year as follows:
 
@@ -28,7 +29,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    Sigma (and Alpha) parameters have been estimated for each city. This is 
    done in directory:
 
-        ./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
+   ./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
 
    Parameter configurations were then saved and will be now read from 
    files of the type:
@@ -38,10 +39,10 @@ gsl_rng * r; /* Global generator defined in main.c */
    Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
 
    In addition, Parameters F_X, F_Y, \delta_X and \delta_Y have been already 
-   estimated from demographic data and play the role of extern parameters 
-   driving the system. See directory:
+   estimated from demographic data and play the role of extern driving 
+   parameters driving the system. See directory:
 
-   	./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
+   ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
    F_X and F_Y are recruitment rates into adutl sexually active life, and
    \delta_X and \delta_Y are adult mortality rates. They change every year.
@@ -57,21 +58,23 @@ gsl_rng * r; /* Global generator defined in main.c */
    A. Parameters are searched under the hypothesis of constant ratio of female
    sexual workers to total female population:
 
-   B. Parameters are searched under the hypothesis of ratio of female
-   sexual workers to total female population following a sigmoidal curve
+   B. Parameters are searched under the hypothesis that ratio the ration of female
+   sexual workers to total female population follows a sigmoidal curve
    with a break point in 2011.0 and smoothness parameters 0.1.
 
    Hypothesis A needs and generates files ending in *.dat, while hypothesis
-   B requires files ending in *Sigmoidal.dat (or *Sigmoidal_C?.dat). This should be
-   changed by hand in code. So, in order to generate results under the two hyphotheses,
+   B requires files ending in *Sigmoidal.dat (or *Sigmoidal_C?.dat). Whether searching 
+   suitable parameters under hypothesis A or B should be changed manually in the 
+   code itself (rather than controled at the commnand line through program call.  
+   So, in order to generate results under the two hyphotheses,
    the program should be run twice by changing (and recompiling) the code
    accordingly. This is achieved just changing:
 
-   L171: SIGMOIDAL == 1
+   L281: SIGMOIDAL == 1
 
    into
 
-   L171: SIGMOIDAL = 0     (line L171 of code is only, approx.)
+   L281: SIGMOIDAL = 0     (around line L281 of code approx.)
 
    A. Parameters are searched under the hypothesis of constant ratio of female
    sexual workers to total female population:
@@ -233,11 +236,11 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    . ~$ ./X2W2SILD-YSILD-NW -y0 1 -sT 1.0E-04 -sN 300 -sP 12  -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1   -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000  -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0 -tR 150 -Fn 3 -F0 Antananarivo -F1 2001 -F2 Sigmoidal
 
-   Command to order resuling files from the search:
+   Notice this simple command to order resuling files from the search (from the best fit to the worst):
 
    ~$ for f in Full_Parameter_Set_*_20??_Sigmoidal.dat; do awk '{ if ($22 < 1.0E+20) { print } }' $f | sort -n -k 22 > ${f/%.dat/_Ordered.dat}; done
 
-   To read the whole parameter list from a file, execute:
+   To read the whole parameter list from a file, which should be previously generated), execute:
 
    . ~$ ./X2W2SILD-YSILD $(cat Arguments_Command_Line_Antananarivo.dat)
 
@@ -474,6 +477,9 @@ int main(int argc, char **argv)
     assert( No_of_PARAMETER_SETS < No_of_SETS_MAX );
 
     printf("Set of Demographic Parameters (City: %s):\n", City_Names[k]);
+    printf("No of Demographic Parameters (City: %s):\n", City_Names[k], No_of_PARAMETER_SETS);
+    getchar();
+
     Writing_Demographic_Parameters_Matrix(&Table, City_Names[k],
 					  Demo_Data, No_of_PARAMETER_SETS,
 					  Demographic_Parameters_Index,
@@ -596,6 +602,12 @@ int main(int argc, char **argv)
       int No_of_Parameter_Sets = Realizations;
       assert(No_of_PARAMETER_SETS > Realizations);  // = 10;
       int Total_Tries          = No_of_Parameter_Sets * Realizations;
+#if defined CPGPLOT_REPRESENTATION  // NON_CPGPLOT_REPRESENTATION produces only files as output
+                                    // (no output on terminial or graphics)
+      printf("Number of random seeds (within parameter space boundaries) for every\n");
+      printf("optimization process: %d\n", Total_Tries);
+      getchar();
+#endif
       int j_Random = 0;
 
       for(j=0; j<No_of_Parameter_Sets; j++) {

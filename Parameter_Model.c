@@ -1,25 +1,5 @@
 #include "./Include/MODEL.h"
 
-/* void Parameter_Model_Initialization( Parameter_Model * P,    */
-/* 				      double * p_Delta,         */
-/* 				      double * p_Alpha_0,       */
-/* 				      double * p_Alpha_1,       */
-/* 				      double * p_Lambda_0,      */
-/* 				      double * p_Lambda_1,      */
-/* 				      double * p_f,             */
-/* 				      double * p_gap )          */
-/* { */
-/*   P->Delta    = * p_Delta;       /\* Key 0 *\/               */
-/*   P->Alpha_0  = * p_Alpha_0;     /\* Key 1 *\/               */
-/*   P->Alpha_1  = * p_Alpha_1;     /\* Key 2 *\/               */
-/*   P->Lambda_0 = * p_Lambda_0;    /\* Key 3 *\/               */
-/*   P->Lambda_1 = * p_Lambda_1;    /\* Key 4 *\/               */
-/*   P->f        = * p_f;           /\* Key 5 *\/               */
-/*   P->gap      = * p_gap;         /\* Key 6 *\/               */
-
-/*   P->MODEL_PARAMETERS = No_of_True_Parameters;               */
-/* } */
-
 void Parameter_Model_Copy (Parameter_Model * P_Destination, Parameter_Model * P_Source)
 {
 

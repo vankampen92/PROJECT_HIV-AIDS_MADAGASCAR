@@ -1,5 +1,5 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                            David Alonso, 2018 (c)                         */
+/*                            David Alonso, 2019 (c)                         */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include <Include/MODEL.h>
 
@@ -20,7 +20,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
-   F_X and F_Y are recruitment rates into adutl sexually active life, and
+   F_X and F_Y are recruitment rates into adult sexually active life, and
    \delta_X and \delta_Y are adult mortality rates. They change every year.
    They are given in 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat'
    files.
@@ -30,14 +30,13 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    ./TEMPORAL_EVOLUTION_DEMOGRAPHY_PARAMETERS
 
-   Parameter configurations were then saved and now read from the gnererated 
-   files of the type:
+   Parameter configurations were then saved into files  of the type:
 
    Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
 
    Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat
 
-   These files are not used in this main code. They are only use to make 
+   These files are not used in this main code. They are only use to build 
    the full model parameters estimation. The disease-related parameters have 
    been estimated with code in: 
 
@@ -47,17 +46,20 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    ./TEMPORAL_EVOLUTION_INI_YEAR_CBL-CLUSTER
 
-   As a result of these estimating procedures, fitting parametric configurations
-   are generated and saved in files of type:
+   As a result of these estimating procedures, fitting full parametric 
+   configurations are generated and saved in files of type:
 
    Full_Parameter_Set_[Name-of-the-City]_[Year]_[Hypothesis].dat
 
    Demographic parameters are embeded in these type of files. 
 
-   This main code here read the final files of these kind, which have been ordered 
-   according to their goodness-of-fit, and visually inspect the numerically generated, 
-   predicted solutions against observations (including extrapolated prediction up to 
-   2033). To specify the different hypothesis, two extra input arguments are used: 
+   This main code here read the final files of these kind. These files consist 
+   of a number of parametric configurations (each line represents a different one) 
+   that provide a reasonable fit to data, and which have been ordered 
+   according to their goodness-of-fit. This main coide here plots temporal evolution 
+   up to 2033, which allows for visually inspecting the numerically generated, predicted 
+   solutions against observations (including extrapolated prediction up to 2033). 
+   To specify the different hypothesis, two extra input arguments are used: 
 
    -Fn 2 -F0 [TYPE_of_HYPOTHESIS] -F1 [TYPE_of_SEARCH]  
 
@@ -108,7 +110,8 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    into
 
-   L171: SIGMOIDAL = 0     (line L171 of code is only approx!)
+   L171: SIGMOIDAL = 0     (code line L171 means "around L171", i.e., it is 
+		            only approximative)
 
    A. Parameters are searched under the hypothesis of constant ratio of female
    sexual workers to total female population:
@@ -143,7 +146,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -G0 1  -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1  // Arguments Controling Numerical Integration
    / -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 // Arguments controling type of time dependence of model parameters.
 
-   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 100 -sP 17  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -G0 1 -G1 3 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 100 -sP 17  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -n 3 -v0 6 -v1 4 -v2 14 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -G0 1 -G1 3 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -tE 2.0  -G2 1 -G3 1999.2 -G4 2033.2
 
    B. Parameters are searched under the hypothesis of ratio of female
    sexual workers to total female population following a sigmoidal curve
@@ -191,7 +194,7 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -DP 4  -DC 0 -D0 0 -D1 4 -D2 0 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 // Arguments controling type of time dependence of model parameters.
    / -Fn 1 -F0 ../../DATA_FILES/2019.05.31_Demographic_Parameters_per_City_NLL.dat
 
-   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 100 -sP 20  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 17  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0  -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 100 -sP 20  -I0 21 -H21 1.0  -m0 0.5 -M0 1.5 -A0 0.01   -I1 0 -H0 100.0 -m1 0.0 -M1 200.0 -A1 0.1  -I2 8 -H8 50.0 -m2 0.0 -M2 100.0 -A2 0.1   -I3 12 -H12 9.0  -m3 1.0 -M3 20.0  -A3 0.01   -I4 7 -H7 9.0 -m4 1.0 -M4 99.0 -A4 0.01   -I5 16 -H16 0.2 -m5 0.0 -M5 0.99 -A5 0.01 -I6 17 -H17 0.6 -m6 0.0 -M6 0.99 -A6 0.01 -I7 1 -H1 0.03 -m7 0.0 -M7 0.1 -A7 0.001  -I8 9 -H9 0.01 -m8 0.0 -M8 0.1 -A8 0.001   -I9 5 -H5 1.5 -m9 0.0 -M9 10.0 -A9 0.1   -I10 6 -H6 0.2 -m10 0.0 -M10 1.0 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 100.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 6 -v1 4 -v2 14 -v3 17  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0  -tE 2.0  -G2 1 -G3 1999.2 -G4 2033.2
 
    For both A and B hypothesis, it is possible to plot as output variables also other variables.
    For instance:
@@ -283,52 +286,100 @@ gsl_rng * r; /* Global generator defined in main.c */
    / -G0 1  -G1 3 -tn 17 -t0 2000.0 -t1 2016.0 -t4 1 -xn 0 -xR 1  // Arguments Controling Numerical Integration
    / -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 // Arguments controling type of time dependence of model parameters.
 
-   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 3 -n 6 -v0 6 -v1 4 -v2 14 -v3 9 -v4 10 -v5 11  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 3 -n 6 -v0 6 -v1 4 -v2 14 -v3 9 -v4 10 -v5 11  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0 -G2 1 -G3 1999.2 -G4 2033.2
 
    -v4 17 -v5 18  are sigma_0 and sigma_1 time-dependent parameters
 
    -v3 9 -v4 10 -v5 11 are prevanlences in male, sw female and nsw female populations, respectively.
 
    If some of the observed variables are not to be represented, then redefine the list of output
-   variables. IMPORTANT: Recall that the observed output variables should occupied always the first positions in the output vaiable list.  Example:
+   variables. IMPORTANT: Recall that the predictions for observed variables are output variables that 
+   should occupied always the first positions in the output variable list.  Example:
 
-   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 2 -G1 2 -n 4 -v0 10 -v1 8 -v2 9 -v3 7 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0
-
+   (Figure 5 from main text: No_of_CITIES should not be 11: Temporal Evolution of Prevanlence across Grups, SW, X, Y, GP)
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 4 -G1 5 -n 4 -v0 10 -v1 11 -v2 9 -v3 7 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0 -G2 1 -G3 1999.2 -G4 2033.2
+   
+   (Figure 4: Box Plots for Turning Point Distriutions based on Total Disease Prevalence -v0 7, i.e., -n 1 -v0 7 ---see, please, No_of_CITIES. It should be set to 11 ---see code line)
+   . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 1 -G1 1 -n 1 -v0 7  -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0 -G2 1 -G3 1999.2 -G4 2033.2
+   
    where the following prevalences are shown:
-   -n   4   Number of output variables
+   -n   4   Number of output variables                           -v0 10 -v1 11 -v2 9 -v3 7
    -v0 10   Total Female Sexual Worker Disease Prevalence
    -v1  8   Total Female Disease Prevalence
    -v2  9   Total Male_Disease Prevalence
    -v3  7   Total Disease Prevalence
    -v3 11   Total Female Non Sexual Worker Disease Prevalence
+
+   (Figure 3A and 3B from the main text)
+    . ~$ ./X2W2SILD-YSILD -Fn 2 -F0 _Sigmoidal_C5 -F1 HI -y0 1 -sT 1.0E-04 -sN 300 -sP 20 -I0 21 -H21 1.0 -m0 0.8  -M0 1.2 -A0 0.01 -I1 0 -H0 100.0  -m1 96.0 -M1 120.0 -A1 0.1  -I2 8 -H8 100.0  -m2 96.0 -M2 120.0  -A2 0.1  -I3 12 -H12   9  -m3 1.0 -M3 19.0  -A3 0.01  -I4 7  -H7  9.0  -m4 0.0 -M4 99.0 -A4 0.01  -I5 16 -H16 0.2   -m5 0.0  -M5 0.99 -A5 0.01  -I6 17 -H17 0.5 -m6 0.0 -M6 0.99 -A6 0.01   -I7 1 -H1 0.001  -m7 0.0 -M7 0.005 -A7 0.0001   -I8 9 -H9 0.0005 -m8 0.0 -M8 0.001 -A8 0.0001   -I9 5 -H5 1.5  -m9 0.5 -M9 4.0 -A9 0.01     -I10 6 -H6 0.1   -m10 0.05 -M10 0.20 -A10 0.01   -I11 15 -H15 10.0 -m11 1.0 -M11 50.0 -A11 0.1  -I12 10 -H10 0.01 -m12 0.0 -M12 0.05 -A12 0.01   -I13 11 -H11  0.01 -m13 0.0 -M13 0.05 -A13 0.01   -I14 18 -H18 0.01 -m14 0.0 -M14 0.05 -A14 0.01   -I15 19 -H19 0.01 -m15 0.0 -M15 0.05 -A15 0.01  -I16 20 -H20 0.1 -m16 0.08 -M16 0.12  -A16 0.01  -I17 23 -H23 0.4 -m17 0.0 -M17 5.0 -A17 0.01  -I18 24 -H24 3.0 -m18 0.0 -M18 5.0 -A18 0.01   -I19 25 -H25 2013.0 -m19 2009.0 -M19 2013.0 -A19 0.1 -G0 1 -G1 3 -n 3 -v0 10 -v1 8 -v2 9 -v3 7 -en 0 -eP0 17 -eV 0.2 -iP 0 -i0 9 -u0 0.0 -U0 10000.0 -i1 17 -u1 0.0 -U1 10000.0 -i2 1 -u2 0.0 -U2 10000 -i3 2 -u3 0.0 -U3 10000 -i4 3 -u4 0.0 -U4 10000 -tn 34 -t0 2000.0 -t1 2033.0 -t4 1 -xn 0 -xR 1 -DP 5  -DC 0 -D0 0 -D1 4 -D2 1 -P0 13 -a0 0  -P1 2 -a1 0  -P2 3 -a2 0  -P3 4 -a3 0 -P4 22 -a4 0 -tE 2.0  -G2 1 -G3 1999.2 -G4 2033.2
 */
 
 double Determine_Turning_Point(double * x_Time, double * y_Time, int N);
 
 void Reading_Sexual_Workers_Numbers_and_Prevalences(double ** , double ** , double ** ,
-						    double ** , double ** , double ** );
+						    double ** , double ** , double ** ,
+						    int , int *);
 
 void Saving_2012_2016_2033_Percentiles (FILE * , double * , int , double ** , int ,
-					int , char * , Parameter_Table * ); 
+					int , char * , Parameter_Table * );
+
+void Command_Line_String_Creation (char * , char * ,
+				   int * , int * , int, int, int,
+				   Parameter_Model * ,
+				   Parameter_Table * );
+
+void Print_Percentile_Levels_Time_Series(int No_of_PERCENTILES, int N,
+					 double * Per, double ** Per_Values,
+					 char * City_Name)
+{
+  int i;
+
+  printf("%s:", City_Name); 
+  for (i=0; i<No_of_PERCENTILES; i++) {
+    printf("\tP(%g) = %g", Per[i], Per_Values[i][N-1]); 
+  }
+  printf("\n"); 
+}
+    
+void Print_Percentile_Levels_All_Cities(int No_of_PERCENTILES, int No_of_CITIES,
+					double * Per, double ** Per_Values,
+					char ** City_Name)
+{
+  int i, k;
+
+  for (k=0; k<No_of_CITIES; k++) {
+    printf("%s:", City_Name[k]); 
+    for (i=0; i<No_of_PERCENTILES; i++) {
+      printf("\tP(%g) = %g", Per[i], Per_Values[i][k]); 
+    }
+    printf("\n\n");
+  }
+}
 
 int main(int argc, char **argv)
 {
   float x_Position, y_Position; 
-  int No_of_PARAMETER_SETS;
-  int i, j, k, kk, l, m, n, z, p, key;
+  int No_of_PARAMETER_SETS, Replicates;
+  int i, j, k, kk, l, m, n, z, s, p, key;
   double value, Min_Value, Min_Value_0, Data_Value, Theory_Value;
   double Likelihood_Value, Average_Likelihood_Value, Standard_Error_Value, Ave, Var;
+ 
+  double Initial_Observed_Adult_Population;
+  double Initial_Observed_Female_Sexual_Workers;
+  double Initial_Observed_Female_Sexual_Workers_Infected;
+  double ** Variable;
+  double ** Variable_Per;
+
+  Observed_Data * Data;
   Parameter_Table Table;
   Time_Control Time;
   Time_Dependence_Control Time_Dependence;
-  Observed_Data * Data;
-  double Initial_Observed_Adult_Population, Initial_Observed_Female_Sexual_Workers, Initial_Observed_Female_Sexual_Workers_Infected;
-  double ** Variable;
-  double ** Variable_Per;
-  // int No_of_PERCENTILES = 5;
-  // double Per[] = {0.05, 0.25, 0.5, 0.75, 0.95};
-  int No_of_PERCENTILES = 3;
-  double Per[] = {0.1, 0.5, 0.9};
+
+  // Box plots are not drawn unless No_of_PERCENTILES is 5
+  int No_of_PERCENTILES = 5;
+  double Per[] = {0.05, 0.25, 0.5, 0.75, 0.95};
+  // int No_of_PERCENTILES = 3;
+  // double Per[] = {0.1, 0.5, 0.9};
 
   FILE * F = fopen("Percentiles_2012_2016_2033.dat", "w");
   
@@ -455,14 +506,21 @@ int main(int argc, char **argv)
 #endif
 
   int No_of_SETS_MAX  = 50000;
-  int No_of_INITIAL_YEARS = 1; // 11; (3 different initial years: 2000, 2001, and 2002)
-  int No_of_CITIES = 11;       // 11;
-
+  int No_of_INITIAL_YEARS = 1;  // 11; (3 different initial years: 2000, 2001, and 2002)
+  int No_of_CITIES = 11;        // 11;
+  /* To get Box Plots out it is required No_of_CITIES to be 11 and City_Index be the 
+     ordered series from 0 to 10, as first below */
+  int City_Index[11] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }; //Full
+  // int City_Index[11] = { 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1 }; //Full
+  // int City_Index[11] = { 0, 2, 3, 5, 6, 7, 8, 9, 10, 4, 1 }; //Full
+  // int City_Index[11] = { 0, 5, 6, 7, 10, 9, 1, 2, 3, 4, 8 };    //Full
+  // int City_Index[1]  = {2}; 
+  
   char * City_Names[] = { "Antananarivo", "Antsiranana",
 			  "Mahajanga",    "Toamasina",
 			  "Fianarantsoa", "Toliary",
 			  "Taolagnaro",   "Moramanga",
-			  "Antsirabe",    "Morondava",  
+			  "Antsirabe",    "Morondava",  // 0, 2, 3, 4, 5  // 0, 2, 3, 5, 6, 
 			  "Nosy_Be" };
 
   char * City_Short_Names[] = { "Anta",  "Ants",
@@ -473,9 +531,10 @@ int main(int argc, char **argv)
 				"Nosy" };
 
   char ** City_Short_Names_2nd = (char **)calloc(No_of_CITIES, sizeof(char *) );
-  for(k=0; k<No_of_CITIES; k++)
+  for(k=0; k<No_of_CITIES; k++) { 
     City_Short_Names_2nd[k] = (char *)calloc(10, sizeof(char) );
- 
+    // pF = strcat(City_Short_Names_2nd[k], City_Short_Names[City_Index[k]]);
+  }
   /* B E G I N : Time Dependent Parameters, Observed Data, and Demo Parameters File Names */
   char ** TIME_PARAMETERS_FILE = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
   char ** OBSERVED_DATA_FILE   = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
@@ -569,18 +628,18 @@ int main(int argc, char **argv)
   int ** REALIZATIONS = (int **)calloc( No_of_CITIES, sizeof(int *) );
   for(k = 0; k<No_of_CITIES; k++ )
     REALIZATIONS[k] = (int *)calloc( No_of_INITIAL_YEARS, sizeof(int) );
-
+  
   int I_Time_Total = I_Time;
   int I_Time_2000 = 17;
 
-  /* Main Numerical Integration loop starts here. It is a three level loop over:
+  /* B E G I N :   Main Numerical Integration loop starts here. It is a three level loop over:
      . k: Cities
      . n: Initial "disease-invasion" year
      . j: Parametric configuration (over a No_of_Parameter_Sets for each city and invasion year)
   */
   for(k = 0; k<No_of_CITIES; k++)
-  // k=8 is a city with no infection ("Antsirabe")
-  if ( k != 8 ) {
+  // City_Index[k]=8 represents a city with no infection ("Antsirabe")
+  if ( City_Index[k] != 8 ) {
 
     for(n=0; n < No_of_INITIAL_YEARS; n++) { // For each introduction time
 
@@ -589,7 +648,7 @@ int main(int argc, char **argv)
 
       PARAMETER_SET_FILE[k][0] = '\0';
       pF = strcat(PARAMETER_SET_FILE[k], "Full_Parameter_Set_");
-      pF = strcat(PARAMETER_SET_FILE[k], City_Names[k]);
+      pF = strcat(PARAMETER_SET_FILE[k], City_Names[City_Index[k]]);
       pF = strcat(PARAMETER_SET_FILE[k], "_");
       pF = strcat(PARAMETER_SET_FILE[k], Year);
       if (SIGMOIDAL == 1) pF = strcat(PARAMETER_SET_FILE[k], Configuration_Parameter_File);
@@ -598,7 +657,7 @@ int main(int argc, char **argv)
       for(i=0; i<SUB_OUTPUT_VARIABLES; i++) {
 	TIME_EVOLUTION_FILE_NAME[k][i][0] = '\0';
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "Time_Evolution_Extrapolated_");
-	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], City_Names[k]);
+	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], City_Names[City_Index[k]]);
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "_");
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], Year);
 	pF = strcat(TIME_EVOLUTION_FILE_NAME[k][i], "_");
@@ -610,23 +669,23 @@ int main(int argc, char **argv)
 
       Reading_Model_Parameters_from_File(PARAMETER_SET_FILE[k], Demo_Data,
 					 &No_of_PARAMETER_SETS, No_of_PARAMETERS);
-
+      
       assert( No_of_PARAMETER_SETS < No_of_SETS_MAX );
 
-      printf("Full of Parameters (City: %s):\n", City_Names[k]);
-      Writing_Model_Parameters_Matrix(&Table, City_Names[k],
+      printf("Full of Parameters (City: %s):\n", City_Names[City_Index[k]]);
+      Writing_Model_Parameters_Matrix(&Table, City_Names[City_Index[k]],
 				      Demo_Data, No_of_PARAMETER_SETS, No_of_PARAMETERS);
 
       TIME_PARAMETERS_FILE[k][0] = '\0';
       pF = strcat(TIME_PARAMETERS_FILE[k], "Time_Dependent_Parameters_Extrapolated_Corrected_");
-      pF = strcat(TIME_PARAMETERS_FILE[k], City_Names[k]);
+      pF = strcat(TIME_PARAMETERS_FILE[k], City_Names[City_Index[k]]);
       pF = strcat(TIME_PARAMETERS_FILE[k], "_");
       pF = strcat(TIME_PARAMETERS_FILE[k], Year);
       pF = strcat(TIME_PARAMETERS_FILE[k], ".dat");
 
       OBSERVED_DATA_FILE[k][0] = '\0';
       pF = strcat(OBSERVED_DATA_FILE[k], "Observed_Data_File_");
-      pF = strcat(OBSERVED_DATA_FILE[k], City_Names[k]);
+      pF = strcat(OBSERVED_DATA_FILE[k], City_Names[City_Index[k]]);
       pF = strcat(OBSERVED_DATA_FILE[k], "_");
       pF = strcat(OBSERVED_DATA_FILE[k], Year);
       if( SIGMOIDAL == 1)  pF = strcat(OBSERVED_DATA_FILE[k], Observation_Data_File);
@@ -656,7 +715,7 @@ int main(int argc, char **argv)
       Observed_Data_Alloc( Data, No_of_OBSERVED_VARIABLES_MAX, I_Time_2000 - n);
       Observed_Data_Initialization( Data, No_of_OBSERVED_VARIABLES, I_Time_2000 - n,
 				    Empirical_Data_Matrix,
-				    City_Names[k] );
+				    City_Names[City_Index[k]] );
       printf(" Observe_Data type of structure has been correctly allocated and initiated\n");
       // getchar();
       /*     E N D : ------------------------------------- */
@@ -728,7 +787,7 @@ int main(int argc, char **argv)
         F->Verbose               = 0;     // 1: Verbose                // 0: Non Verbose
         F->Minimization          = 0;     // 1: Function Minimization  // 0: Function Evaluation
         F->Bounded_Parameter_Set = 1;
-	      F->TWO_PHASES            = 0;
+	F->TWO_PHASES            = 0;
         F->Function              = GSL_Function_to_Minimize;
 
         if(F->Verbose == 1) {
@@ -752,7 +811,7 @@ int main(int argc, char **argv)
 	/* Main procedure is here:                  */
 	Min_Value   = Inspecting_Solution_Driver( F );
 
-        printf(" City: %s [Year: %s]:\t", City_Names[k], Year);
+        printf(" City: %s [Year: %s]:\t", City_Names[City_Index[k]], Year);
 	printf(" NLL(%d) = %g\t", j, Min_Value);
 	printf(" R_0(%d) = %g\t", j, R_0_Value[k][n][j]);
         printf(" Parameter Set Attemp No: %d\t Remaining Attemps: %d\n",
@@ -815,7 +874,12 @@ int main(int argc, char **argv)
       Time_Dependence_Control_Free( &Time_Dependence, &Table );
     }
   }
-
+  /*     E N D :   Main Numerical Integration loop finishes here. It is a three level loop over:
+     . k: Cities
+     . n: Initial "disease-invasion" year
+     . j: Parametric configuration (over a No_of_Parameter_Sets for each city and invasion year)
+  */
+  
   I_Time = I_Time_Total;
 
 #if defined CPGPLOT_REPRESENTATION
@@ -836,17 +900,19 @@ int main(int argc, char **argv)
   double ** SexWorkers_Inf = (double **)calloc( No_of_CITIES, sizeof(double *) );
   double ** SexWorkers_Sup = (double **)calloc( No_of_CITIES, sizeof(double *) );
   for (k = 0; k < No_of_CITIES; k++) { // only two times
-    Prevalence[k] = (double *)calloc( 2, sizeof(double) );
-    Prevalence_Inf[k] = (double *)calloc( 2, sizeof(double) );
-    Prevalence_Sup[k] = (double *)calloc( 2, sizeof(double) );
+    Prevalence[k] = (double *)calloc( 5, sizeof(double) );
+    Prevalence_Inf[k] = (double *)calloc( 5, sizeof(double) );
+    Prevalence_Sup[k] = (double *)calloc( 5, sizeof(double) );
 
-    SexWorkers[k] = (double *)calloc( 2, sizeof(double) );
-    SexWorkers_Inf[k] = (double *)calloc( 2, sizeof(double) );
-    SexWorkers_Sup[k] = (double *)calloc( 2, sizeof(double) );
+    SexWorkers[k] = (double *)calloc( 5, sizeof(double) );
+    SexWorkers_Inf[k] = (double *)calloc( 5, sizeof(double) );
+    SexWorkers_Sup[k] = (double *)calloc( 5, sizeof(double) );
   }
 
   Reading_Sexual_Workers_Numbers_and_Prevalences(Prevalence, Prevalence_Inf, Prevalence_Sup,
-						 SexWorkers, SexWorkers_Inf, SexWorkers_Sup);
+						 SexWorkers, SexWorkers_Inf, SexWorkers_Sup,
+						 No_of_CITIES,
+						 City_Index);
   getchar();
 
   char * Out_Var_Symbol = (char *)calloc(10, sizeof(char) );
@@ -857,145 +923,165 @@ int main(int argc, char **argv)
      . n: Initial "disease-invasion" year
      . j: Parametric configuration (over a No_of_Parameter_Sets for each city and invasion year)
   */
-  // Plotting esamble of projected trajectories:
-  for(k = 0; k<No_of_CITIES; k++) {
-    if ( k != 8 )
-      for(n = 0; n<No_of_INITIAL_YEARS; n++) {
+  // Plotting ensamble of projected trajectories:
+  /* for(k = 0; k<No_of_CITIES; k++) { */
+  /*   if ( City_Index[k] != 8 ) */
+  /*     for(n = 0; n<No_of_INITIAL_YEARS; n++) { */
 
-      Realizations = REALIZATIONS[k][n];
+  /*     Replicates = REALIZATIONS[k][n]; */
 
-      I_Time = I_Time_Total - n;
-      Time_0 = 2000.0 + (double)n; // Time_1 will be defined by command line argument!!!
-      Ini_Year = Time_0;
+  /*     I_Time = I_Time_Total - n; */
+  /*     Time_0 = 2000.0 + (double)n; // Time_1 will be defined by command line argument!!! */
+  /*     Ini_Year = Time_0; */
 
-      for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
+  /*     for (i=0; i<SUB_OUTPUT_VARIABLES; i++) { */
 
-	SAME = 0;
+  /* 	SAME = 0; */
 
-	Table.CPG->CPG__PANEL__X =  1; //
-	Table.CPG->CPG__PANEL__Y =  2; // Aquestes dues lines fora???
+  /* 	Table.CPG->type_of_Width =  5; */
+  /* 	Table.CPG->color_Index   =  3; */
+  /* 	Table.CPG->type_of_Symbol = 1; */
+  /* 	Table.CPG->type_of_Line   = 1; */
+
+  /* 	key = Table.OUTPUT_VARIABLE_INDEX[i]; */
+  /* 	AssignCPGPLOT_Symbol_to_Output_Variables(key, Out_Var_Symbol, &Table); */
+
+  /* 	Table.CPG->CPG_SCALE_X   = 1;                     Table.CPG->CPG_SCALE_Y   =  0; */
+  /* 	Table.CPG->CPG_RANGE_X_0 = CPG_RANGE_X_0;         Table.CPG->CPG_RANGE_Y_0 =  0.0; */
+  /* 	Table.CPG->CPG_RANGE_X_1 = CPG_RANGE_X_1 + 0.5;   Table.CPG->CPG_RANGE_Y_1 =  1.0E+05; */
+
+  /* 	// Prevalences: */
+  /* 	/\* -v0 10   Total Female Sexual Worker Disease Prevalence     *\/ */
+  /* 	/\* -v1  8   Total Female Disease Prevalence                   *\/ */
+  /* 	/\* -v2  9   Total Male_Disease Prevalence                     *\/ */
+  /* 	/\* -v3 11   Total Female Non Sexual Worker Disease Prevalence *\/ */
+  /* 	/\* -v4 7    Total Prevalence                                  *\/ */
+  /* 	if( key == 7 || key == 8 || key == 9 || key == 10 || key == 11 ) { */
+
+  /* 	  Table.CPG->CPG_SCALE_Y   =  1; */
+  /* 	  Table.CPG->CPG_RANGE_Y_0 =  0.0; */
+  /* 	  Table.CPG->CPG_RANGE_Y_1 =  1.0; //0.5 */
+  /* 	} */
+
+  /* 	if( key == 4 ) { /\* Total Sex Worker Population: Observed Variable *\/  */
+  /* 	  Table.CPG->CPG_SCALE_Y   =  1; */
+  /* 	  Table.CPG->CPG_RANGE_Y_0 =  0.0; */
+  /* 	  Table.CPG->CPG_RANGE_Y_1 =  6.0E+04;  */
+  /* 	} */
+  /* 	if( key == 6 ) { /\* Total Population: Observed Variables *\/ */
+  /* 	  Table.CPG->CPG_SCALE_Y   =  1; */
+  /* 	  Table.CPG->CPG_RANGE_Y_0 =  0.0; */
+  /* 	  Table.CPG->CPG_RANGE_Y_1 =  5.0E+06;  */
+  /* 	} */
+  /* 	if( key == 14 ) { /\* Number of Infected Individuals within Sexual Workers *\/ */
+  /* 	  Table.CPG->CPG_SCALE_Y   =  1; */
+  /* 	  Table.CPG->CPG_RANGE_Y_0 =  0.0; */
+  /* 	  Table.CPG->CPG_RANGE_Y_1 =  700.0;  */
+  /* 	} */
 	
-	Table.CPG->type_of_Width =  5;
-	Table.CPG->color_Index   =  3;
-	Table.CPG->type_of_Symbol = 1;
-	Table.CPG->type_of_Line   = 1;
+  /* 	printf("City: %s:\t Output Variable: %s\n", City_Names[City_Index[k]], Out_Var_Symbol); */
+  /* 	for( j = 0; j<Replicates; j++ ) { */
 
-	key = Table.OUTPUT_VARIABLE_INDEX[i];
-	AssignCPGPLOT_Symbol_to_Output_Variables(key, Out_Var_Symbol, &Table);
+  /* 	  //printf("Set IDE: %d\n", j); */
 
-	Table.CPG->CPG_SCALE_X   = 1;              Table.CPG->CPG_SCALE_Y   =  0;
-	Table.CPG->CPG_RANGE_X_0 = 1999.5;         Table.CPG->CPG_RANGE_Y_0 =  0.0;
-	Table.CPG->CPG_RANGE_X_1 = Time_1 + 0.5;   Table.CPG->CPG_RANGE_Y_1 =  1.0E+05;
+  /* 	  for(l=0; l < I_Time; l++) { */
 
-	// Prevalences:
-	/* -v0 10   Total Female Sexual Worker Disease Prevalence     */
-	/* -v1  8   Total Female Disease Prevalence                   */
-	/* -v2  9   Total Male_Disease Prevalence                     */
-	/* -v3 11   Total Female Non Sexual Worker Disease Prevalence */
-	/* -v4 7    Total Prevalence                                  */
-	if( key == 7 || key == 8 || key == 9 || key == 10 || key == 11 ) {
+  /* 	    y_Data[l] = Temporal_Evolution[k][n][i][j][l]; */
+  /* 	    x_Data[l] = Ini_Year + l; */
+  /* 	  } */
 
-	  Table.CPG->CPG_SCALE_Y   =  1;
-	  Table.CPG->CPG_RANGE_Y_0 =  0.0;
-	  Table.CPG->CPG_RANGE_Y_1 =  1.0; //0.5
-	}
+  /* 	  CPGPLOT___X_Y___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T  ( Table.CPG, SAME, */
+  /* 								 I_Time, */
+  /* 								 x_Data, y_Data, */
+  /* 								 "Year", */
+  /* 								 Out_Var_Symbol, */
+  /* 								 City_Names[City_Index[k]], */
+  /* 								 Table.CPG->CPG_SCALE_X, */
+  /* 								 Table.CPG->CPG_SCALE_Y ); */
+  /* 	  SAME = 1; */
+  /* 	} */
 
-	printf("City: %s:\t Output Variable: %s\n", City_Names[k], Out_Var_Symbol);
-	for( j = 0; j<Realizations; j++ ) {
+  /* 	/\* It the i-th SUB_OUTPUT_VARIABLE an OBSERVED VARIABLE??? *\/ */
+  /* 	if ( key == 4 || key == 6 || key == 14 ) { */
+     
+  /* 	  for(l=0; l < I_Time; l++) { */
+  /* 	    x_Data[l] = Ini_Year + l; */
+  /* 	    if (l < I_Time_2000 - n) */
+  /* 	      y_Data[l] = Observed_Population_Data[k][n][i][l]; */
+  /* 	  } */
 
-	  //printf("Set IDE: %d\n", j);
+  /* 	  Table.CPG->type_of_Symbol = 8; */
+  /* 	  Table.CPG->color_Index    = 1; */
+  /* 	  Table.CPG->type_of_Line   = 1; */
 
-	  for(l=0; l < I_Time; l++) {
+  /* 	  CPGPLOT___X_Y___S_C_A_T_T_E_R_E_D___S_A_M_E___P_L_O_T ( Table.CPG, SAME, */
+  /* 								  I_Time_2000 - n, */
+  /* 								  x_Data, y_Data, */
+  /* 								  "Year", */
+  /* 								  Out_Var_Symbol, */
+  /* 								  City_Names[City_Index[k]], */
+  /* 								  Table.CPG->CPG_SCALE_X, */
+  /* 								  Table.CPG->CPG_SCALE_Y ); */
+  /* 	} */
 
-	    y_Data[l] = Temporal_Evolution[k][n][i][j][l];
-	    x_Data[l] = Ini_Year + l;
-	  }
+  /* 	if ( key == 10 ) { */
+  /* 	  x_Data[0]     = 2012.0;            x_Data[1]     = 2016.0; */
+  /* 	  xn_Data[0][0] = 2012.0;            xn_Data[0][1] = 2016.0; */
+  /* 	  xn_Data[1][0] = 2012.0;            xn_Data[1][1] = 2016.0; */
 
-	  CPGPLOT___X_Y___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T  ( Table.CPG, SAME,
-								 I_Time,
-								 x_Data, y_Data,
-								 "Year",
-								 Out_Var_Symbol,
-								 City_Names[k],
-								 Table.CPG->CPG_SCALE_X,
-								 Table.CPG->CPG_SCALE_Y );
-	  SAME = 1;
-	}
+  /* 	  y_Data[0]     = Prevalence[k][0];      y_Data[1]     = Prevalence[k][1]; */
+  /* 	  yn_Data[0][0] = Prevalence_Inf[k][0];  yn_Data[0][1] = Prevalence_Inf[k][1]; */
+  /* 	  yn_Data[1][0] = Prevalence_Sup[k][0];  yn_Data[1][1] = Prevalence_Sup[k][1]; */
+  /* 	} */
+  /* 	if ( key == 4 ) { */
+  /* 	  x_Data[0]     = 2014.0;            x_Data[1]     = 2017.0; */
+  /* 	  xn_Data[0][0] = 2014.0;            xn_Data[0][1] = 2017.0; */
+  /* 	  xn_Data[1][0] = 2014.0;            xn_Data[1][1] = 2017.0; */
 
-	if ( i < No_of_OBSERVED_VARIABLES ) {
-	  for(l=0; l < I_Time; l++) {
-	    x_Data[l] = Ini_Year + l;
-	    if (l < I_Time_2000 - n)
-	      y_Data[l] = Observed_Population_Data[k][n][i][l];
-	  }
+  /* 	  y_Data[0]     = SexWorkers[k][0];      y_Data[1]     = SexWorkers[k][1]; */
+  /* 	  yn_Data[0][0] = SexWorkers_Inf[k][0];  yn_Data[0][1] = SexWorkers_Inf[k][1]; */
+  /* 	  yn_Data[1][0] = SexWorkers_Sup[k][0];  yn_Data[1][1] = SexWorkers_Sup[k][1]; */
+  /* 	} */
+  /* 	if ( key == 10 || key == 4 ) { */
+  /* 	  Table.CPG->color_Index    = 8; */
+  /* 	  Table.CPG->type_of_Width  = 5; */
+  /* 	  Table.CPG->type_of_Symbol = 4; */
+  /* 	  Table.CPG->type_of_Line   = 1; */
 
-	  Table.CPG->type_of_Symbol = 8;
-	  Table.CPG->color_Index    = 1;
-	  Table.CPG->type_of_Line   = 1;
+  /* 	  int BAR_TIP_LENGTH = 5; */
+  /* 	  CPGPLOT___X_Y___P_L_O_T_T_I_N_G___2DIR___E_R_R_O_R___B_A_R_S ( Table.CPG, 2, */
+  /* 									 x_Data, xn_Data, */
+  /* 									 y_Data, yn_Data, */
+  /* 									 BAR_TIP_LENGTH, */
+  /* 									 0); */
+  /* 	} */
+  /*     } */
+  /*     getchar(); */
+  /*   } */
+  /* } */
 
-	  CPGPLOT___X_Y___S_C_A_T_T_E_R_E_D___S_A_M_E___P_L_O_T ( Table.CPG, SAME,
-								  I_Time_2000 - n,
-								  x_Data, y_Data,
-								  "Year",
-								  Out_Var_Symbol,
-								  City_Names[k],
-								  Table.CPG->CPG_SCALE_X,
-								  Table.CPG->CPG_SCALE_Y );
-	}
-
-	if ( key == 10 ) {
-	  x_Data[0]     = 2012.0;            x_Data[1]     = 2016.0;
-	  xn_Data[0][0] = 2012.0;            xn_Data[0][1] = 2016.0;
-	  xn_Data[1][0] = 2012.0;            xn_Data[1][1] = 2016.0;
-
-	  y_Data[0]     = Prevalence[k][0];      y_Data[1]     = Prevalence[k][1];
-	  yn_Data[0][0] = Prevalence_Inf[k][0];  yn_Data[0][1] = Prevalence_Inf[k][1];
-	  yn_Data[1][0] = Prevalence_Sup[k][0];  yn_Data[1][1] = Prevalence_Sup[k][1];
-	}
-	if ( key == 4 ) {
-	  x_Data[0]     = 2014.0;            x_Data[1]     = 2017.0;
-	  xn_Data[0][0] = 2014.0;            xn_Data[0][1] = 2017.0;
-	  xn_Data[1][0] = 2014.0;            xn_Data[1][1] = 2017.0;
-
-	  y_Data[0]     = SexWorkers[k][0];      y_Data[1]     = SexWorkers[k][1];
-	  yn_Data[0][0] = SexWorkers_Inf[k][0];  yn_Data[0][1] = SexWorkers_Inf[k][1];
-	  yn_Data[1][0] = SexWorkers_Sup[k][0];  yn_Data[1][1] = SexWorkers_Sup[k][1];
-	}
-	if ( key == 10 || key == 4 ) {
-	  Table.CPG->color_Index    = 8;
-	  Table.CPG->type_of_Width  = 5;
-	  Table.CPG->type_of_Symbol = 4;
-	  Table.CPG->type_of_Line   = 1;
-
-	  int BAR_TIP_LENGTH = 5;
-	  CPGPLOT___X_Y___P_L_O_T_T_I_N_G___2DIR___E_R_R_O_R___B_A_R_S ( Table.CPG, 2,
-									 x_Data, xn_Data,
-									 y_Data, yn_Data,
-									 BAR_TIP_LENGTH,
-									 0);
-	}
-      }
-      getchar();
-    }
-  }
-
-  // Plotting esamble of projected distributions (meadian and percentiles):
+  /* Plotting ensamble of projected distributions (meadian and percentiles):
+     . k: Cities
+     . n: Initial "disease-invasion" year
+     . j: Parametric configuration (over a No_of_Parameter_Sets for each city and invasion year)
+  */
+  
   for(k = 0; k<No_of_CITIES; k++) {
-    if ( k != 8 )
+    if ( City_Index[k] != 8 )
       for(n = 0; n<No_of_INITIAL_YEARS; n++) {
 
 	I_Time = I_Time_Total - n;
 	Time_0 = 2000.0 + (double)n; // Time_1 will be defined by command line argument!!!
 	Ini_Year = Time_0;
 	
-	Realizations = REALIZATIONS[k][n];
+	Replicates = REALIZATIONS[k][n];
 	
 	Variable_Per    = (double **)calloc(No_of_PERCENTILES, sizeof(double *) );
 	for(j = 0; j < No_of_PERCENTILES; j++ )
 	  Variable_Per[j] = (double *)calloc(I_Time, sizeof(double) );
 	
-	Variable = (double **)calloc(Realizations, sizeof(double *) );
-	for(j = 0; j < Realizations; j++ )
+	Variable = (double **)calloc(Replicates, sizeof(double *) );
+	for(j = 0; j < Replicates; j++ )
 	  Variable[j] = (double *)calloc(I_Time, sizeof(double) );
 	
 	for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
@@ -1013,9 +1099,9 @@ int main(int argc, char **argv)
 	  key = Table.OUTPUT_VARIABLE_INDEX[i];
 	  AssignCPGPLOT_Symbol_to_Output_Variables(key, Out_Var_Symbol, &Table);
 	  
-	  Table.CPG->CPG_SCALE_X   = 1;              Table.CPG->CPG_SCALE_Y   =  0;
-	  Table.CPG->CPG_RANGE_X_0 = 1999.5;         Table.CPG->CPG_RANGE_Y_0 =  0.0;
-	  Table.CPG->CPG_RANGE_X_1 = Time_1 + 0.5;   Table.CPG->CPG_RANGE_Y_1 =  1.0E+05;
+	  Table.CPG->CPG_SCALE_X   = 1;                     Table.CPG->CPG_SCALE_Y   =  0;
+	  Table.CPG->CPG_RANGE_X_0 = CPG_RANGE_X_0;         Table.CPG->CPG_RANGE_Y_0 =  0.0;
+	  Table.CPG->CPG_RANGE_X_1 = CPG_RANGE_X_1 + 0.5;   Table.CPG->CPG_RANGE_Y_1 =  1.0E+05;
 	  
 	  // Prevalences:
 	  /* -v0 10   Total Female Sexual Worker Disease Prevalence     */
@@ -1028,15 +1114,30 @@ int main(int argc, char **argv)
 	    Table.CPG->CPG_RANGE_Y_0 =  0.0;
 	    Table.CPG->CPG_RANGE_Y_1 =  1.0; //0.5
 	  }
+	  if( key == 4 ) { /* Total Sex Worker Population: Observed Variable */ 
+	    Table.CPG->CPG_SCALE_Y   =  1;
+	    Table.CPG->CPG_RANGE_Y_0 =  0.0;
+	    Table.CPG->CPG_RANGE_Y_1 =  7.0E+04; //0.5
+	  }
+	  if( key == 6 ) { /* Total Population: Observed Variables */
+	    Table.CPG->CPG_SCALE_Y   =  1;
+	    Table.CPG->CPG_RANGE_Y_0 =  0.0;
+	    Table.CPG->CPG_RANGE_Y_1 =  4.0E+6; //0.5
+	  }
+	  if( key == 14 ) { /* Number of Infected Individuals within Sexual Workers */
+	    Table.CPG->CPG_SCALE_Y   =  1;
+	    Table.CPG->CPG_RANGE_Y_0 =  0.0;
+	    Table.CPG->CPG_RANGE_Y_1 =  19000.0; //0.5
+	  }
 
-	  for(j=0; j < Realizations; j++) { 
+	  for(j=0; j < Replicates; j++) { 
 	    for(l=0; l < I_Time; l++) {
 	      Variable[j][l] = Temporal_Evolution[k][n][i][j][l];
 	      x_Data[l] = Ini_Year + l;
 	    }
 	  }	  
 	  
-	  Percentile_Calculation_Simple(x_Data, Variable, I_Time, Realizations,
+	  Percentile_Calculation_Simple(x_Data, Variable, I_Time, Replicates,
 					Per, No_of_PERCENTILES,
 					Variable_Per);
 
@@ -1044,10 +1145,19 @@ int main(int argc, char **argv)
 					 key, City_Short_Names[k], 
 					 &Table );
 
+	  ///////////////////////////////////////////////////////////////////////////////
+	  printf("No of Parametric Configiurations: %d: ", Replicates);
+	  
+	  Print_Percentile_Levels_Time_Series(No_of_PERCENTILES, I_Time,
+					       Per, Variable_Per,
+					       City_Short_Names[City_Index[k]]);
+	  Press_Key(); 
+	  ///////////////////////////////////////////////////////////////////////////////?
+	  
 	  if( key == 7 || key == 10 ) { 
 	    Saving_2012_2016_2033_Percentiles (F,
 					       x_Data, I_Time, Variable_Per, No_of_PERCENTILES,
-					       key, City_Names[k],
+					       key, City_Names[City_Index[k]],
 					       &Table);
 	  }
 
@@ -1074,25 +1184,70 @@ int main(int argc, char **argv)
 		Table.CPG->type_of_Line   = 3;
 	      }
 	    }
+	    
 	    CPGPLOT___X_Y___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T  ( Table.CPG, SAME,
 								   I_Time,
 								   x_Data, Variable_Per[j],
 								   "Year",
 								   Out_Var_Symbol,
-								   City_Names[k],
+								   City_Names[City_Index[k]],
 								   Table.CPG->CPG_SCALE_X,
 								   Table.CPG->CPG_SCALE_Y );
 	    SAME = 1;
 	  }
 
-	  if ( key == 10 ) {
-	    x_Data[0]     = 2012.0;            x_Data[1]     = 2016.0;
-	    xn_Data[0][0] = 2012.0;            xn_Data[0][1] = 2016.0;
-	    xn_Data[1][0] = 2012.0;            xn_Data[1][1] = 2016.0;
+	  /* It the i-th SUB_OUTPUT_VARIABLES an OBSERVED VARIABLE??? */
+	  if ( key == 4 || key == 6 || key == 14 ) {
+	    for(l=0; l < I_Time; l++) {
+	      x_Data[l] = Ini_Year + l;
+	      if (l < I_Time_2000 - n)
+	      y_Data[l] = Observed_Population_Data[k][n][i][l];
+	    }
 	    
-	    y_Data[0]     = Prevalence[k][0];      y_Data[1]     = Prevalence[k][1];
-	    yn_Data[0][0] = Prevalence_Inf[k][0];  yn_Data[0][1] = Prevalence_Inf[k][1];
-	    yn_Data[1][0] = Prevalence_Sup[k][0];  yn_Data[1][1] = Prevalence_Sup[k][1];
+	    Table.CPG->type_of_Symbol = 25;
+	    Table.CPG->color_Index    = 1;
+	    Table.CPG->type_of_Line   = 3;
+	    
+	    CPGPLOT___X_Y___S_C_A_T_T_E_R_E_D___S_A_M_E___P_L_O_T ( Table.CPG, SAME,
+								    I_Time_2000 - n,
+								    x_Data, y_Data,
+								    "Year",
+								    Out_Var_Symbol,
+								    City_Names[City_Index[k]],
+								    Table.CPG->CPG_SCALE_X,
+								    Table.CPG->CPG_SCALE_Y );
+	  }
+	  
+	  if ( key == 10 ) {
+	    x_Data[0]     = 2005.0;            x_Data[1]     = 2007.0;
+	    xn_Data[0][0] = 2005.0;            xn_Data[0][1] = 2007.0;
+	    xn_Data[1][0] = 2005.0;            xn_Data[1][1] = 2007.0;
+
+	    x_Data[2]     = 2010.0;            x_Data[3]     = 2012.0;
+	    xn_Data[0][2] = 2010.0;            xn_Data[0][3] = 2012.0;
+	    xn_Data[1][2] = 2010.0;            xn_Data[1][3] = 2012.0;
+
+	    x_Data[4]     = 2016.0;            
+	    xn_Data[0][4] = 2016.0;            
+	    xn_Data[1][4] = 2016.0;            
+
+	    for( s=0; s<5; s++ ) {
+	      y_Data[s]     = Prevalence[k][s];      
+	      yn_Data[0][s] = Prevalence_Inf[k][s];  
+	      yn_Data[1][s] = Prevalence_Sup[k][s];  
+	    }
+	    
+	    /* y_Data[0]     = Prevalence[k][0];      y_Data[1]     = Prevalence[k][1];     */
+	    /* yn_Data[0][0] = Prevalence_Inf[k][0];  yn_Data[0][1] = Prevalence_Inf[k][1]; */
+	    /* yn_Data[1][0] = Prevalence_Sup[k][0];  yn_Data[1][1] = Prevalence_Sup[k][1]; */
+
+	    /* y_Data[2]     = Prevalence[k][2];      y_Data[3]     = Prevalence[k][3];     */
+	    /* yn_Data[0][2] = Prevalence_Inf[k][2];  yn_Data[0][3] = Prevalence_Inf[k][3]; */
+	    /* yn_Data[1][2] = Prevalence_Sup[k][2];  yn_Data[1][3] = Prevalence_Sup[k][3]; */
+
+	    /* y_Data[4]     = Prevalence[k][4];                                            */
+	    /* yn_Data[0][4] = Prevalence_Inf[k][4];                                        */
+	    /* yn_Data[1][4] = Prevalence_Sup[k][4];                                        */  
 	  }
 	  if ( key == 4 ) {
 	    x_Data[0]     = 2014.0;            x_Data[1]     = 2017.0;
@@ -1110,7 +1265,7 @@ int main(int argc, char **argv)
 	    Table.CPG->type_of_Line   = 1;
 	    
 	  int BAR_TIP_LENGTH = 5;
-	  CPGPLOT___X_Y___P_L_O_T_T_I_N_G___2DIR___E_R_R_O_R___B_A_R_S ( Table.CPG, 2,
+	  CPGPLOT___X_Y___P_L_O_T_T_I_N_G___2DIR___E_R_R_O_R___B_A_R_S ( Table.CPG, 5,
 									 x_Data, xn_Data,
 									 y_Data, yn_Data,
 									 BAR_TIP_LENGTH,
@@ -1122,7 +1277,7 @@ int main(int argc, char **argv)
 	  free(Variable_Per[j]);
 	free(Variable_Per);
 	
-	for(j = 0; j < Realizations; j++ )
+	for(j = 0; j < Replicates; j++ )
 	  free(Variable[j]);
 	free(Variable);
 	
@@ -1130,234 +1285,332 @@ int main(int argc, char **argv)
       }
   }
 
+  /* Plotting Box Plots (based on a prevalence curve) */
+  /* Overlapping box plots in the same panel requires 
+     SAME = 10, for the 2nd box plot 
+  */
+  if (No_of_PERCENTILES == 5 && No_of_CITIES == 11) { 
+    printf("Plotting box plots of turning points and total prevalences...\n");
+    printf("Activating another window... and saving a file boxplot.ps\n");
+    printf("This part only work if CPGPLOT REPRESENTATION has been activated\n");
 
-  if (No_of_PERCENTILES == 5) { 
-  // Plotting box plots of turning points and total prevalences
-  // Activating another window...
-  CPG__PANEL__X =  1;
-  CPG__PANEL__Y =  1;
-  Parameter_CPGPLOT * C = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES,
-							    No_of_CITIES, 0, "boxplot.ps/CPS");
-  printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
-  
-  Variable_Per    = (double **)calloc(No_of_PERCENTILES, sizeof(double *) );
-  for(j = 0; j < No_of_PERCENTILES; j++ )
-    Variable_Per[j] = (double *)calloc(No_of_CITIES, sizeof(double) );
-  
-  Variable = (double **)calloc(No_of_SETS_MAX, sizeof(double *) );
-  for(j = 0; j <  No_of_SETS_MAX; j++ )
-    Variable[j] = (double *)calloc(No_of_CITIES, sizeof(double) );
+#if defined CPGPLOT_REPRESENTATION
+    CPG__PANEL__X =  1;
+    CPG__PANEL__Y =  1;
+    Parameter_CPGPLOT * C = A_C_T_I_V_A_T_E___C_P_G_P_L_O_T ( SUB_OUTPUT_VARIABLES,
+							      No_of_CITIES, 0, "boxplot.ps/CPS");
+    printf(" Parameter_CPGPLOT plotting structure has been correctly allocated and initiated\n");
 
-  for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
-    key = Table.OUTPUT_VARIABLE_INDEX[i];
-    AssignCPGPLOT_Symbol_to_Output_Variables(key, Out_Var_Symbol, &Table);
-    AssignLabel_to_Output_Variables(key, Out_Var_Label, &Table);
+    double * x_Axis = (double *)calloc( No_of_CITIES, sizeof(double) );
+    /* ys and xs help define manual tickmarks */
+    float * ys = (float *)calloc( 2, sizeof(float) );
+    float * xs = (float *)calloc( 2, sizeof(float) );
     
-    if( key == 7 || key == 8 || key == 9 || key == 10 || key == 11 ) {
-      
-      for(n = 0; n<No_of_INITIAL_YEARS; n++) {
+    double *** Variable_Per_Bis = (double ***)calloc(2, sizeof(double **) );
+    for(kk=0; kk<2; kk++) {
+      Variable_Per_Bis[kk] = (double **)calloc(No_of_PERCENTILES, sizeof(double *) );
+      for(j = 0; j < No_of_PERCENTILES; j++ )
+	Variable_Per_Bis[kk][j] = (double *)calloc(No_of_CITIES, sizeof(double) );
+    }
+    
+    double *** Variable_Bis = (double ***)calloc(2, sizeof(double **) );
+    for(kk=0; kk<2; kk++) {
+      Variable_Bis[kk] = (double **)calloc(No_of_SETS_MAX, sizeof(double **) );
+      for(j = 0; j < No_of_SETS_MAX; j++ )
+	Variable_Bis[kk][j] = (double *)calloc(No_of_CITIES, sizeof(double) );
+    }
 
-	I_Time = I_Time_Total - n;
-	Time_0 = 2000.0 + (double)n; // Time_1 will be defined by command line argument!!!
-	Ini_Year = Time_0;
-	    
-	for(kk=0; kk<2; kk++) {
-	  
-	  m = 0; SAME = 0; 
-	  FILE * fp = fopen("Total_Prevalences.dat", "w");
-	  for(k = 0; k<No_of_CITIES; k++) {
-	    if ( k != 8 ) {
-
-	      Realizations = REALIZATIONS[k][n];
-
-	      for(l=0; l < I_Time; l++) x_Data[l] = Ini_Year + l;
-	      
-	      for(j=0; j < Realizations; j++) { 
-		if (kk == 0 ) 
-		  Variable[j][0] = Determine_Turning_Point(x_Data,
-							   Temporal_Evolution[k][n][i][j],
-							   I_Time);
-		else
-		  Variable[j][0] = Temporal_Evolution[k][n][i][j][I_Time-1];
-	      }
-	      
-	      City_Short_Names_2nd[0][0]  = '\0';
-	      pF = strcat(City_Short_Names_2nd[0], City_Short_Names[k]);
-	 
-	      x_Data[0] = m + 1;
-	      Percentile_Calculation_Simple(x_Data, Variable, 1, Realizations,
-					    Per, No_of_PERCENTILES,
-					    Variable_Per);
-	      C->CPG_SCALE_X   = 1;              
-	      C->CPG_RANGE_X_0 = 0.5;            
-	      C->CPG_RANGE_X_1 = (double)No_of_CITIES - 0.5; 
-	      
-	      C->CPG_SCALE_Y   =  1;
-	      if(kk == 0) {    
-		C->CPG_RANGE_Y_0 =  2000.0;
-		C->CPG_RANGE_Y_1 =  2033.0;
-	      }
-	      else {
-		C->CPG_RANGE_Y_0 =  0.0;
-		C->CPG_RANGE_Y_1 =  1.0; //0.5
-	      }
-	      
-	      y_Position = C->CPG_RANGE_Y_0 - 0.19 * (C->CPG_RANGE_Y_1 - C->CPG_RANGE_Y_0);
-	      
-	      C->color_Index = 4; // blue
-	      
-	      if (kk == 0) {  
-		CPGPLOT___B_O_X___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T ( C, SAME, 1,
-									x_Data, Variable_Per,
-									No_of_PERCENTILES,
-									"City",
-									"Turning Point",
-									Out_Var_Label, 
-									C->CPG_SCALE_X,
-									C->CPG_SCALE_Y );
-	      }
-	      else {  
-		CPGPLOT___B_O_X___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T ( C, SAME, 1,
-									x_Data, Variable_Per,
-									No_of_PERCENTILES,
-									"City",
-									Out_Var_Symbol,
-									Out_Var_Label,  
-									C->CPG_SCALE_X,
-									C->CPG_SCALE_Y );
-
-		if (key == 10) { // Saving SW total prevalence (10); Total Prevalence (7)
-		  
-		  fprintf(fp, "%s\t%g\t%g\t%g\n",
-			  City_Short_Names[k],
-			  Variable_Per[0][0], Variable_Per[2][0], Variable_Per[4][0]); 
+    m = 0; 
+    for(k = 0; k<No_of_CITIES; k++) {
+      if ( City_Index[k] != 8 ) {
 	
+	assert(No_of_INITIAL_YEARS == 1); 
+	for(n = 0; n<No_of_INITIAL_YEARS; n++) {
+
+	  I_Time = I_Time_Total - n;
+	  Time_0 = 2000.0 + (double)n; // Time_1 will be defined by command line argument!!!
+	  Ini_Year = Time_0;
+	  
+	  Replicates = REALIZATIONS[k][n];
+
+	  assert(SUB_OUTPUT_VARIABLES == 1); 
+	  for (i=0; i<SUB_OUTPUT_VARIABLES; i++) {
+
+	    key = Table.OUTPUT_VARIABLE_INDEX[i];
+	    AssignCPGPLOT_Symbol_to_Output_Variables(key, Out_Var_Symbol, &Table);
+	    AssignLabel_to_Output_Variables(key, Out_Var_Label, &Table);
+	    
+	    if( key == 7 || key == 8 || key == 9 || key == 10 || key == 11 ) {
+	
+	      for(kk=0; kk<2; kk++) {
+	    
+		for(l=0; l < I_Time; l++) x_Data[l] = Ini_Year + l;
+		
+		for(j=0; j < Replicates; j++) { 
+		  if (kk == 0 ) 
+		    Variable_Bis[kk][j][m] = Determine_Turning_Point(x_Data,
+							     Temporal_Evolution[k][n][i][j],
+							     I_Time);
+		  else
+		    Variable_Bis[kk][j][m] = Temporal_Evolution[k][n][i][j][I_Time-1];
 		}
+		
+		City_Short_Names_2nd[m][0]  = '\0';
+		pF = strcat(City_Short_Names_2nd[m], City_Short_Names[City_Index[k]]);
+		
+		x_Axis[m] = m + 1;
+		
 	      }
-	      /* Annotating Short City Names */
-	      cpgsch(1.5);
-	      x_Position = x_Data[0];
-	      cpgptxt (x_Position, y_Position, 0.0, 0.5, City_Short_Names_2nd[0]);
-	      cpgsch(1.0);
-	      Press_Key(); 
-	      m++;
-	      SAME = 1; 
 	    }
 	  }
-	  fclose(fp);
 	}
+	m++; 
       }	
     }
-  }
-  
-  for(j = 0; j < No_of_PERCENTILES; j++ )
-    free(Variable_Per[j]);
-  free(Variable_Per);
-  
-  for(j = 0; j < Realizations; j++ )
-    free(Variable[j]);
-  free(Variable);
-  
-  #if defined CPGPLOT_REPRESENTATION
-  P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( C, SUB_OUTPUT_VARIABLES ); 
-  #endif
-  } // Box plot only calculated if No_of_PERCENTILES is 5
+   
+    assert( m = 10 ); /* 10 cities (all but one, Antsirabe) */
+
+    /* Ideally Rarefaction should have been previously conducted */
+    Replicates = REALIZATIONS[0][0];
+    for(k = 0; k<No_of_CITIES; k++) {
+      if ( City_Index[k] != 8 ) {	
+	assert(No_of_INITIAL_YEARS == 1); 
+	for(n = 0; n<No_of_INITIAL_YEARS; n++) {
+	  Replicates = MIN(Replicates, REALIZATIONS[k][n]);
+	}
+      }
+    }
+    
+    SAME = 0; 
+    for(kk=0; kk<2; kk++) {
+      Percentile_Calculation_Simple(x_Axis, Variable_Bis[kk], m, Replicates,
+				    Per, No_of_PERCENTILES,
+				    Variable_Per_Bis[kk]);
+      ///////////////////////////////////////////////////////////////////////////////
+      if(kk == 1) {
+	Print_Percentile_Levels_All_Cities(No_of_PERCENTILES, No_of_CITIES,
+					   Per, Variable_Per_Bis[kk],
+					   City_Short_Names_2nd);
+	Press_Key();
+      }
+      ///////////////////////////////////////////////////////////////////////////////?
+      
+      C->CPG_SCALE_X   = 1;              
+      C->CPG_RANGE_X_0 = 0.5;            
+      C->CPG_RANGE_X_1 = (double)No_of_CITIES - 0.5; 
+      
+      C->CPG_SCALE_Y   =  1;
+      if(kk == 0) {    
+	C->CPG_RANGE_Y_0 =  2000.0;
+	C->CPG_RANGE_Y_1 =  2033.0;
+      }
+      else {
+	C->CPG_RANGE_Y_0 =  0.0;
+	C->CPG_RANGE_Y_1 =  0.8; //0.5
+      }
+	    
+      y_Position = C->CPG_RANGE_Y_0 - 0.10 * (C->CPG_RANGE_Y_1 - C->CPG_RANGE_Y_0);
+      
+      C->color_Index = 4; // blue
+      
+      if (kk == 0) {  
+	CPGPLOT___B_O_X___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T ( C, SAME, m,
+								x_Axis, Variable_Per_Bis[kk],
+								No_of_PERCENTILES,
+								"City",
+								"Turning Point",
+								Out_Var_Label, 
+								C->CPG_SCALE_X,
+								C->CPG_SCALE_Y );
+	/* Annotating Short City Names */
+	for( l = 0; l < m ; l++) { 
+	  cpgsch(1.3); cpgslw(3.0); 
+	  x_Position = x_Axis[l];
+	  xs[0] = xs[1] = (float)x_Position; 
+	  ys[0] = (float)C->CPG_RANGE_Y_0;
+	  ys[1] = (float)(C->CPG_RANGE_Y_0 + 0.01 * (C->CPG_RANGE_Y_1 - C->CPG_RANGE_Y_0));
+	  cpgptxt (x_Position, y_Position, 40.0, 0.5, City_Short_Names_2nd[l]);
+	  cpgline(2, xs, ys);
+	  cpgsch(1.0); cpgslw(1.0);
+	}
+	//SAME = 10; //Overlapping box plots is not available in current CPGPLOT version 
+      }
+      else {
+	SAME = 0;
+	CPGPLOT___B_O_X___P_L_O_T_T_I_N_G___S_A_M_E___P_L_O_T ( C, SAME, m,
+								x_Axis, Variable_Per_Bis[kk],
+								No_of_PERCENTILES,
+								"City",
+								// Out_Var_Symbol,
+								"Prevalence",
+								Out_Var_Label,  
+								C->CPG_SCALE_X,
+								C->CPG_SCALE_Y );
+	/* Annotating Short City Names */
+	for( l = 0; l < m ; l++) { 
+	  cpgsch(1.3); cpgslw(3.0); 
+	  x_Position = x_Axis[l];
+	  xs[0] = xs[1] = (float)x_Position; 
+	  ys[0] = (float)C->CPG_RANGE_Y_0;
+	  ys[1] = (float)(C->CPG_RANGE_Y_0 + 0.01 * (C->CPG_RANGE_Y_1 - C->CPG_RANGE_Y_0));
+	  cpgptxt (x_Position, y_Position, 40.0, 0.5, City_Short_Names_2nd[l]);
+	  cpgline(2, xs, ys);
+	  cpgsch(1.0); cpgslw(1.0);
+	}
+    
+      }
+    }
+    
+    
+    free(ys); free(xs); free(x_Axis); 
+    
+    for(kk = 0; kk < 2; kk++) { 
+      for(j = 0; j < No_of_PERCENTILES; j++) free(Variable_Per_Bis[kk][j]);
+      free(Variable_Per_Bis[kk]); 
+    }
+    free(Variable_Per_Bis);
+
+    for(kk = 0; kk < 2; kk++) { 
+      for(j = 0; j < No_of_SETS_MAX; j++) free(Variable_Bis[kk][j]);
+      free(Variable_Bis[kk]);
+    }
+    free(Variable_Bis);
+    
+    P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( C, SUB_OUTPUT_VARIABLES ); 
+#endif
+  } // Box plots are only calculated if No_of_PERCENTILES is 5 and No_of_CITIES is 11
 
   /* -------------- Saving LaTeX table of model parameters and R_0 ----------- */
-  char ** File_Model_Parameters = (char **)calloc( 2, sizeof(char *) );
-  File_Model_Parameters[0] = (char *)calloc( 50, sizeof(char) );
-  File_Model_Parameters[1] = (char *)calloc( 50, sizeof(char) );
+  /* -------------- Two LaTex tables will be saved                 ----------- */
+  /* -------------- This is done only if No_of_CITIES = 10 ------------------- */
+  /* -------------- for a given city order as given in City_Index vector ----- */
+  if(No_of_CITIES == 10) { 
+    char ** File_Model_Parameters = (char **)calloc( 2, sizeof(char *) );
+    File_Model_Parameters[0] = (char *)calloc( 50, sizeof(char) );
+    File_Model_Parameters[1] = (char *)calloc( 50, sizeof(char) );
     
-  for(n=0; n<No_of_INITIAL_YEARS; n++) {
+    for(n=0; n<No_of_INITIAL_YEARS; n++) {
     
-    double * City_R_0_AVE = (double *)calloc(No_of_CITIES, sizeof(double) );
-    double * City_R_0_STD = (double *)calloc(No_of_CITIES, sizeof(double) );
-    
-    double ** City_Par_AVE = (double **)calloc(No_of_CITIES, sizeof(double *) );
-    double ** City_Par_STD = (double **)calloc(No_of_CITIES, sizeof(double *) );
-    for(p=0; p<No_of_CITIES; p++) {
-      City_Par_AVE[p] = (double *)calloc(No_of_PARAMETERS, sizeof(double) );
-      City_Par_STD[p] = (double *)calloc(No_of_PARAMETERS, sizeof(double) );
-    }
-    
-    Year[0]='\0'; sprintf( Year, "%d", n+2000 );
-    
-    File_Model_Parameters[0][0] = '\0';
-    pF = strcat(File_Model_Parameters[0], "Parameter_R_0_Values_1st_Table");
-    pF = strcat(File_Model_Parameters[0], "_");
-    pF = strcat(File_Model_Parameters[0], Year);
-    pF = strcat(File_Model_Parameters[0], ".tex");
-
-    File_Model_Parameters[1][0] = '\0';
-    pF = strcat(File_Model_Parameters[1], "Parameter_R_0_Values_2nd_Table");
-    pF = strcat(File_Model_Parameters[1], "_");
-    pF = strcat(File_Model_Parameters[1], Year);
-    pF = strcat(File_Model_Parameters[1], ".tex");
-    
-    for(k=0; k<5; k++) {
-      Average_and_Variance_double_Vector(R_0_Value[k][n],
-					 REALIZATIONS[k][n], &Ave, &Var);
-      City_R_0_AVE[k] = Ave;
-      City_R_0_STD[k] = sqrt(Var);   //STD = sqrt(Var)
-
-      for(p=0; p<No_of_PARAMETERS; p++) {  
-	Average_and_Variance_double_Vector(Parameter_Value[k][n][p],
-					   REALIZATIONS[k][n], &Ave, &Var);
-	City_Par_AVE[k][p] = Ave;
-	City_Par_STD[k][p] = sqrt(Var);  
-      }
-    }
-    
-    write_Param_Table_AVE_STD_per_CITY___LATEX_PORTRAIT( File_Model_Parameters[0],
-							 City_Short_Names, 5, // No_of_CITIES,
-							 City_R_0_AVE, City_R_0_STD, 
-							 City_Par_AVE, City_Par_STD,
-							 No_of_PARAMETERS,
-							 &Table );
-    kk = 0; 
-    for(k=5; k<No_of_CITIES; k++) {
-      Average_and_Variance_double_Vector(R_0_Value[k][n],
-					 REALIZATIONS[k][n], &Ave, &Var);
-      City_R_0_AVE[kk] = Ave;
-      City_R_0_STD[kk] = sqrt(Var);   //STD = sqrt(Var)
-
-      for(p=0; p<No_of_PARAMETERS; p++) {  
-	Average_and_Variance_double_Vector(Parameter_Value[k][n][p],
-					   REALIZATIONS[k][n], &Ave, &Var);
-	City_Par_AVE[kk][p] = Ave;
-	City_Par_STD[kk][p] = sqrt(Var);  
-      }
-
-      City_Short_Names_2nd[kk][0]  = '\0';
-      pF = strcat(City_Short_Names_2nd[kk], City_Short_Names[k]);
+      double * City_R_0_AVE = (double *)calloc(No_of_CITIES, sizeof(double) );
+      double * City_R_0_STD = (double *)calloc(No_of_CITIES, sizeof(double) );
       
-      kk++;      
-    }  
-    write_Param_Table_AVE_STD_per_CITY___LATEX_PORTRAIT( File_Model_Parameters[1],
-							 City_Short_Names_2nd, kk, //No_of_CITIES,
-							 City_R_0_AVE, City_R_0_STD, 
-							 City_Par_AVE, City_Par_STD,
-							 No_of_PARAMETERS,
-							 &Table );
-    for(p=0; p<No_of_CITIES; p++) {
-      free(City_Par_AVE[p]);
-      free(City_Par_STD[p]);
-    }
-    free(City_R_0_AVE);
-    free(City_R_0_STD);
+      double ** City_Par_AVE = (double **)calloc(No_of_CITIES, sizeof(double *) );
+      double ** City_Par_STD = (double **)calloc(No_of_CITIES, sizeof(double *) );
+      for(p=0; p<No_of_CITIES; p++) {
+	City_Par_AVE[p] = (double *)calloc(No_of_PARAMETERS, sizeof(double) );
+	City_Par_STD[p] = (double *)calloc(No_of_PARAMETERS, sizeof(double) );
+      }
     
-    free(City_Par_AVE);
-    free(City_Par_STD);
-  }
-  
-  for(k=0; k<No_of_CITIES; k++) 
-    free(City_Short_Names_2nd[k]);
-  free(City_Short_Names_2nd); 
+      Year[0]='\0'; sprintf( Year, "%d", n+2000 );
+      
+      File_Model_Parameters[0][0] = '\0';
+      pF = strcat(File_Model_Parameters[0], "Parameter_R_0_Values_1st_Table");
+      pF = strcat(File_Model_Parameters[0], "_");
+      pF = strcat(File_Model_Parameters[0], Year);
+      pF = strcat(File_Model_Parameters[0], ".tex");
+      
+      File_Model_Parameters[1][0] = '\0';
+      pF = strcat(File_Model_Parameters[1], "Parameter_R_0_Values_2nd_Table");
+      pF = strcat(File_Model_Parameters[1], "_");
+      pF = strcat(File_Model_Parameters[1], Year);
+      pF = strcat(File_Model_Parameters[1], ".tex");
+      
+      for(k=0; k<5; k++) {
+	Parameter_Model * Average_Parameter_Values = (Parameter_Model *)calloc(1, sizeof(Parameter_Model));
+	
+	Average_and_Variance_double_Vector(R_0_Value[k][n],
+					   REALIZATIONS[k][n], &Ave, &Var);
+	City_R_0_AVE[k] = Ave;
+	City_R_0_STD[k] = sqrt(Var);   //STD = sqrt(Var)
+	
+	for(p=0; p<No_of_PARAMETERS; p++) {  
+	  Average_and_Variance_double_Vector(Parameter_Value[k][n][p],
+					     REALIZATIONS[k][n], &Ave, &Var);
+	  City_Par_AVE[k][p] = Ave;
+	  City_Par_STD[k][p] = sqrt(Var);
+	  key = Table.S->Parameter_Index[p];
+	  Vector_Entry_into_Parameter_Model ( Ave, key, Average_Parameter_Values); 
+	}
 
-  free(File_Model_Parameters[0]);
-  free(File_Model_Parameters[1]);
-  free(File_Model_Parameters);
-  /* ------------ End of Saving LaTeX table of model parameters and R_0 ---------- */
+	City_Short_Names_2nd[k][0]  = '\0';
+	pF = strcat(City_Short_Names_2nd[k], City_Short_Names[City_Index[k]] );
+
+	assert(I_Time_Total == 34); 
+	Command_Line_String_Creation (City_Short_Names_2nd[k], TIME_PARAMETERS_FILE[k],
+				      dependent_parameter, forcing_pattern,
+				      TYPE_1_PARAMETERS, TYPE_2_PARAMETERS,
+				      I_Time_Total, 
+				      Average_Parameter_Values, &Table);
+	
+	free(Average_Parameter_Values); 
+      }
+
+      write_Param_Table_AVE_STD_per_CITY___LATEX_PORTRAIT( File_Model_Parameters[0],
+							   City_Short_Names_2nd, 5, 
+							   City_R_0_AVE, City_R_0_STD, 
+							   City_Par_AVE, City_Par_STD,
+							   No_of_PARAMETERS,
+							   &Table );
+      kk = 0; 
+      for(k=5; k<No_of_CITIES; k++) {
+	Parameter_Model * Average_Parameter_Values = (Parameter_Model *)calloc(1, sizeof(Parameter_Model)); 
+	Average_and_Variance_double_Vector(R_0_Value[k][n],
+					   REALIZATIONS[k][n], &Ave, &Var);
+	City_R_0_AVE[kk] = Ave;
+	City_R_0_STD[kk] = sqrt(Var);   //STD = sqrt(Var)
+	
+	for(p=0; p<No_of_PARAMETERS; p++) {  
+	  Average_and_Variance_double_Vector(Parameter_Value[k][n][p],
+					     REALIZATIONS[k][n], &Ave, &Var);
+	  City_Par_AVE[kk][p] = Ave;
+	  City_Par_STD[kk][p] = sqrt(Var);
+
+	  key = Table.S->Parameter_Index[p];
+	  Vector_Entry_into_Parameter_Model( Ave, key, Average_Parameter_Values); 
+	}
+	
+	City_Short_Names_2nd[kk][0]  = '\0';
+	pF = strcat(City_Short_Names_2nd[kk], City_Short_Names[City_Index[k]]);
+
+	assert(I_Time_Total == 34); 
+	Command_Line_String_Creation (City_Short_Names_2nd[kk],
+				      TIME_PARAMETERS_FILE[City_Index[k]],
+				      dependent_parameter, forcing_pattern,
+				      TYPE_1_PARAMETERS, TYPE_2_PARAMETERS,
+				      I_Time_Total, 
+				      Average_Parameter_Values, &Table);
+
+	free(Average_Parameter_Values); 
+	
+	kk++;      
+      }
+     
+      write_Param_Table_AVE_STD_per_CITY___LATEX_PORTRAIT( File_Model_Parameters[1],
+							   City_Short_Names_2nd, 5, 
+							   City_R_0_AVE, City_R_0_STD, 
+							   City_Par_AVE, City_Par_STD,
+							   No_of_PARAMETERS,
+							   &Table );
+      for(p=0; p<No_of_CITIES; p++) {
+	free(City_Par_AVE[p]);
+	free(City_Par_STD[p]);
+      }
+      free(City_R_0_AVE);
+      free(City_R_0_STD);
+      
+      free(City_Par_AVE);
+      free(City_Par_STD);
+    }
+ 
+    for(k=0; k<No_of_CITIES; k++) 
+      free(City_Short_Names_2nd[k]);
+    free(City_Short_Names_2nd); 
+    
+    free(File_Model_Parameters[0]);
+    free(File_Model_Parameters[1]);
+    free(File_Model_Parameters);
+  }
+  /* ------------ End of Saving LaTeX tables of model parameters and R_0 ---------- */
   
   for (k = 0; k < No_of_CITIES; k++) { // only two times
     free( Prevalence[k] );
@@ -1379,8 +1632,8 @@ int main(int argc, char **argv)
 
   I_Time = I_Time_Total;
 #endif
+  
   /* BEGIN : Freeing All Memmory * * * * * * * * * * * * * * */
-
   for(k=0; k<No_of_CITIES; k++) free(REALIZATIONS[k]);
   free(REALIZATIONS);
 
@@ -1482,72 +1735,6 @@ int main(int argc, char **argv)
   return (0);
 }
 
-void Reading_Sexual_Workers_Numbers_and_Prevalences(double ** Prevalence,
-						    double ** Prevalence_Inf,
-						    double ** Prevalence_Sup,
-						    double ** SexWorkers,
-						    double ** SexWorkers_Inf,
-						    double ** SexWorkers_Sup)
-{
-    int k;
-    int No_of_CITIES;
-    int No_of_COLUMNS;
-
-    No_of_CITIES  = 12;
-    No_of_COLUMNS = 10;
-
-    double ** Data_Matrix = (double **)calloc(No_of_CITIES, sizeof(double *) );
-    double * Time = (double *)calloc(No_of_COLUMNS, sizeof(double) );
-    char ** CITY_NAMES = (char **)calloc( No_of_CITIES, sizeof(char *) );
-    for( k = 0; k<No_of_CITIES; k++) {
-      CITY_NAMES[k]  = (char *)calloc( 100, sizeof(char) );
-      Data_Matrix[k] = (double *)calloc(No_of_COLUMNS, sizeof(double) );
-    }
-
-    Reading_Standard_Data_Matrix_from_File( "Sexual-Workers_2014-2017_and_Prevalence-2012-2016.dat",
-					    Data_Matrix,
-					    &No_of_CITIES, No_of_COLUMNS,
-					    1, CITY_NAMES,
-					    0, Time );
-    assert(No_of_CITIES == 11);
-
-    for (k = 0; k<No_of_CITIES; k++ ) {
-      SexWorkers_Inf[k][0] = Data_Matrix[k][0];
-      SexWorkers_Sup[k][0] = Data_Matrix[k][1];
-      SexWorkers[k][0]     = (Data_Matrix[k][0] + Data_Matrix[k][1])/2.0;
-
-      SexWorkers_Inf[k][1] = Data_Matrix[k][2];
-      SexWorkers_Sup[k][1] = Data_Matrix[k][3];
-      SexWorkers[k][1]     = (Data_Matrix[k][2] + Data_Matrix[k][3])/2.0;
-
-      printf("%s: SexWorkers(2014) = %g\t [ SexWorkers_Inf(2014)=%g, SexWorkers_Sup(2014)=%g ]\n",
-	     CITY_NAMES[k], SexWorkers[k][0], SexWorkers_Inf[k][0], SexWorkers_Sup[k][0]);
-      printf("%s: SexWorkers(2017) = %g\t [ SexWorkers_Inf(2017)=%g, SexWorkers_Sup(2017)=%g ]\n",
-	     CITY_NAMES[k], SexWorkers[k][1], SexWorkers_Inf[k][1], SexWorkers_Sup[k][1]);
-      printf("\n");
-
-      Prevalence_Inf[k][0] = 0.01 * Data_Matrix[k][5];
-      Prevalence_Sup[k][0] = 0.01 * Data_Matrix[k][6];
-      Prevalence[k][0]     = 0.01 * Data_Matrix[k][4];
-
-      Prevalence_Inf[k][1] = 0.01 * Data_Matrix[k][8];
-      Prevalence_Sup[k][1] = 0.01 * Data_Matrix[k][9];
-      Prevalence[k][1]     = 0.01 * Data_Matrix[k][7];
-
-      printf("%s: Prevalence(2012) = %g\t [ Prevalence_Inf(2012)=%g, Prevalence_Sup(2012)=%g ]\n",
-	     CITY_NAMES[k], Prevalence[k][0], Prevalence_Inf[k][0], Prevalence_Sup[k][0]);
-      printf("%s: Prevalence(2016) = %g\t [ Prevalence_Inf(2016)=%g, Prevalence_Sup(2016)=%g ]\n",
-	     CITY_NAMES[k], Prevalence[k][1], Prevalence_Inf[k][1], Prevalence_Sup[k][1]);
-      printf("\n");
-    }
-
-    free(Time);
-    for( k = 0; k<No_of_CITIES; k++) free( CITY_NAMES[k] );
-    free(CITY_NAMES);
-    for( k = 0; k<No_of_CITIES; k++) free( Data_Matrix[k] );
-    free(Data_Matrix);
-}
-
 double Determine_Turning_Point(double * x_Time, double * y_Time, int N)
 {
   double x_Turning_Point;
@@ -1599,4 +1786,170 @@ void Saving_2012_2016_2033_Percentiles (FILE * fp, double * x_Data, int N,
   }
   
   fprintf(fp, "\n");
+}
+
+void Command_Line_String_Creation (char * City_Short_Name,
+				   char * FILE_of_TIME_PARAMETERS,
+				   int * Dependent_Parameter,
+				   int * forcing_pattern,
+				   int TYPE_1_PARAMETERS,
+				   int TYPE_2_PARAMETERS, 
+				   int No_of_EMPIRICAL_TIMES, 
+				   Parameter_Model * Average_Values,
+				   Parameter_Table * Table)
+{
+  /* Creation of a command line string with average parameter values for 
+     every city. For example, for Noyse Be, the string would look something like: 
+     "-H21 1.01 -H0 108.14 -H8 108.19 -H12 7.27 -H7 50.53 -H16 0.235 -H17 0.398 -H1 0.002 -H9 0.001 -H5 2.02 -H6 0.103 -H15 36.538 -H10 0.040  -H11 0.021 -H18 0.035 -H19 0.016 -H20 0.101 -H2 717.14 -H13 828.07 -H4 0.01965 -H3 0.01901"
+  */
+  int Time_0; 
+  double Value; 
+  int i, key, No_of_Rows; 
+  char ** Name_Dummy;
+  
+  double ** Type_1_Parameter_Values = (double **)calloc( TYPE_1_PARAMETERS, sizeof(double *));
+  double  * Time_Empirical_Vector   = (double * )calloc( No_of_EMPIRICAL_TIMES, sizeof(double) );
+  for(i = 0; i<TYPE_1_PARAMETERS; i++)
+    Type_1_Parameter_Values[i] = (double *)calloc( No_of_EMPIRICAL_TIMES, sizeof(double));
+  
+  Reading_Standard_Data_Matrix_from_File( FILE_of_TIME_PARAMETERS,
+					  Type_1_Parameter_Values, &No_of_Rows,
+					  No_of_EMPIRICAL_TIMES,
+					  0, Name_Dummy,
+					  1, Time_Empirical_Vector);
+  Time_0 = Time_Empirical_Vector[0];
+  assert( No_of_Rows == TYPE_1_PARAMETERS);
+  
+  Parameter_Model_Copy_into_Parameter_Table (Table, Average_Values); 
+  
+  for(i = 0; i < TYPE_1_PARAMETERS; i++) { 
+    Value = Type_1_Parameter_Values[i][0];
+    key   = Dependent_Parameter[i];
+    AssignVectorEntry_to_Structure( Table, key, Value );
+  }
+  
+  for(i = TYPE_1_PARAMETERS; i < TYPE_1_PARAMETERS+TYPE_2_PARAMETERS; i++) { 
+    Value = Time_Dependence_Resolve(Table,
+				    dependent_parameter[i], forcing_pattern[i], Time_0) ;
+    key   = Dependent_Parameter[i];
+    AssignVectorEntry_to_Structure( Table, key, Value );
+  }
+
+  char * p;
+  char * Command_String_File = (char *)calloc( 100, sizeof(char) );
+  p = strcat(Command_String_File, "Command_String_");
+  p = strcat(Command_String_File, City_Short_Name);
+  p = strcat(Command_String_File, ".dat");
+  FILE * fp = fopen(Command_String_File, "w");
+  
+  fprintf(fp, "%s ", City_Short_Name); 
+  for(i = 0; i<MODEL_PARAMETERS_MAXIMUM; i++) {
+    Value = AssignStructValue_to_VectorEntry(i, Table);
+    fprintf(fp, "%s ", Table->Code_Parameters[i]);
+    fprintf(fp, "%g ", Value);
+  }
+  fprintf(fp, "\n"); 
+  fclose(fp);
+
+  free(Command_String_File);
+  
+  for(i = 0; i<TYPE_1_PARAMETERS; i++) free(Type_1_Parameter_Values[i]);
+  free(Type_1_Parameter_Values);
+  free(Time_Empirical_Vector);  
+}
+
+void Reading_Sexual_Workers_Numbers_and_Prevalences(double ** Prevalence,
+						    double ** Prevalence_Inf,
+						    double ** Prevalence_Sup,
+						    double ** SexWorkers,
+						    double ** SexWorkers_Inf,
+						    double ** SexWorkers_Sup,
+						    int No_of_CITIES,
+						    int * City_Index )
+{
+  int k, key;
+    int No_of_CITIES_MAX;
+    int No_of_COLUMNS;
+
+    No_of_CITIES_MAX  = 12;
+    No_of_COLUMNS = 19;
+
+    double ** Data_Matrix = (double **)calloc(No_of_CITIES_MAX, sizeof(double *) );
+    double * Time = (double *)calloc(No_of_COLUMNS, sizeof(double) );
+    char ** CITY_NAMES = (char **)calloc( No_of_CITIES_MAX, sizeof(char *) );
+    for( k = 0; k<No_of_CITIES_MAX; k++) {
+      CITY_NAMES[k]  = (char *)calloc( 100, sizeof(char) );
+      Data_Matrix[k] = (double *)calloc(No_of_COLUMNS, sizeof(double) );
+    }
+
+  Reading_Standard_Data_Matrix_from_File( "Sexual-Workers_2014-2017_and_Prevalence-2005-07-10-12-16.dat",
+					  Data_Matrix,
+					  &No_of_CITIES_MAX, No_of_COLUMNS,
+					  1, CITY_NAMES,
+					  0, Time );
+    assert(No_of_CITIES_MAX == 11);
+
+    for (k = 0; k<No_of_CITIES; k++ ) {
+      key = City_Index[k];
+      
+      SexWorkers_Inf[k][0] = Data_Matrix[key][0];
+      SexWorkers_Sup[k][0] = Data_Matrix[key][1];
+      SexWorkers[k][0]     = (Data_Matrix[key][0] + Data_Matrix[key][1])/2.0;
+
+      SexWorkers_Inf[k][1] = Data_Matrix[key][2];
+      SexWorkers_Sup[k][1] = Data_Matrix[key][3];
+      SexWorkers[k][1]     = (Data_Matrix[key][2] + Data_Matrix[key][3])/2.0;
+
+      printf("%s: SexWorkers(2014) = %g\t [ SexWorkers_Inf(2014)=%g, SexWorkers_Sup(2014)=%g ]\n",
+	     CITY_NAMES[key],
+	     SexWorkers[k][0], SexWorkers_Inf[k][0], SexWorkers_Sup[k][0]);
+      printf("%s: SexWorkers(2017) = %g\t [ SexWorkers_Inf(2017)=%g, SexWorkers_Sup(2017)=%g ]\n",
+	     CITY_NAMES[key],
+	     SexWorkers[k][1], SexWorkers_Inf[k][1], SexWorkers_Sup[k][1]);
+      printf("\n");
+
+      Prevalence_Inf[k][0] = 0.01 * Data_Matrix[key][5];   /* 2005 */
+      Prevalence_Sup[k][0] = 0.01 * Data_Matrix[key][6];
+      Prevalence[k][0]     = 0.01 * Data_Matrix[key][4];
+
+      Prevalence_Inf[k][1] = 0.01 * Data_Matrix[key][8];   /* 2007 */
+      Prevalence_Sup[k][1] = 0.01 * Data_Matrix[key][9];
+      Prevalence[k][1]     = 0.01 * Data_Matrix[key][7];
+
+      Prevalence_Inf[k][2] = 0.01 * Data_Matrix[key][11];  /* 2010 */
+      Prevalence_Sup[k][2] = 0.01 * Data_Matrix[key][12];
+      Prevalence[k][2]     = 0.01 * Data_Matrix[key][10];
+
+      Prevalence_Inf[k][3] = 0.01 * Data_Matrix[key][14];  /* 2012 */
+      Prevalence_Sup[k][3] = 0.01 * Data_Matrix[key][15];
+      Prevalence[k][3]     = 0.01 * Data_Matrix[key][13];
+
+      Prevalence_Inf[k][4] = 0.01 * Data_Matrix[key][17];  /* 2016 */
+      Prevalence_Sup[k][4] = 0.01 * Data_Matrix[key][18];
+      Prevalence[k][4]     = 0.01 * Data_Matrix[key][16];
+
+      printf("%s: Prevalence(2005) = %g\t [ Prevalence_Inf(2005)=%g, Prevalence_Sup(2005)=%g ]\n",
+	     CITY_NAMES[key],
+	     Prevalence[k][0], Prevalence_Inf[k][0], Prevalence_Sup[k][0]);
+      printf("%s: Prevalence(2007) = %g\t [ Prevalence_Inf(2007)=%g, Prevalence_Sup(2007)=%g ]\n",
+	     CITY_NAMES[key],
+	     Prevalence[k][1], Prevalence_Inf[k][1], Prevalence_Sup[k][1]);
+      printf("%s: Prevalence(2010) = %g\t [ Prevalence_Inf(2010)=%g, Prevalence_Sup(2010)=%g ]\n",
+	     CITY_NAMES[key],
+	     Prevalence[k][2], Prevalence_Inf[k][2], Prevalence_Sup[k][2]);
+      printf("%s: Prevalence(2012) = %g\t [ Prevalence_Inf(2012)=%g, Prevalence_Sup(2012)=%g ]\n",
+	     CITY_NAMES[key],
+	     Prevalence[k][3], Prevalence_Inf[k][3], Prevalence_Sup[k][3]);
+      printf("%s: Prevalence(2016) = %g\t [ Prevalence_Inf(2016)=%g, Prevalence_Sup(2016)=%g ]\n",
+	     CITY_NAMES[key],
+	     Prevalence[k][4], Prevalence_Inf[k][4], Prevalence_Sup[k][4]);
+      
+      printf("\n");
+    }
+
+    free(Time);
+    for( k = 0; k<No_of_CITIES_MAX; k++) free( CITY_NAMES[k] );
+    free(CITY_NAMES);
+    for( k = 0; k<No_of_CITIES_MAX; k++) free( Data_Matrix[k] );
+    free(Data_Matrix);
 }

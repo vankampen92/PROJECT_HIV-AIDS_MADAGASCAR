@@ -19,7 +19,7 @@ gsl_rng * r; /* Global generator defined in main.c */
 
    ./TEMPORAL_EVOLUTION_r_FACTOR_ESTIMATE
 
-   F_X and F_Y are recruitment rates into adutl sexually active life, and
+   F_X and F_Y are recruitment rates into adult sexually active life, and
    \delta_X and \delta_Y are adult mortality rates. They change every year.
    They are given in 'Time_Dependent_Parameters_Corrected_[CITY_NAME].dat'
    files.
@@ -35,12 +35,6 @@ gsl_rng * r; /* Global generator defined in main.c */
    Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
 
    Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat 
-
-   Parameter configurations are saved with files of the type:
-
-   Demo_Parameter_Set_[Name-of-the-City]_[Hypothesis]_Ordered.dat, i.e.,
-
-   Demo_Parameter_Set_Antananarivo_Sigmoidal_Ordered.dat
 
    These files are not used in the main code. They are only use to make 
    the full model parameters estimation. The disease-related parameters have 
@@ -71,8 +65,6 @@ gsl_rng * r; /* Global generator defined in main.c */
    . _Sigmoidal
    . _Sigmoidal_Cn with n in {5,6}
    . _Sigmoidal_Cn with n in {5,6}
-   . _Sigmoidal
-   . _Sigmoidal
    . ...
 
    and [TYPE_of_SEARCH] can be 
@@ -92,17 +84,19 @@ gsl_rng * r; /* Global generator defined in main.c */
    We can inspect results from three different assumptions: 
 
    A. Parameters are searched under the hypothesis of constant ratio of female
-   sexual workers to total female population: 
+   sexual workers to total female population along the whole period: 
    
    B. Parameters are searched under the hypothesis of ratio of female
    sexual workers to total female population following a sigmoidal curve 
-   with a break point in 2011.0 and smoothness parameters 0.1.
+   with a break point in 2011.0 and smoothness parameters 0.1. This sigmoidal
+   slight increase resulted extremely smooth. 
 
    C. As B, but with much contrained parameter ranges.
 
    Both B and C hypothesis can be generated under different sigmoidal curves, 
-   this is, for different sigmoidal parameters (L_0 and T_0). This will define 
-   sub-hypothesis within each of them: 
+   this is, for different sigmoidal parameters (L_0 and T_0), for different 
+   degrees of smoothness in the increase. This will define sub-hypothesis 
+   within each of them: 
    
    B1 or C1: L_0 = 0.1 and T_0 = 2011
    B2 or C2: L_0 = 1.0 and T_0 = 2011
@@ -111,13 +105,15 @@ gsl_rng * r; /* Global generator defined in main.c */
    B requires files ending in *Sigmoidal.dat. This should be changed by hand
    in code. So, in order to generate results under the two hyphotheses, 
    the program should be run twice by changing (and recompiling) the code
-   accordingly. This is achieved just changing:
+   accordingly. This is achieved just changing (around line 171):
 
    L171: SIGMOIDAL == 1 
    
    into 
 
    L171: SIGMOIDAL = 0     (line L171 of code is only approx.) 
+
+   Examples for running the code successfully: 
 
    A. Parameters were searched under the hypothesis of constant ratio of female
    sexual workers to total female population: 
@@ -164,9 +160,9 @@ gsl_rng * r; /* Global generator defined in main.c */
    are *_Sigmoidal.dat files.  
    
    In this case, the set of demographic parameters include three new parameters controling 
-   a corresponding break point in parameters Sigma_0 and Sigma_1. In addition, a new 
-   parameters D_Sigma has a sigmoidal time dependence (parameters 22), which 
-   imposes a time dependence in Sigma_0 and Sigma_1 through:
+   a corresponding break point (for the sigmoidal curve) inparameters Sigma_0 and Sigma_1. 
+   As a consequence, a new parameters D_Sigma has a sigmoidal time dependence (parameters 22), 
+   which imposes a time dependence in Sigma_0 and Sigma_1 through:
    
    Sigma_0(t) = Sigma_0 + D_Sigma(t)
    Sigma_1(t) = Simga_1 + D_Sigma(t) 
@@ -460,22 +456,28 @@ int main(int argc, char **argv)
 
   int No_of_SETS_MAX  = 50000;
   int No_of_INITIAL_YEARS = 1;  // 11; // 11;
-  int No_of_CITIES = 11;        // 11;
-  
-  /* const char * City_Names[] = { "Antananarivo",  "Antsiranana", */
-  /* 				"Mahajanga",     "Toamasina", */
-  /* 				"Fianarantsoa",  "Toliary", */
-  /* 				"Taolagnaro",    "Moramanga", */
-  /* 				"Antsirabe",     "Morondava", */
-  /* 				"Nosy_Be" }; */
-  
-  char * City_Names[] = { "Antananarivo",  "Antsiranana",
-			  "Mahajanga",     "Toamasina",
-			  "Fianarantsoa",  "Toliary",
+  int No_of_CITIES = 1;         // 11;
+  /* Natural City Order: */
+  /* char * City_Names[] = { "Antananarivo",  "Antsiranana", */
+  /* 			  "Mahajanga",     "Toamasina",      */
+  /* 			  "Fianarantsoa",  "Toliary",        */
+  /* 			  "Taolagnaro",    "Moramanga",      */
+  /* 			  "Antsirabe",     "Morondava",      */
+  /* 			  "Nosy_Be" };                       */
+  /* Actual City Order in case less than 11 cities 
+     are inspected: */
+  /* char * City_Names[] = { "Fianarantsoa", "Antsiranana",  */
+  /* 			  "Mahajanga",     "Toamasina",      */
+  /* 			  "Antananarivo",  "Toliary",        */
+  /* 			  "Taolagnaro",    "Moramanga",      */
+  /* 			  "Antsirabe",     "Morondava",      */
+  /* 			  "Nosy_Be" };                       */
+  char * City_Names[] = { "Mahajanga", "Fianarantsoa",
+			  "Antsiranana", "Toamasina",
+			  "Antananarivo",  "Toliary",
 			  "Taolagnaro",    "Moramanga",
 			  "Antsirabe",     "Morondava",
 			  "Nosy_Be" };
-  
   /* B E G I N : Time Dependent Parameters, Observed Data, and Demo Parameters File Names */
   char ** TIME_PARAMETERS_FILE = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */
   char ** OBSERVED_DATA_FILE   = (char **)calloc(No_of_CITIES, sizeof(char *) ); /* Input files  */

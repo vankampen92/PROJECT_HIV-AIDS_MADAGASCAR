@@ -68,30 +68,62 @@
    Execution:
                                                        
    . ~$ ./X2W2SILD-YSILD  -y0 1 -H21 1.01 -H0 108.14 -H8 108.19 -H12 7.27 -H7 50.53 -H16 0.235 -H17 0.398 -H1 0.002 -H9 0.001 -H5 2.02 -H6 0.103 -H15 36.538 -H10 0.040  -H11 0.021 -H18 0.035 -H19 0.016 -H20 0.101 -H2 717.14 -H13 828.07 -H4 0.01965 -H3 0.01901 -sP 2 -I0 9 -m0 0.00001 -M0 0.001 -d0 400 -I1 0 -m1 50.0 -M1 120.0 -d1 400 -G0 1 -G1 1 -G14 R\\d\\fs0\\fn\\u -n 1 -v0 0 -en 0 -iP 0
+
+   . ~$  ./X2W2SILD-YSILD -y0 1 -sP 2 -I0 9 -m0 0.0 -M0 0.0006 -d0 400 -I1 0 -m1 60.0 -M1 120.0 -d1 400 -G0 2 -G1 2 -n 1 -v0 0 -en 0 -iP 0 -G29 /CPS -G30 R
+
+   The execution of this requires the presence of these files that will be read by the code: 
+   
+   -rw-rw-r-- 1 dalonso dalonso 3600 ene 11 15:21 Command_String_All_Cties_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  362 ene 12 01:40 Command_String_Anta_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  356 ene 11 15:19 Command_String_Anta_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  359 ene 12 01:40 Command_String_Ants_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  358 ene 11 15:19 Command_String_Ants_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  361 ene 12 01:40 Command_String_Fian_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  357 ene 11 15:19 Command_String_Fian_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  361 ene 12 01:40 Command_String_Maha_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  359 ene 11 15:19 Command_String_Maha_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  361 ene 12 01:40 Command_String_Mora_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  362 ene 11 15:19 Command_String_Mora_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  362 ene 12 01:40 Command_String_Moro_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  357 ene 11 15:19 Command_String_Moro_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  360 ene 12 01:40 Command_String_Nosy_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  353 ene 11 15:19 Command_String_Nosy_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  360 ene 12 01:40 Command_String_Taol_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  356 ene 11 15:19 Command_String_Taol_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  359 ene 12 01:40 Command_String_Toam_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  359 ene 11 15:19 Command_String_Toam_Sigmoidal.dat
+   -rw-rw-r-- 1 dalonso dalonso  355 ene 12 01:40 Command_String_Toli_Sigmoidal_C5.dat
+   -rw-rw-r-- 1 dalonso dalonso  360 ene 11 15:19 Command_String_Toli_Sigmoidal.dat
+ 
+   These files are created at ./TEMPORAL_EVOLUTION_INI_YEAR_EXTRAPOLATION/ when average 
+   parameter configurations (per city) are saved in latex formatted tables 
 */
 
-
 gsl_rng * r; /* Global generator defined in main.c */
+
+void String_Command_File_Read(char * File, int * count, char ** array) ;
+
+void Updating_Parameter_Table_from_Command_String_File(char * ,  Parameter_Table * ); 
 
 float * customized_contour_levels( Parameter_CPGPLOT * C )
 {
     int i;
 
-    /* for (i=0; i < C->NC; i++) { */
-    /*   clevels[i] = 1.0; */
-    /* } */
-    /* Two contour levels */
-    C->NC = 3;
+    /* Four contour levels */
+    C->NC = 4;
     float * clevels = (float *)calloc( C->NC, sizeof(float) );
     clevels[0] = 1.0;
     clevels[1] = 2.5;
     clevels[2] = 5.0;
+    clevels[3] =10.0; 
     
     return(clevels);
 }
 
 int main(int argc, char **argv)
 {
+  int i, k;
+  char * pF; 
   Parameter_Table Table;
   double Value_0, Value_1; 
   
@@ -113,9 +145,9 @@ int main(int argc, char **argv)
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___U_P_L_O_A_D( &Table, Index_Output_Variables );
   printf(" Parameter_Table structure has been correctly allocated and initiated\n");
 
-  Parameter_Model * Initial_Guess = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
-  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, Initial_Guess);
-  printf(" Parameter_Model structure 'Initial_Guess' has been correctly allocated and initiated\n");
+  Parameter_Model * City_Par_Values = (Parameter_Model *)malloc( 1 * sizeof(Parameter_Model) );
+  P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N (&Table, City_Par_Values);
+  printf(" Parameter_Model structure 'City_Par_Values' has been correctly allocated and initiated\n");
   
   /* B E G I N : Reserving memmory for Parameter Space */
   Parameter_Space * Error_Space = (Parameter_Space *)calloc(1, sizeof(Parameter_Space));
@@ -150,7 +182,6 @@ int main(int argc, char **argv)
 #include <gsl_random_number_Setup.c>
 #if defined VERBOSE
   /* BEGIN: Checking Random Number Generator Setup */
-  int i;
   for(i=0; i<10; i++){
     printf( "f(%d)=%g, ", i, gsl_rng_uniform(r) );
     printf( "f_GAUS(%d)=%g\n", i, gsl_ran_gaussian(r, 1.0) );
@@ -158,87 +189,133 @@ int main(int argc, char **argv)
   printf("\n"); //Press_Key();
   /*   END: Checking Random Number Generator Setup */
 #endif
-
-  double * W_GRID = (double *)malloc( No_of_POINTS_1 * No_of_POINTS_2 * sizeof(double) );
-  int Status =  generic_Function_Parameter_2Dim_Scan(&Table, 
-						     No_of_POINTS_1, Input_Parameter_1,
-						     No_of_POINTS_2, Input_Parameter_2,
-						     R_0_Function, 
-						     W_GRID, "R_0.dat");
-#if defined CPGPLOT_REPRESENTATION
-/* BEGIN : 2D GRID cpgplot representation */
-  /*********************************************************************/
-  Table.CPG->X_label   = Table.Symbol_Parameters_Greek_CPGPLOT[Input_Parameter_1]; 
-  Table.CPG->Y_label   = Table.Symbol_Parameters_Greek_CPGPLOT[Input_Parameter_2]; 
-  /*********************************************************************/
-  // Boundary(Input_Parameter_1, &Value_0, &Value_1);
-  Value_0 = Parameter_Model_into_Vector_Entry( Input_Parameter_1, Space->Parameter_min );
-  Value_1 = Parameter_Model_into_Vector_Entry( Input_Parameter_1, Space->Parameter_MAX );
   
-  Table.CPG->ORIGIN_X    = Value_0;
-  Table.CPG->X_Dimension = (Value_1 - Value_0);
+  int No_of_CITIES = 1;        // 11;
+  int City_Index[11] = { 0, 9, 10, 2, 3, 4, 1, 5, 6, 7, 8 };    //Full
+  char * City_Names[] = { "Antananarivo", "Antsiranana",
+			  "Mahajanga",    "Toamasina",
+			  "Fianarantsoa", "Toliary",
+			  "Taolagnaro",   "Moramanga",
+			  "Antsirabe",    "Morondava",  
+			  "Nosy_Be" };
 
-    // Boundary(Input_Parameter_2, &Value_0, &Value_1);
-    Value_0 = Parameter_Model_into_Vector_Entry( Input_Parameter_2, Space->Parameter_min );
-    Value_1 = Parameter_Model_into_Vector_Entry( Input_Parameter_2, Space->Parameter_MAX );
-    
-    Table.CPG->ORIGIN_Y = Value_0;
-    Table.CPG->Y_Dimension = (Value_1 - Value_0);
+  char * City_Short_Names[] = { "Anta",  "Ants",
+				"Maha",  "Toam",
+				"Fian",  "Toli",
+				"Taol",  "Mora",
+				"Aabe",  "Moro",
+				"Nosy" };
+  
+  char ** City_Short_Names_2nd = (char **)calloc(No_of_CITIES, sizeof(char *) );
+  for(k=0; k<No_of_CITIES; k++) 
+    City_Short_Names_2nd[k] = (char *)calloc(10, sizeof(char) );
+  
+  for(k = 0; k<No_of_CITIES; k++) {
+    // k=8 is a city with no infection ("Antsirabe")
+    if ( City_Index[k] != 8 ) {
 
-    Table.CPG->x_GRID  = No_of_POINTS_1; 
-    Table.CPG->y_GRID  = No_of_POINTS_2;
+      City_Short_Names_2nd[k][0]  = '\0';
+      pF = strcat(City_Short_Names_2nd[k], City_Short_Names[City_Index[k]]);
+      Updating_Parameter_Table_from_Command_String_File(City_Short_Names_2nd[k], &Table);
+      P_A_R_A_M_E_T_E_R___I_N_I_T_I_A_L_I_Z_A_T_I_O_N ( &Table, City_Par_Values) ;
+      
+      double * W_GRID = (double *)malloc( No_of_POINTS_1 * No_of_POINTS_2 * sizeof(double) );
+      int Status =  generic_Function_Parameter_2Dim_Scan(&Table, 
+							 No_of_POINTS_1, Input_Parameter_1,
+							 No_of_POINTS_2, Input_Parameter_2,
+							 R_0_Function, 
+							 W_GRID, "R_0.dat");
+#if defined CPGPLOT_REPRESENTATION
+      /* BEGIN : 2D GRID cpgplot representation */
+      /*********************************************************************/
+      Table.CPG->X_label   = Table.Symbol_Parameters_Greek_CPGPLOT[Input_Parameter_1]; 
+      Table.CPG->Y_label   = Table.Symbol_Parameters_Greek_CPGPLOT[Input_Parameter_2]; 
+      /*********************************************************************/
+      // Boundary(Input_Parameter_1, &Value_0, &Value_1);
+      Value_0 = Parameter_Model_into_Vector_Entry( Input_Parameter_1, Space->Parameter_min );
+      Value_1 = Parameter_Model_into_Vector_Entry( Input_Parameter_1, Space->Parameter_MAX );
+      
+      Table.CPG->ORIGIN_X    = Value_0;
+      Table.CPG->X_Dimension = (Value_1 - Value_0);
+      
+      // Boundary(Input_Parameter_2, &Value_0, &Value_1);
+      Value_0 = Parameter_Model_into_Vector_Entry( Input_Parameter_2, Space->Parameter_min );
+      Value_1 = Parameter_Model_into_Vector_Entry( Input_Parameter_2, Space->Parameter_MAX );
+      
+      Table.CPG->ORIGIN_Y = Value_0;
+      Table.CPG->Y_Dimension = (Value_1 - Value_0);
+      
+      Table.CPG->x_GRID  = No_of_POINTS_1; 
+      Table.CPG->y_GRID  = No_of_POINTS_2;
+      
+      int Output_Variable  = Table.OUTPUT_VARIABLE_INDEX[0];
+      Table.CPG->W_label   = Table.Output_Variable_Name[Output_Variable];
 
-    int Output_Variable  = Table.OUTPUT_VARIABLE_INDEX[0];
-    Table.CPG->W_label   = Table.Output_Variable_Name[Output_Variable];
-
-    int FIRST_PLOT = 0;
-    double i_PLOT  = 0.0;
-    C_P_G___P_L_O_T_T_I_N_G___2d___G_R_I_D___S_H_A_D_E_S( Table.CPG,
-							  W_GRID, 
-							  FIRST_PLOT,
-							  Table.CPG->CPG_SCALE_W, 
-							  Table.CPG->CPG_RANGE_W_0,
-							  Table.CPG->CPG_RANGE_W_1,
-							  i_PLOT );
-
-    FIRST_PLOT = 1;
-    Table.CPG->AUTOMATIC_CONTOUR = 0;
-    /* If AUTOMATIC_CONTOUR is 0, the user should customized contours through
-       the function customized_contour_levels(...);
-    */
-    Table.CPG->contour_level = customized_contour_levels ( Table.CPG );
-    C_P_G___P_L_O_T_T_I_N_G___2d___G_R_I_D___C_O_N_T_O_U_R( Table.CPG,
+      Table.CPG->Title[0]='\0';  
+      pF = strcat(Table.CPG->Title, "R\\d\\fs0\\fn\\u: ");
+      pF = strcat(Table.CPG->Title, City_Names[City_Index[k]]);
+      
+      int FIRST_PLOT = 0;
+      double i_PLOT  = 0.0;
+      C_P_G___P_L_O_T_T_I_N_G___2d___G_R_I_D___S_H_A_D_E_S( Table.CPG,
 							    W_GRID, 
 							    FIRST_PLOT,
 							    Table.CPG->CPG_SCALE_W, 
 							    Table.CPG->CPG_RANGE_W_0,
 							    Table.CPG->CPG_RANGE_W_1,
 							    i_PLOT );
+      
+      FIRST_PLOT = 1;
+      Table.CPG->AUTOMATIC_CONTOUR = 0;
+      /* If AUTOMATIC_CONTOUR is 0, the user should customized contours through
+	 the function customized_contour_levels(...);
+      */
+      Table.CPG->contour_level = customized_contour_levels ( Table.CPG );
+      C_P_G___P_L_O_T_T_I_N_G___2d___G_R_I_D___C_O_N_T_O_U_R( Table.CPG,
+							      W_GRID, 
+							      FIRST_PLOT,
+							      Table.CPG->CPG_SCALE_W, 
+							      Table.CPG->CPG_RANGE_W_0,
+							      Table.CPG->CPG_RANGE_W_1,
+							      i_PLOT );
+      
+      /* Annotating the countours by hand */
+      // cpgptxt(float x, float y, float angle, float fjust,  const char *text);
+      
+      cpgslw(2);
+      cpgptxt(0.00002, 62.0, 0.0, 0.0,  "1.0");
+      cpgptxt(0.0001, 78.0, 0.0, 0.0,   "2.5");
+      cpgptxt(0.0003, 92.0, 0.0, 0.0,  "5.0");
+      
+      /* Drawing arrow to emulate 0.6 reduction in 
+	 p_YX transmission probability (from infecious female to male)
+      */
+      float x_Value = Parameter_Model_into_Vector_Entry(Input_Parameter_1, City_Par_Values);
+      float y_Value = Parameter_Model_into_Vector_Entry(Input_Parameter_2, City_Par_Values);
 
-    /* Annotating the countours by hand */
-    // cpgptxt(float x, float y, float angle, float fjust,  const char *text);
-    
-    cpgslw(3);
-    cpgptxt(0.00006, 60.0, 0.0, 0.0,  "1.0");
-    cpgptxt(0.0003, 60.0, 0.0, 0.0,   "2.5");
-    cpgptxt(0.00082, 75.0, 0.0, 0.0,   "5.0");
+      printf("City: %s\t", City_Short_Names_2nd[k]); 
+      printf("%s=%f\t", Table.Symbol_Parameters[Input_Parameter_1], x_Value);
+      printf("%s=%f\n", Table.Symbol_Parameters[Input_Parameter_2], y_Value);
 
-    /* Drawing arrow to emulate 0.6 reduction in 
-       p_YX transmission probability (from infecious female to male)
-    */
-    cpgpt1(0.001, 108, 4);
-    // cpg_XY_same_arrow( N, xs, ys, CPG->color_Index, CPG->type_of_Line, CPG->type_of_Width );
-    float * xs = (float *)calloc(2, sizeof(float) );
-    float * ys = (float *)calloc(2, sizeof(float) );
-    xs[0] = 0.001;  xs[1] = 0.0004;
-    ys[0] = 108;    ys[1] = 108;
-    cpg_XY_same_arrow( 2, xs, ys, 4, 1, 4);
-    free(xs);
-    free(ys); 
+      cpgslw(3);  /* Line width changing to 3     */
+      cpgsci(12); /* Color Index changing to 12   */
+      cpgpt1(x_Value, y_Value, 23);  /* Symbol 23 */
+      
+      float * xs = (float *)calloc(2, sizeof(float) );
+      float * ys = (float *)calloc(2, sizeof(float) );
+      xs[0] = x_Value;  xs[1] = 0.4 * x_Value; /* A 40 % reduction */ 
+      ys[0] = y_Value;  ys[1] = y_Value;
+
+      cpg_XY_same_arrow( 2, xs, ys, 4, 1, 4);
+      // cpg_XY_same_arrow( N, xs, ys, CPG->color_Index, CPG->type_of_Line, CPG->type_of_Width );
+      
+      free(xs);
+      free(ys); 
 #endif  	
-
-  free (W_GRID);
-
+      
+      free (W_GRID);
+    }
+  }
 #if defined CPGPLOT_REPRESENTATION
   P_A_R_A_M_E_T_E_R___C_P_G_P_L_O_T___F_R_E_E( Table.CPG, SUB_OUTPUT_VARIABLES );
   cpgclos();
@@ -250,7 +327,11 @@ int main(int argc, char **argv)
   free(Error_Space);
 
   #include <include.Output_Variables.default.free.c>
-  free(Initial_Guess);
+  free(City_Par_Values);
+
+  for(k=0; k<No_of_CITIES; k++) 
+    free(City_Short_Names_2nd[k]);
+  free(City_Short_Names_2nd); 
   
   P_A_R_A_M_E_T_E_R___T_A_B_L_E___F_R_E_E( &Table );
   /*  END : Freeing  All Memmory * * * * * * * * * * * * * * */
@@ -259,7 +340,61 @@ int main(int argc, char **argv)
   return (0);
 }
 
+void String_Command_File_Read(char * File, int * count, char ** array) 
+{ 
+  FILE *fp; 
+  int c; 
+  int i=0, j=0; 
+  
+  fp=fopen(File,"r");
+  
+  while((c = fgetc(fp)) !=EOF) 
+    {
+      if(c == ' ') 
+	{ 
+	  array[i][j]='\0'; 
+	  j=0;
+	  // printf("array[%d] = %s\n", i, array[i]); 
+	  i++; 
+	  continue; 
+	} 
+      array[i][j++] = (char)c; 
+    }
 
+  * count = i; 
+  
+  fclose(fp); 
+}
 
+void Updating_Parameter_Table_from_Command_String_File(char * City_Short_Name,
+						       Parameter_Table * Table)
+{
+  int i;
+  int count;
+  
+  char ** array = (char **)calloc( 1000, sizeof(char *) );
+  for (i = 0; i < 1000; i++ )
+    array[i] = (char *)calloc( 10000, sizeof(char) );
+	
+  char * p;
+  char * Command_String_File = (char *)calloc( 200, sizeof(char) );
+  p = strcat(Command_String_File, "Command_String_");
+  p = strcat(Command_String_File, City_Short_Name);
+  p = strcat(Command_String_File, "_Sigmoidal_C5.dat");
+  
+  String_Command_File_Read(Command_String_File, &count, array);
+  
+  // printf(" City: %s %s %s\n", array[0], array[1], array[2] );
+  
+  ArgumentControl(count, array); 
+  
+  Parameter_Values_into_Parameter_Table(Table); 
+  
+  for (i = 0; i < 1000; i++ ) free(array[i]); 
+  free(array);
 
+  free(Command_String_File); 
+}
+							
+      
 

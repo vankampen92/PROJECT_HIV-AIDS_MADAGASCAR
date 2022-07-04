@@ -74,6 +74,17 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   TDC->TYPE_1_PARAMETERS            = TYPE_1_PARAMETERS;
   TDC->TYPE_2_PARAMETERS            = TYPE_2_PARAMETERS;
   TDC->No_of_COVARIATES             = No_of_COVARIATES;
+
+  // . int * dependent_parameter array contains all parameters affected by time dependence
+  // in order:
+
+  // { n_0, ..., n_{k_0-1}, n_{k_0}, ..., n_{k_0+k_1-1}, n_{k_0+k_1}, ..., n_{k_0+k_1+k_2-1} }    
+
+  // where:
+
+  // . k_0 = TYPE_0_PARAMETERS   (i.e, -D0 0 )
+  // . k_1 = TYPE_1_PARAMETERS   (i.e, -D1 4 )
+  // . k_2 = TYPE_2_PARAMETERS   (i.e, -D2 1 )
   
   // . TYPE_0_PARAMETERS is the number of parameters that, explicitly, depend
   // on COVARIATES. Covariates are time-varying variables that change as time a
@@ -81,13 +92,16 @@ void Time_Dependence_Control_Upload (Time_Control * Time,
   // (externally) the system. This influence is usually mediated by response functions
   // that map these covariates into model parameters. 
   //
-  // . TYPE_1_PARAMETERS are those time-dependent parametes that can be directly read from a file.
+  // . TYPE_1_PARAMETERS are those time-dependent parametes that can be directly read
+  // from a file.
   //
   // . TYPE_2_PARAMETERS are those that functionally change with time according
   // to certain given functions. This dependency is direct (as opposed to mediated
   // by external (environmental parameters) and response functions). The type of functional
   // dependency is determined by the 'forcing_pattern'.  This forcing pattern can be
   // sinusoidal, sigmoidal, a linear increase, etc. 
+
+  // . TIME_DEPENDENT_PARAMETERS = k_0 + k_1 + k_2  (i.e, -DP 5)
   
   for(i = 0; i<TIME_DEPENDENT_PARAMETERS; i++) {
     TDC->Index_Dependent_Parameters[i] = dependent_parameter[i];

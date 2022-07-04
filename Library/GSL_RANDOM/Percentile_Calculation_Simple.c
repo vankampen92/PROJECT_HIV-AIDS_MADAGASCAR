@@ -1,6 +1,6 @@
 #include "GSL_stat.h"
-
-void Percentile_Calculation_Simple(double *X, double ** Variable_0, 
+ 
+void Percentile_Calculation_Simple(double * X, double ** Variable_0, 
 				   int No, int No_REPLICATES, 
 				   double * Per_Cent, int NoPer_Cent, 
 				   double ** Y) 

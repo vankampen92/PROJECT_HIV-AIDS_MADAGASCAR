@@ -334,7 +334,7 @@ void write_Param_Table_AVE_STD_per_CITY___LATEX_PORTRAIT( char * File_Model_Para
     for (k=0; k < No_of_CITIES; k++) 
       //if( k != 8 )
       if(  strcmp(CITY_NAMES[k], "Aabe") != 0 )
-	fprintf(fp, "& %4.3f $\\pm$ %4.3f ", City_Par_AVE[k][i], City_Par_STD[k][i]);
+	fprintf(fp, "& %*.4f $\\pm$ %*.4f ", 4, City_Par_AVE[k][i], 4, City_Par_STD[k][i]);
     
     fprintf(fp, """\\""""\\""\n"); 
   }
